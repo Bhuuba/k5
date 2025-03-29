@@ -17,6 +17,7 @@ import Login from "./components/pagesAuthorisation/Login/LoginPage";
 import MyAccountPage from "./components/MyAcount/MyAcount";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "components/MyAcount/PublicRoute";
+import Loader from "./components/Loader/Loader";
 import "./App.css";
 
 const App = () => {
@@ -41,14 +42,14 @@ const App = () => {
     return () => unsubscribe();
   }, [dispatch]);
 
-  // Показуємо індикатор завантаження до завершення аутентифікації
+  // Показуємо Loader до завершення аутентифікації
   if (loading) {
-    return <div>Завантаження...</div>;
+    return <Loader />;
   }
 
   return (
     <Provider store={store}>
-      <PersistGate loading={<div>Завантаження...</div>} persistor={persistor}>
+      <PersistGate loading={<Loader />} persistor={persistor}>
         <BrowserRouter>
           <div className="container-fluide">
             <div className="col-xxl-12 col-xl-12 col-lg-12 col-12">
