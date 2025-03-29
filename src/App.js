@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store";
-import { useDispatch } from "react-redux";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser, removeUser } from "./store/slices/userSlice";
@@ -17,10 +16,12 @@ import RegisterPage from "./components/pagesAuthorisation/SingUp/RegisterPage";
 import Login from "./components/pagesAuthorisation/Login/LoginPage";
 import MyAccountPage from "./components/MyAcount/MyAcount";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "components/MyAcount/PublicRoute";
 import "./App.css";
 
 const App = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -35,9 +36,15 @@ const App = () => {
       } else {
         dispatch(removeUser());
       }
+      setLoading(false); // аутентифікація завершена
     });
     return () => unsubscribe();
   }, [dispatch]);
+
+  // Показуємо індикатор завантаження до завершення аутентифікації
+  if (loading) {
+    return <div>Завантаження...</div>;
+  }
 
   return (
     <Provider store={store}>
@@ -54,8 +61,23 @@ const App = () => {
                     <Route path="/pdfai" element={<Pdf />} />
                     <Route path="/account" element={<MyAccountPage />} />
                   </Route>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<RegisterPage />} />
+                  {/* Використовуємо PublicRoute для сторінок логіну та реєстрації */}
+                  <Route
+                    path="/login"
+                    element={
+                      <PublicRoute>
+                        <Login />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/register"
+                    element={
+                      <PublicRoute>
+                        <RegisterPage />
+                      </PublicRoute>
+                    }
+                  />
                   <Route path="/music" element={<Music />} />
                   <Route path="/pricing" element={<Prising />} />
                 </Routes>
