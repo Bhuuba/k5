@@ -1,0 +1,232 @@
+/* Загальний контейнер сторінки */
+.pageContainer {
+  max-width: 900px; /* регулюйте ширину за потреби */
+  margin: 40px auto; /* відступ зверху + центрування */
+  padding: 0 15px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Верхній рядок: заголовок + кнопка History */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+/* Заголовок сторінки */
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Кнопка History */
+.historyBtn {
+  background-color: #6464641f;
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.historyBtn:hover {
+  background-color: #f1f1f1;
+}
+
+/* Картка з драг-н-дроп зоною */
+.uploadCard {
+  background-color: #fff;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Зона для drag & drop */
+.dropArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Кнопка Choose File */
+.chooseFileBtn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chooseFileBtn:hover {
+  background-color: #333;
+}
+
+/* Текст про підтримувані формати */
+.formatsText {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Рядок вибору алгоритму */
+.algorithmRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.algorithmLabel {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+
+.algorithmSelect {
+  width: 700px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Блок-картка: замість box-shadow робимо сіру рамку (border) */
+.infoCard {
+  position: relative; /* Для абсолютного позиціонування іконки */
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* сіра рамка */
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Заголовок у картці */
+.infoTitle {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Текст */
+.infoText {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #555;
+}
+ul {
+  list-style: disc; /* Встановлює звичайні булі */
+  padding-left: 20px; /* Додає відступ для маркерів */
+}
+
+/* Кнопка-іконка для копіювання (у правому верхньому куті) */
+.copyIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #555; /* Колір іконки */
+  transition: opacity 0.2s;
+}
+
+.copyIcon:hover {
+  opacity: 0.7; /* Ефект при наведенні */
+}
+
+/* Контейнер для ключових слів */
+.keywordsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Стилі для «плашок» ключових слів */
+.keyword {
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #333;
+  border: 1px solid #ccc;
+}
+/* --------------------- */
+/* Модальне вікно History */
+/* --------------------- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Напівпрозорий фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Щоб було поверх інших елементів */
+}
+
+.modalContent {
+  background-color: #fff;
+  width: 400px; /* Ширина модального вікна */
+  max-width: 90%;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Кнопка закриття (X) */
+.closeModalBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* --------------------- */
+/* Приклад решти стилів */
+/* --------------------- */
+/* Якщо вже є, просто додайте, щоб не було дублювань */
+.historyBtn {
+  background-color: #5e5e5e14;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 35px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+.historyBtn:hover {
+  background-color: #f1f1f1;
+}
+
+/* Стилі для копіювання (іконка) */
+.copyIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #555;
+  transition: opacity 0.2s;
+}
+.copyIcon:hover {
+  opacity: 0.7;
+}
+
+/* Решта стилів (infoCard, etc.) залишається без змін,
+   якщо у вас вже були визначені */

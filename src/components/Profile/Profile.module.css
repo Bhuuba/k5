@@ -1,0 +1,236 @@
+/* Загальний колір для заголовків (h1) */
+.item {
+  /* font-family: Rubik; */
+  color: rgb(7, 15, 58);
+  font-size: 50px;
+  line-height: 70px;
+  font-weight: 400;
+}
+
+/* Блок із заголовком/кнопкою (прибрали великий margin-left, 
+     вирівнювання тепер робить Bootstrap col-*) */
+.boxr {
+  padding: 0 9.7rem; /* легкий відступ справа/зліва */
+}
+
+/* Зображення праворуч (зменшили або забрали margin-left) */
+.rightimg {
+  width: 500px;
+  height: 355px;
+  display: block;
+  margin-left: -205px;
+}
+
+/* Загальний стиль для <p> */
+p {
+  /* font-family: Rubik; */
+  color: rgb(7, 15, 58);
+}
+
+/* Відступи у параграфі під заголовком */
+.p {
+  padding-top: 15px;
+  padding-bottom: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 30px;
+  /* font-family: Rubik; */
+}
+
+/* Кнопка */
+.btn {
+  /* font-family: Rubik; */
+  width: 250px;
+  height: 60px;
+  background-color: #2d56b3;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 25px;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s ease-in, box-shadow 0.25s ease-in;
+  box-shadow: 0 2px 25px rgba(73, 69, 69, 0.51);
+}
+.btn:hover {
+  background-color: rgba(7, 26, 131, 0.9);
+}
+
+/* Сині іконки списку (у блоці Features) */
+.svg {
+  color: blue;
+  margin: 10px;
+}
+
+/* Скидаємо стилі списку */
+li {
+  list-style-type: none;
+}
+.ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* Зображення у третьому блоці (зліва) */
+.img1 {
+  width: 100%;
+  max-width: 350px;
+  display: block;
+  margin: 0 auto;
+}
+/* Основний контейнер із тінню та білим фоном (за потреби) */
+.container2 {
+  width: 1140px;
+  height: 200px;
+  margin: 60px auto; /* Відступи зверху/знизу */
+  padding: 20px 0;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Обгортка кожного «слайдера» */
+.sliderpadd {
+  margin-top: 15px;
+  display: flex; /* Якщо бажаєте, щоб вся колонка була одним блоком */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 10px 0; /* Внутрішні відступи */
+}
+
+/* Стилі для контейнерів іконки + текст */
+.slider1,
+.slider2,
+.slider3 {
+  display: flex;
+  align-items: center; /* Іконка та текст по одній лінії вертикально */
+  justify-content: center; /* Горизонтальне вирівнювання по центру */
+  border-right: 1px gray solid;
+  height: 100px;
+  padding-right: 90px;
+  margin-right: -70px;
+}
+.slider3 {
+  border: none;
+}
+
+/* Іконка */
+.svg2 {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  padding: 18px;
+  background-color: rgba(168, 185, 225, 0.289); /* Світлий фон іконки */
+  color: rgba(68, 68, 215, 0.822);
+  margin-right: 20px; /* Відступ між іконкою та текстом */
+}
+
+/* Текстовий блок */
+.svgtext {
+  display: flex;
+  flex-direction: column; /* «90+» над «Active Users» */
+  align-items: center; /* Щоб обидва тексти були по центру горизонтально */
+}
+
+/* Стиль для заголовку (90+, 1000+, 5+) */
+.h3 {
+  font-size: 1.5rem;
+  margin-left: -35px;
+  color: #07103a;
+  font-weight: 700;
+}
+.h3__2 {
+  font-size: 1.5rem;
+  color: #07103a;
+  font-weight: 700;
+  margin-left: -85px;
+}
+.h3__3 {
+  font-size: 1.5rem;
+  color: #07103a;
+  font-weight: 700;
+  margin-left: -110px;
+}
+/* Стиль для підпису (Users, Summaries Generated, Integrated Platforms) */
+.p2 {
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Останній блок (зображення + список фіч) */
+.container3 {
+  width: 90%;
+  margin: 0 auto 130px auto;
+}
+
+/* Приклад (необов'язково): стилі для тексту в фічах */
+.features-section__content h2 {
+  margin-bottom: 1rem;
+}
+.features-section__content p {
+  margin-bottom: 1rem;
+}
+.h2 {
+  font-weight: 500;
+  line-height: 50px;
+}
+/* Виправлення зміщення при натисканні */
+.btn:active {
+  transform: none !important;
+}
+
+/* Заборона випадкових змін розміру */
+.btn,
+.item,
+.container2,
+.sliderpadd {
+  min-height: inherit;
+}
+
+/* Анімація крутіння при завантаженні */
+.loader {
+  border: 4px solid rgba(0, 0, 255, 0.2);
+  border-top: 4px solid #3878ff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Попап-повідомлення */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+}

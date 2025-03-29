@@ -1,0 +1,183 @@
+/* Основний контейнер сторінки */
+.container {
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
+  text-align: center;
+}
+
+/* Заголовок */
+.title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+/* Контейнер карток */
+.pricingGrid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Оформлення тарифної картки */
+.pricingCard {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.pricingCard:hover {
+  transform: translateY(-5px);
+}
+
+/* Заголовок плану */
+.planTitle {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Ціна */
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #5b67fb;
+}
+
+/* Список можливостей */
+.features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.features li {
+  margin-bottom: 10px;
+}
+
+/* Кнопка */
+.button {
+  padding: 10px 20px;
+  background-color: #5b67fb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #4a57e4;
+}
+
+/* Попап */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Основний блок попапу */
+.popup {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Заголовок попапу */
+.popupTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(7, 15, 58);
+  margin-bottom: 20px;
+}
+
+/* Форма */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.smallInput {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Кнопка підтвердження */
+.confirmButton {
+  padding: 12px;
+  background-color: #5b67fb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirmButton:hover {
+  background-color: #4a57e4;
+}
+
+/* Кнопка закриття */
+.closeButton {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ccc;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: #bbb;
+}

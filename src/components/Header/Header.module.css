@@ -1,0 +1,113 @@
+/* Header.module.css */
+
+.item {
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(255, 255, 255);
+  height: 100px;
+  margin-bottom: 30px;
+  align-items: center;
+  justify-content: space-between;
+  width: 1440px;
+  user-select: none;
+  padding: 0 50px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.a {
+  padding: 15px 20px;
+  list-style-type: none;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.a:hover {
+  color: #3878ff;
+}
+
+.logo {
+  width: 191px;
+  margin-left: 20px;
+}
+
+.btn {
+  width: 150px;
+  height: 45px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 40px;
+  border: 1px solid #3878ff;
+  color: #3878ff;
+  margin-left: 130px;
+  margin-right: 50px;
+  font-weight: 500;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #3878ff;
+  color: white;
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  margin-left: 130px;
+  transition: transform 0.2s;
+}
+
+.userIcon {
+  width: 45px;
+  height: 45px;
+
+  object-fit: cover;
+
+  padding: 3px;
+  cursor: pointer;
+}
+
+.profileLink:hover {
+  transform: scale(1.05);
+}
+
+/* Додатковий клас для активної навігації */
+.activeLink {
+  color: #3878ff !important;
+  font-weight: 500;
+}
+/* Header.module.css */
+.disabledLink {
+  padding: 15px 20px;
+  color: #888 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  position: relative;
+}
+
+.disabledLink:hover {
+  opacity: 1;
+}
+
+.disabledLink:hover::after {
+  content: "Available after registration";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
