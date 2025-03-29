@@ -11,8 +11,6 @@ import Login from "./components/pagesAuthorisation/Login/LoginPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { removeUser } from "store/slices/userSlice";
-import { useDispatch } from "react-redux";
 import "./firebase";
 import ProtectedRoute from "components/ProtectedRoute";
 import MyAccountPage from "components/MyAcount/MyAcount";
@@ -27,15 +25,17 @@ const App = () => {
               <Header />
               <Routes>
                 <Route path="/" element={<Profile />} />
+
+                {/* Захищені маршрути */}
                 <Route element={<ProtectedRoute />}>
                   <Route path="/videoai" element={<Videoai />} />
                   <Route path="/pdfai" element={<Pdf />} />
+                  <Route path="/account" element={<MyAccountPage />} />
                 </Route>
-                <Route path="/account" element={<MyAccountPage />} />
-                <Route path="/videoai" element={<Videoai />} />
+
+                {/* Публічні маршрути */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/pdfai" element={<Pdf />} />
                 <Route path="/music" element={<Music />} />
                 <Route path="/pricing" element={<Prising />} />
               </Routes>
