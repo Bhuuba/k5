@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDBXHrKbgQPcP-f8AJaZSVYIQ3v7Jw2tVQ",
@@ -12,4 +16,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+
+// Включити збереження сесії
+setPersistence(auth, browserLocalPersistence)
+  .then(() => console.log("Firebase persistence enabled"))
+  .catch((error) => console.error("Firebase persistence error:", error));
+
+export { auth };
