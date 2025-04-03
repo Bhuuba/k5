@@ -1,6 +1,6 @@
 // components/ProtectedRoute.jsx
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAuth } from "./form/hooks/use-auth";
 import AuthPopup from "components/AuthPopup/AuthPopup";
 

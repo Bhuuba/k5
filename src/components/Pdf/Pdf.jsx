@@ -1,13 +1,71 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import s from "./Pdf.module.css";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+// Ініціалізація Firestore та Auth (припускаємо, що Firebase вже ініціалізовано)
+const db = getFirestore();
+const auth = getAuth();
 
 const Pdf = () => {
   // Placeholder-значення для keywords, якщо API не поверне дані
   const placeholderKeywords = ["Keyword 1", "Keyword 2", "Keyword 3"];
 
-  // Функція копіювання тексту в буфер обміну
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
+  // Стан для показу попапу копіювання
+  const [copyPopupVisible, setCopyPopupVisible] = useState(false);
+  // Стан для показу сповіщення про завантаження (успіх/помилка)
+  const [uploadPopup, setUploadPopup] = useState({
+    visible: false,
+    message: "",
+    type: "success", // "success" або "error"
+  });
+  // Стан для історії запитів
+  const [history, setHistory] = useState([]);
+
+  // Завантаження збереженої історії з localStorage при монтуванні компонента
+  useEffect(() => {
+    const storedHistory = localStorage.getItem("pdfHistory");
+    if (storedHistory) {
+      setHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  // Збереження історії в localStorage щоразу, коли вона оновлюється
+  useEffect(() => {
+    localStorage.setItem("pdfHistory", JSON.stringify(history));
+  }, [history]);
+
+  // Функція копіювання тексту з попапом
+  const handleCopy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log("Text copied successfully!");
+      setCopyPopupVisible(true);
+      setTimeout(() => {
+        setCopyPopupVisible(false);
+      }, 3000);
+    } catch (err) {
+      console.error("Copy error:", err);
+    }
+  };
+
+  // Функція збереження запису історії у Firestore
+  const saveHistoryEntry = async (filename, summarySnippet) => {
+    if (auth.currentUser) {
+      try {
+        await addDoc(collection(db, "history"), {
+          uid: auth.currentUser.uid,
+          filename,
+          summary: summarySnippet,
+          timestamp: new Date(),
+        });
+        console.log("History saved in Firestore");
+      } catch (err) {
+        console.error("Error saving history entry:", err);
+      }
+    } else {
+      console.error("User not authenticated");
+    }
   };
 
   // Стан для вибору алгоритму обробки
@@ -78,7 +136,7 @@ const Pdf = () => {
 
       const data = await response.json();
 
-      // Якщо keyTopics приходять у форматі [{0: "..."}], то беремо перше значення об'єкта
+      // Якщо keyTopics приходять у форматі [{0: "..."}], беремо перше значення об'єкта
       const highlightsArr = Array.isArray(data.keyTopics)
         ? data.keyTopics.map((item) => {
             const firstKey = Object.keys(item)[0];
@@ -86,7 +144,7 @@ const Pdf = () => {
           })
         : [];
 
-      // Аналогічно для keywords, якщо там теж [{0: "закон"}, {1: "інформація"}, ...]
+      // Аналогічно для keywords
       const keywordsArr = Array.isArray(data.keywords)
         ? data.keywords.map((obj) => {
             const firstKey = Object.keys(obj)[0];
@@ -94,21 +152,67 @@ const Pdf = () => {
           })
         : [];
 
+      // Збереження даних відповіді
       setSummaryData({
         summary: data.pdfSummary || "No summary provided",
         highlights: highlightsArr,
         keywords: keywordsArr,
       });
+
+      // Отримуємо перше речення з отриманого резюме
+      const firstSentence =
+        data.pdfSummary && data.pdfSummary.length > 0
+          ? data.pdfSummary.split(".")[0] + "."
+          : "No summary available";
+
+      // Оновлюємо локальну історію
+      const newHistoryEntry = {
+        filename: file.name,
+        summary: firstSentence,
+        timestamp: new Date(),
+      };
+      setHistory((prev) => [newHistoryEntry, ...prev]);
+
+      // Зберігаємо історію у Firestore
+      saveHistoryEntry(file.name, firstSentence);
+
+      // Показ сповіщення про успіх
+      setUploadPopup({
+        visible: true,
+        message: "File uploaded successfully!",
+        type: "success",
+      });
     } catch (error) {
       console.error("Error uploading file:", error);
-      // Якщо сталася помилка, в усіх трьох полях відобразиться "Error..."
+
+      // Встановлюємо дані для невдалого завантаження
       setSummaryData({
         summary: "Error loading summary.",
         highlights: ["Error loading highlights."],
         keywords: ["Error loading keywords."],
       });
+
+      // Записуємо історію з інформацією про помилку
+      const errorHistoryEntry = {
+        filename: file.name,
+        summary: "Error loading summary.",
+        timestamp: new Date(),
+      };
+      setHistory((prev) => [errorHistoryEntry, ...prev]);
+      saveHistoryEntry(file.name, "Error loading summary.");
+
+      // Показ сповіщення про помилку
+      setUploadPopup({
+        visible: true,
+        message: "Error uploading file!",
+        type: "error",
+      });
     } finally {
       setLoadingFile(false);
+      // Ховаємо попап через 3 секунди
+      setTimeout(() => {
+        setUploadPopup({ visible: false, message: "", type: "success" });
+      }, 3000);
     }
   };
 
@@ -120,6 +224,42 @@ const Pdf = () => {
 
   return (
     <div className={s.pageContainer}>
+      {/* Попап копіювання */}
+      {copyPopupVisible && (
+        <div
+          style={{
+            position: "fixed",
+            top: "10px",
+            left: "10px",
+            backgroundColor: "black",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            zIndex: 1000,
+          }}
+        >
+          Copied!
+        </div>
+      )}
+
+      {/* Попап завантаження */}
+      {uploadPopup.visible && (
+        <div
+          style={{
+            position: "fixed",
+            top: "10px",
+            right: "10px",
+            backgroundColor: uploadPopup.type === "error" ? "red" : "green",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            zIndex: 1000,
+          }}
+        >
+          {uploadPopup.message}
+        </div>
+      )}
+
       {/* Верхній рядок: Заголовок та History */}
       <div className={s.headerRow}>
         <h2 className={s.title}>Upload Document</h2>
@@ -150,22 +290,6 @@ const Pdf = () => {
           />
         </div>
         {loadingFile && <p>Processing file...</p>}
-      </div>
-
-      {/* Вибір алгоритму */}
-      <label className={s.algorithmLabel} htmlFor="algorithmSelect">
-        Processing Algorithm
-      </label>
-      <div className={s.algorithmRow}>
-        <select
-          id="algorithmSelect"
-          className={s.algorithmSelect}
-          value={algorithm}
-          onChange={handleAlgorithmChange}
-        >
-          <option>GPT Algorithm</option>
-          <option>Some Other Algorithm</option>
-        </select>
       </div>
 
       {/* Summary (pdfSummary) */}
@@ -216,7 +340,7 @@ const Pdf = () => {
         )}
       </div>
 
-      {/* Keywords (перетворюємо об’єкти у рядки, відображаємо як "чіпи") */}
+      {/* Keywords (відображення як "чіпи") */}
       <div className={s.infoCard}>
         <div
           className={s.copyIcon}
@@ -254,9 +378,17 @@ const Pdf = () => {
               ✕
             </button>
             <h3>History</h3>
-            <p>
-              Here is some history data or something else you want to show...
-            </p>
+            {history.length > 0 ? (
+              <ul>
+                {history.map((entry, index) => (
+                  <li key={index}>
+                    <strong>{entry.filename}</strong>: {entry.summary}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No history entries available</p>
+            )}
           </div>
         </div>
       )}

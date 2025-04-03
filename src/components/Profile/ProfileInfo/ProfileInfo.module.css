@@ -19,6 +19,7 @@
   height: 355px;
   display: block;
   margin-left: -205px;
+  user-select: none;
 }
 
 /* Загальний стиль для <p> */
@@ -39,6 +40,7 @@ p {
 
 /* Кнопка */
 .btn {
+  user-select: none;
   /* font-family: Rubik; */
   width: 250px;
   height: 60px;
@@ -56,6 +58,7 @@ p {
   box-shadow: 0 2px 25px rgba(73, 69, 69, 0.51);
 }
 .btn:hover {
+  user-select: none;
   background-color: rgba(7, 26, 131, 0.9);
 }
 
@@ -80,6 +83,7 @@ li {
   max-width: 350px;
   display: block;
   margin: 0 auto;
+  user-select: none;
 }
 /* Основний контейнер із тінню та білим фоном (за потреби) */
 .container2 {

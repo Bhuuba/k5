@@ -24,20 +24,17 @@ const Login = () => {
           })
         );
 
-        navigate("/"); // Перенаправлення на головну сторінку
+        navigate("/");
       })
       .catch((error) => {
         console.error("Login error:", error);
-        alert(`Login failed: ${error.message}`); // Показ помилки
+        alert(`Login failed: ${error.message}`);
       });
   };
 
   return (
     <div className="auth-wrapper">
-      <Form
-        title="Sign in" // Виправлено орфографічну помилку
-        handleClick={handleLogin}
-      />
+      <Form title="Sign in" handleClick={handleLogin} />
     </div>
   );
 };

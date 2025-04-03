@@ -53,9 +53,9 @@ const Header = () => {
           <NavLink to="/music" className={s.a}>
             AI CHATBOTS
           </NavLink>
-          <NavLink to="/pricing" className={s.a}>
+          {/* <NavLink to="/pricing" className={s.a}>
             Pricing
-          </NavLink>
+          </NavLink> */}
 
           {isAuth ? (
             <NavLink to="/account" className={s.profileLink}>
