@@ -52,7 +52,7 @@ const App = () => {
       <PersistGate loading={<Loader />} persistor={persistor}>
         <BrowserRouter>
           <div className="container-fluide">
-            <div className="col-xxl-12 col-xl-12 col-lg-12 col-12">
+            <div className="col-xxl-12 col-xl-12 col-lg-5 col-sm-5 col-5">
               <div className="row">
                 <Header />
                 <Routes>

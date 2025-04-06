@@ -5,7 +5,7 @@ const Video = () => {
   const [inputUrl, setInputUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  // Стан для попапу копіювання (відображається у лівому верхньому куті)
+  // Стан для попапу копіювання (відображається у правому верхньому куті)
   const [copyPopup, setCopyPopup] = useState({ visible: false, message: "" });
   const [videoId, setVideoId] = useState(null);
   const [summaryData, setSummaryData] = useState({
@@ -17,24 +17,23 @@ const Video = () => {
       { timestamp: "8:15", topic: "Loading..." },
     ],
   });
-
-  // Історія запитів збережена в localStorage
   const [history, setHistory] = useState(() => {
     const storedHistory = localStorage.getItem("videoHistory");
     return storedHistory ? JSON.parse(storedHistory) : [];
   });
 
+  // Збереження історії в localStorage при зміні
   useEffect(() => {
     localStorage.setItem("videoHistory", JSON.stringify(history));
   }, [history]);
 
-  // Функція для показу загального попапу (для завантаження/помилки)
+  // Функція для показу попапу (завантаження/помилка)
   const showPopup = (message) => {
     setPopupMessage(message);
     setTimeout(() => setPopupMessage(""), 3000);
   };
 
-  // Функція для показу попапу копіювання (сіро-прозорий фон)
+  // Функція для показу попапу копіювання
   const showCopyPopup = (message) => {
     setCopyPopup({ visible: true, message });
     setTimeout(() => setCopyPopup({ visible: false, message: "" }), 3000);
@@ -73,7 +72,6 @@ const Video = () => {
         throw new Error(`Request failed with status ${response.status}`);
 
       const data = await response.json();
-
       fetchedSummary = data.videoSummary || "No summary available.";
       setSummaryData({
         summary: fetchedSummary,
@@ -88,10 +86,9 @@ const Video = () => {
     }
     setLoading(false);
 
-    // Формуємо прев'ю для історії: перші 1-3 слова або "error" якщо summary містить помилку
+    // Формуємо прев'ю для історії (перші 1-3 слова)
     const words = fetchedSummary.split(" ").filter(Boolean);
     const preview = words.length > 0 ? words.slice(0, 3).join(" ") : "error";
-    // Додаємо запис до історії (зберігається навіть при помилці)
     const newHistoryEntry = {
       url: inputUrl,
       preview,
@@ -116,7 +113,7 @@ const Video = () => {
       {/* Попап завантаження/помилки */}
       {popupMessage && <div className={s.popup}>{popupMessage}</div>}
 
-      {/* Попап копіювання (зліва вгорі, сіро-прозорий) */}
+      {/* Попап копіювання (праворуч вгорі) */}
       {copyPopup.visible && (
         <div
           style={{
@@ -134,6 +131,7 @@ const Video = () => {
           {copyPopup.message}
         </div>
       )}
+
       {/* Ввід URL */}
       <div className={s.card}>
         <h2 className={s.title}>Get Video Summary</h2>
@@ -161,82 +159,79 @@ const Video = () => {
         </div>
       )}
 
-      {/* Вбудоване відео – відображається після завершення завантаження */}
-      {!loading && videoId && (
-        <div className={s.card}>
-          <h3 className={s.summaryTitle}>Video Preview</h3>
-          <div className={s.videoFrame}>
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=0`}
-              frameBorder="0"
-              allow="encrypted-media"
-              allowFullScreen
-              title="Video Preview"
-            ></iframe>
+      {/* Відображення відео та інформації тільки коли завантаження завершено */}
+      {!loading && videoId && summaryData.summary !== "Loading summary..." && (
+        <>
+          {/* Вбудоване відео */}
+          <div className={s.card}>
+            <h3 className={s.summaryTitle}>Video Preview</h3>
+            <div className={s.videoFrame}>
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=0`}
+                frameBorder="0"
+                allow="encrypted-media"
+                allowFullScreen
+                title="Video Preview"
+              ></iframe>
+            </div>
           </div>
-        </div>
-      )}
 
-      {/* Відео резюме */}
-      {!loading && (
-        <div className={s.card}>
-          {/* Іконка копіювання у правому верхньому кутку */}
-          <div
-            className={s.copyIcon}
-            onClick={() => handleCopy(summaryData.summary)}
-            style={{ cursor: "pointer" }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              viewBox="0 0 16 16"
+          {/* Резюме відео */}
+          <div className={s.card}>
+            <div
+              className={s.copyIcon}
+              onClick={() => handleCopy(summaryData.summary)}
+              style={{ cursor: "pointer" }}
             >
-              <path d="M10 1H2a1 1 0 0 0-1 1v11h1V2h8V1zm5 2H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 11H6V5h8v9z" />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path d="M10 1H2a1 1 0 0 0-1 1v11h1V2h8V1zm5 2H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 11H6V5h8v9z" />
+              </svg>
+            </div>
+            <h3 className={s.summaryTitle}>Video Summary</h3>
+            <p className={s.summaryText}>{summaryData.summary}</p>
           </div>
 
-          <h3 className={s.summaryTitle}>Video Summary</h3>
-          <p className={s.summaryText}>{summaryData.summary}</p>
-        </div>
-      )}
-
-      {/* Таймінги */}
-      {summaryData.timestamps.length > 0 && (
-        <div className={s.card}>
-          {/* Іконка копіювання у правому верхньому кутку */}
-          <div
-            className={s.copyIcon}
-            onClick={() =>
-              handleCopy(
-                summaryData.timestamps
-                  .map((item) => `${item.timestamp} - ${item.topic}`)
-                  .join("\n")
-              )
-            }
-            style={{ cursor: "pointer" }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M10 1H2a1 1 0 0 0-1 1v11h1V2h8V1zm5 2H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 11H6V5h8v9z" />
-            </svg>
-          </div>
-
-          <h3 className={s.summaryTitle}>Key Topics & Timestamps</h3>
-          <ul className={s.timestampList}>
-            {summaryData.timestamps.map((item, index) => (
-              <li key={index} className={s.timestampItem}>
-                <strong>{item.timestamp}</strong> - {item.topic}
-              </li>
-            ))}
-          </ul>
-        </div>
+          {/* Key Topics & Timestamps */}
+          {summaryData.timestamps.length > 0 && (
+            <div className={s.card}>
+              <div
+                className={s.copyIcon}
+                onClick={() =>
+                  handleCopy(
+                    summaryData.timestamps
+                      .map((item) => `${item.timestamp} - ${item.topic}`)
+                      .join("\n")
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M10 1H2a1 1 0 0 0-1 1v11h1V2h8V1zm5 2H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 11H6V5h8v9z" />
+                </svg>
+              </div>
+              <h3 className={s.summaryTitle}>Key Topics & Timestamps</h3>
+              <ul className={s.timestampList}>
+                {summaryData.timestamps.map((item, index) => (
+                  <li key={index} className={s.timestampItem}>
+                    <strong>{item.timestamp}</strong> - {item.topic}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
