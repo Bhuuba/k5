@@ -8,6 +8,8 @@ const Video = () => {
   // Стан для попапу копіювання (відображається у правому верхньому куті)
   const [copyPopup, setCopyPopup] = useState({ visible: false, message: "" });
   const [videoId, setVideoId] = useState(null);
+  const [startTime, setStartTime] = useState(0); // Стан для стартового часу
+  const [autoplay, setAutoplay] = useState(false); // Стан для автозапуску відео
   const [summaryData, setSummaryData] = useState({
     summary: "Loading summary...",
     timestamps: [
@@ -58,11 +60,13 @@ const Video = () => {
       return;
     }
     setVideoId(id);
+    setAutoplay(false); // відео завантажується на паузі
+    setStartTime(0);
     setLoading(true);
 
     let fetchedSummary = "";
     try {
-      const response = await fetch("http://63.176.101.250/api/v1/yt/summary", {
+      const response = await fetch("http://35.159.18.171/api/v1/yt/summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: inputUrl, lang: "en" }),
@@ -106,6 +110,25 @@ const Video = () => {
       console.error("Copy error:", err);
       showCopyPopup("Copy failed!");
     }
+  };
+
+  // Функція для розбору таймстемпу "mm:ss" або "h:mm:ss" у секунди
+  const parseTimestamp = (timeStr) => {
+    const parts = timeStr.split(":").map(Number);
+    // Формати можуть бути "mm:ss" або "h:mm:ss"
+    if (parts.length === 2) {
+      return parts[0] * 60 + parts[1];
+    } else if (parts.length === 3) {
+      return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    }
+    return 0;
+  };
+
+  // При кліку по таймстемпу встановлюємо новий стартовий час і увімкнюємо автозапуск
+  const handleTimestampClick = (timestamp) => {
+    const seconds = parseTimestamp(timestamp);
+    setStartTime(seconds);
+    setAutoplay(true);
   };
 
   return (
@@ -159,7 +182,7 @@ const Video = () => {
         </div>
       )}
 
-      {/* Відображення відео та інформації тільки коли завантаження завершено */}
+      {/* Відображення відео та інформації після завантаження */}
       {!loading && videoId && summaryData.summary !== "Loading summary..." && (
         <>
           {/* Вбудоване відео */}
@@ -167,11 +190,14 @@ const Video = () => {
             <h3 className={s.summaryTitle}>Video Preview</h3>
             <div className={s.videoFrame}>
               <iframe
-                src={`https://www.youtube.com/embed/${videoId}?autoplay=0`}
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=${
+                  autoplay ? 1 : 0
+                }&start=${startTime}`}
                 frameBorder="0"
-                allow="encrypted-media"
+                allow="autoplay; encrypted-media" // додано autoplay
                 allowFullScreen
                 title="Video Preview"
+                key={`${videoId}-${startTime}-${autoplay}`} // змінюється ключ, щоб перезавантажити iframe
               ></iframe>
             </div>
           </div>
@@ -224,7 +250,12 @@ const Video = () => {
               <h3 className={s.summaryTitle}>Key Topics & Timestamps</h3>
               <ul className={s.timestampList}>
                 {summaryData.timestamps.map((item, index) => (
-                  <li key={index} className={s.timestampItem}>
+                  <li
+                    key={index}
+                    className={s.timestampItem}
+                    onClick={() => handleTimestampClick(item.timestamp)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <strong>{item.timestamp}</strong> - {item.topic}
                   </li>
                 ))}

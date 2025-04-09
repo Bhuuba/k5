@@ -14,7 +14,7 @@ async function apiUploadPdf(file) {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch("http://63.176.101.250/api/v1/summarize/pdf", {
+  const response = await fetch("http://35.159.18.171/api/v1/summarize/pdf", {
     method: "POST",
     body: formData,
   });
@@ -122,6 +122,22 @@ const Pdf = () => {
     }
   };
 
+  // Обробка подій drag and drop
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      handleFileUpload(file);
+      e.dataTransfer.clearData();
+    }
+  };
+
   // Відкриття вікна вибору файлу
   const handleChooseFile = () => {
     if (fileInputRef.current) {
@@ -129,7 +145,7 @@ const Pdf = () => {
     }
   };
 
-  // Обробка вибору файлу
+  // Обробка вибору файлу через input
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -140,9 +156,6 @@ const Pdf = () => {
   // Функція завантаження файлу
   const handleFileUpload = async (file) => {
     setLoadingFile(true);
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
       const data = await apiUploadPdf(file);
 
@@ -273,9 +286,14 @@ const Pdf = () => {
         </button>
       </div>
 
-      {/* Блок для завантаження файлу */}
-      <div className={s.uploadCard}>
-        <div className={s.dropArea} onClick={handleChooseFile}>
+      {/* Блок для завантаження файлу: додано drag & drop */}
+      <div
+        className={s.uploadCard}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onClick={handleChooseFile}
+      >
+        <div className={s.dropArea}>
           <p>Drag and drop your file here or</p>
           <button
             className={s.chooseFileBtn}
@@ -339,9 +357,23 @@ const Pdf = () => {
               </div>
               <h3 className={s.infoTitle}>Highlights</h3>
               {summaryData.highlights && summaryData.highlights.length > 0 ? (
-                <ul>
+                <ul className={s.highlightList}>
                   {summaryData.highlights.map((item, index) => (
-                    <li key={index}>- {item}</li>
+                    <li key={index} className={s.highlightItem}>
+                      {/* Використовуємо Bootstrap іконку; переконайтеся, що Bootstrap Icons підключені */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        right="15px"
+                        fill="currentColor"
+                        class="bi bi-dot"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
+                      </svg>
+                      {item}
+                    </li>
                   ))}
                 </ul>
               ) : (
