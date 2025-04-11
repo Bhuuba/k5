@@ -68,3 +68,24 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Гілка test
+
+Ця гілка створена для тестування та розробки нових функцій.
+
+## Початок роботи
+
+1. Перейдіть на гілку test:
+```bash
+git checkout test
+```
+
+2. Встановіть залежності:
+```bash
+npm install
+```
+
+3. Запустіть проект:
+```bash
+npm start
+```
