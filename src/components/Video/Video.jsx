@@ -12,8 +12,12 @@ const Video = () => {
   const [autoplay, setAutoplay] = useState(false); // Стан для автозапуску відео
   const [summaryData, setSummaryData] = useState({
     summary: "Loading summary...",
-    timestamps: [],
-    keyTopics: []
+    timestamps: [
+      { timestamp: "0:00", topic: "Loading..." },
+      { timestamp: "2:30", topic: "Loading..." },
+      { timestamp: "5:45", topic: "Loading..." },
+      { timestamp: "8:15", topic: "Loading..." },
+    ],
   });
   const [history, setHistory] = useState(() => {
     const storedHistory = localStorage.getItem("videoHistory");
@@ -56,10 +60,11 @@ const Video = () => {
       return;
     }
     setVideoId(id);
-    setAutoplay(false);
+    setAutoplay(false); // відео завантажується на паузі
     setStartTime(0);
     setLoading(true);
 
+    let fetchedSummary = "";
     try {
       const response = await fetch("http://35.159.18.171/api/v1/yt/summary", {
         method: "POST",
@@ -67,56 +72,33 @@ const Video = () => {
         body: JSON.stringify({ url: inputUrl, lang: "en" }),
       });
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`Request failed with status ${response.status}`);
-      }
 
       const data = await response.json();
-      
-      // Process timestamps and topics
-      let processedTimestamps = [];
-      if (data.keyTopics && Array.isArray(data.keyTopics)) {
-        processedTimestamps = data.keyTopics.map(topic => {
-          // Check if topic has the expected structure
-          if (typeof topic === 'object') {
-            const timestamp = Object.keys(topic)[0];
-            return {
-              timestamp,
-              topic: topic[timestamp]
-            };
-          }
-          return null;
-        }).filter(item => item !== null);
-      }
-
+      fetchedSummary = data.videoSummary || "No summary available.";
       setSummaryData({
-        summary: data.videoSummary || "No summary available.",
-        timestamps: processedTimestamps,
-        keyTopics: data.keyTopics || []
+        summary: fetchedSummary,
+        timestamps: data.keyTopics || [],
       });
-
       showPopup("Video summary loaded successfully!");
-      
-      // Update history
-      const words = data.videoSummary.split(" ").filter(Boolean);
-      const preview = words.length > 0 ? words.slice(0, 3).join(" ") : "error";
-      const newHistoryEntry = {
-        url: inputUrl,
-        preview,
-        timestamp: new Date().toISOString(),
-      };
-      setHistory(prev => [newHistoryEntry, ...prev]);
-
     } catch (error) {
       console.error("Error fetching summary:", error);
-      setSummaryData({
-        summary: "Error loading summary.",
-        timestamps: [],
-        keyTopics: []
-      });
+      fetchedSummary = "Error loading summary.";
+      setSummaryData({ summary: fetchedSummary, timestamps: [] });
       showPopup("Error loading summary!");
     }
     setLoading(false);
+
+    // Формуємо прев'ю для історії (перші 1-3 слова)
+    const words = fetchedSummary.split(" ").filter(Boolean);
+    const preview = words.length > 0 ? words.slice(0, 3).join(" ") : "error";
+    const newHistoryEntry = {
+      url: inputUrl,
+      preview,
+      timestamp: new Date().toISOString(),
+    };
+    setHistory((prev) => [newHistoryEntry, ...prev]);
   };
 
   // Функція копіювання тексту в буфер обміну
