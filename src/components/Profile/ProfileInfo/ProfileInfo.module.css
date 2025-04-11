@@ -7,13 +7,9 @@
   font-weight: 400;
 }
 
-/* Блок із заголовком/кнопкою (прибрали великий margin-left, 
-       вирівнювання тепер робить Bootstrap col-*) */
-.boxr {
-  padding: 0 9.7rem; /* легкий відступ справа/зліва */
-}
+/* Блок із заголовком/кнопкою */
 
-/* Зображення праворуч (зменшили або забрали margin-left) */
+/* Зображення праворуч */
 .rightimg {
   width: 500px;
   height: 355px;
@@ -24,7 +20,6 @@
 
 /* Загальний стиль для <p> */
 p {
-  /* font-family: Rubik; */
   color: rgb(7, 15, 58);
 }
 
@@ -35,13 +30,11 @@ p {
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
-  /* font-family: Rubik; */
 }
 
 /* Кнопка */
 .btn {
   user-select: none;
-  /* font-family: Rubik; */
   width: 250px;
   height: 60px;
   background-color: #2d56b3;
@@ -57,12 +50,13 @@ p {
   transition: transform 0.1s ease-in, box-shadow 0.25s ease-in;
   box-shadow: 0 2px 25px rgba(73, 69, 69, 0.51);
 }
+
 .btn:hover {
   user-select: none;
   background-color: rgba(7, 26, 131, 0.9);
 }
 
-/* Сині іконки списку (у блоці Features) */
+/* Сині іконки списку */
 .svg {
   color: blue;
   margin: 10px;
@@ -77,7 +71,7 @@ li {
   padding: 0;
 }
 
-/* Зображення у третьому блоці (зліва) */
+/* Зображення у третьому блоці */
 .img1 {
   width: 100%;
   max-width: 350px;
@@ -85,11 +79,12 @@ li {
   margin: 0 auto;
   user-select: none;
 }
-/* Основний контейнер із тінню та білим фоном (за потреби) */
+
+/* Основний контейнер із тінню та білим фоном */
 .container2 {
   width: 1140px;
   height: 200px;
-  margin: 60px auto; /* Відступи зверху/знизу */
+  margin: 60px auto;
   padding: 20px 0;
   background-color: #fff;
   border-radius: 10px;
@@ -99,11 +94,11 @@ li {
 /* Обгортка кожного «слайдера» */
 .sliderpadd {
   margin-top: 15px;
-  display: flex; /* Якщо бажаєте, щоб вся колонка була одним блоком */
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 10px 0; /* Внутрішні відступи */
+  padding: 10px 0;
 }
 
 /* Стилі для контейнерів іконки + текст */
@@ -111,15 +106,18 @@ li {
 .slider2,
 .slider3 {
   display: flex;
-  align-items: center; /* Іконка та текст по одній лінії вертикально */
-  justify-content: center; /* Горизонтальне вирівнювання по центру */
+  align-items: center;
+  justify-content: center;
   border-right: 1px gray solid;
   height: 100px;
   padding-right: 90px;
   margin-right: -70px;
 }
+
 .slider3 {
   border: none;
+  margin-right: 0;
+  padding-right: 0;
 }
 
 /* Іконка */
@@ -128,61 +126,67 @@ li {
   height: 60px;
   border-radius: 50%;
   padding: 18px;
-  background-color: rgba(168, 185, 225, 0.289); /* Світлий фон іконки */
+  background-color: rgba(168, 185, 225, 0.289);
   color: rgba(68, 68, 215, 0.822);
-  margin-right: 20px; /* Відступ між іконкою та текстом */
+  margin-right: 20px;
 }
 
 /* Текстовий блок */
 .svgtext {
   display: flex;
-  flex-direction: column; /* «90+» над «Active Users» */
-  align-items: center; /* Щоб обидва тексти були по центру горизонтально */
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Стиль для заголовку (90+, 1000+, 5+) */
+/* Стиль для заголовку */
 .h3 {
   font-size: 1.5rem;
   margin-left: -35px;
   color: #07103a;
   font-weight: 700;
 }
+
 .h3__2 {
   font-size: 1.5rem;
   color: #07103a;
   font-weight: 700;
   margin-left: -85px;
 }
+
 .h3__3 {
   font-size: 1.5rem;
   color: #07103a;
   font-weight: 700;
   margin-left: -110px;
 }
-/* Стиль для підпису (Users, Summaries Generated, Integrated Platforms) */
+
+/* Стиль для підпису */
 .p2 {
   margin: 0;
   color: #555;
   font-size: 1rem;
 }
 
-/* Останній блок (зображення + список фіч) */
+/* Останній блок */
 .container3 {
   width: 90%;
   margin: 0 auto 130px auto;
 }
 
-/* Приклад (необов'язково): стилі для тексту в фічах */
+/* Стилі для тексту в фічах */
 .features-section__content h2 {
   margin-bottom: 1rem;
 }
+
 .features-section__content p {
   margin-bottom: 1rem;
 }
+
 .h2 {
   font-weight: 500;
   line-height: 50px;
 }
+
 /* Виправлення зміщення при натисканні */
 .btn:active {
   transform: none !important;
@@ -237,4 +241,338 @@ li {
 .popup.show {
   opacity: 1;
   visibility: visible;
+}
+
+/* Мобільна версія */
+@media screen and (max-width: 1023px) {
+  /* Хедер і навігація */
+  .header {
+    padding: 1rem;
+    position: relative;
+  }
+
+  .nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 1000;
+    padding: 5rem 2rem 2rem;
+  }
+
+  .nav.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* Бургер меню */
+  .burger {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+  .burger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #07103a;
+    margin: 5px 0;
+    transition: 0.3s;
+  }
+
+  .burger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .burger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  /* Головний контент */
+  .item {
+    font-size: 2rem;
+    line-height: 1.2;
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .boxr {
+    padding: 0 1rem;
+  }
+
+  .rightimg {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    margin: 2rem auto;
+    display: block;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto;
+    display: block;
+  }
+
+  /* Статистика */
+  .container2 {
+    width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .sliderpadd {
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: auto;
+  }
+
+  .slider1,
+  .slider2,
+  .slider3 {
+    width: 100%;
+    flex-direction: column;
+    border: none;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin: 0;
+    height: auto;
+    text-align: center;
+  }
+
+  .svg2 {
+    width: 50px;
+    height: 50px;
+    padding: 12px;
+    margin: 0 auto 1rem;
+  }
+
+  .svgtext {
+    text-align: center;
+    width: 100%;
+  }
+
+  .h3,
+  .h3__2,
+  .h3__3 {
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem 0;
+    color: #07103a;
+    text-align: center;
+  }
+
+  .p2 {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+  }
+
+  /* Контейнер для фіч */
+  .container3 {
+    width: 100%;
+    padding: 0 1rem;
+    margin: 2rem 0;
+  }
+
+  /* Список фіч */
+  .features-section__content {
+    padding: 1rem;
+  }
+
+  .features-section__content h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .features-section__content p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* Збільшуємо область кліку для всіх інтерактивних елементів */
+  .btn,
+  .nav a,
+  .burger {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.8rem;
+  }
+
+  /* Покращуємо читабельність тексту */
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Версія для телефонів */
+@media screen and (max-width: 768px) {
+  .item {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin: 0.25rem 0;
+  }
+
+  .boxr {
+    padding: 0 0.25rem;
+  }
+
+  .rightimg {
+    max-width: 250px;
+    margin: 0.5rem auto;
+  }
+
+  .btn {
+    max-width: 240px;
+    height: 45px;
+    margin: 0.5rem auto;
+    font-size: 0.9rem;
+  }
+
+  .container2 {
+    margin: 0.5rem 0;
+    padding: 0;
+  }
+
+  .sliderpadd {
+    gap: 1.5rem;
+  }
+
+  .slider1,
+  .slider2,
+  .slider3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    margin-bottom: 30px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .svg2 {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .svgtext {
+    text-align: left;
+    flex: 1;
+  }
+
+  .h3,
+  .h3__2,
+  .h3__3 {
+    font-size: 1rem;
+    margin: 0 0 0.15rem 0;
+    color: #07103a;
+  }
+
+  .p2 {
+    font-size: 0.8rem;
+    color: #555;
+    margin: 0;
+    line-height: 1.3;
+  }
+}
+
+/* Планшетна версія */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .item {
+    font-size: 2.5rem;
+  }
+
+  .sliderpadd {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .slider1,
+  .slider2,
+  .slider3 {
+    width: calc(50% - 1rem);
+    margin: 0;
+  }
+}
+
+/* Фіксуємо скрол на десктопі */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-y: scroll;
+  scroll-padding-top: 0;
+}
+
+/* Навігація */
+.nav {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1000;
+  padding: 1rem 0;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #07103a;
+  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+
+.nav a:hover {
+  color: #2d56b3;
+}
+
+.nav a.active {
+  color: #2d56b3;
+  font-weight: 500;
+}
+
+/* Запобігаємо стрибкам при переході між сторінками */
+.content {
+  min-height: calc(100vh - 100px);
+  position: relative;
+}
+
+/* Фіксуємо контейнер для запобігання стрибків */
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
