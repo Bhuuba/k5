@@ -1,0 +1,48 @@
+.footer {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  margin-top: auto;
+  border-radius: 4px;
+  transition: all 0.5s ease;
+  will-change: position;
+}
+
+.footer.sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.footerText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.socialIcons a {
+  display: inline-block;
+  color: #6c757d;
+}
+
+/* для телефонів ≤576px: менший текст + менші іконки */
+@media (max-width: 576px) {
+  .footerText {
+    font-size: 0.75rem;
+  }
+  .socialIcons a svg {
+    width: 16px;
+    height: 16px;
+  }
+}

@@ -5,8 +5,18 @@
   padding: 0 15px;
   font-family: Arial, sans-serif;
   color: #333;
+  /* min-height: 800px; */
 }
-
+@media (min-width: 608px) {
+  .pageContainer {
+    min-height: 600px;
+  }
+}
+@media (max-width: 608px) {
+  .pageContainer {
+    min-height: 600px;
+  }
+}
 /* Верхній рядок: заголовок + кнопка History */
 .headerRow {
   display: flex;

@@ -19,6 +19,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "components/MyAcount/PublicRoute";
 import Loader from "./components/Loader/Loader";
 import "./App.css";
+import Footer from "components/futer/Futer";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -82,6 +83,7 @@ const App = () => {
                   <Route path="/music" element={<Music />} />
                   <Route path="/pricing" element={<Prising />} />
                 </Routes>
+                <Footer />
               </div>
             </div>
           </div>
