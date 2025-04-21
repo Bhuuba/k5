@@ -9,10 +9,9 @@ import { redirect } from "react-router-dom";
 const ProfileInfo = () => {
   return (
     <div className={s.container}>
-      <redirect to="/login" />
-      {/* Перший блок: заголовок, опис, кнопка ліворуч, картинка праворуч */}
-      <div className="row justify-content-between mt-5 ">
-        <div className="col-lg-7">
+      {/* <Navigate to="/login" /> */}
+      <div className="row justify-content-between mt-5 flex-column flex-md-row">
+        <div className="col-lg-7 col-md-7 order-2 order-md-1">
           <div className={s.boxr}>
             <h1 className={s.item}>
               Want anything to be <br /> easy with <b>BrieflyAI</b>
@@ -23,7 +22,7 @@ const ProfileInfo = () => {
             </NavLink>
           </div>
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 col-md-4 order-1 order-md-2 text-center">
           <div className={s.box}>
             <img className={s.rightimg} src={onepage} alt="my photo" />
           </div>
@@ -32,8 +31,8 @@ const ProfileInfo = () => {
 
       {/* Другий блок: 90+ Users, 30+ Locations, 80+ Servers */}
       <div className={s.container2}>
-        <div className="row justify-content-around">
-          <div className="col-md-3">
+        <div className="row justify-content-between">
+          <div className="col-4">
             <div className={s.sliderpadd}>
               <div className={s.slider1}>
                 <svg
@@ -53,7 +52,7 @@ const ProfileInfo = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-4">
             <div className={s.sliderpadd}>
               <div className={s.slider2}>
                 <svg
@@ -73,7 +72,7 @@ const ProfileInfo = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-4">
             <div className={s.sliderpadd}>
               <div className={s.slider3}>
                 <svg
@@ -99,18 +98,18 @@ const ProfileInfo = () => {
       {/* Третій блок: велике зображення ліворуч, список фіч праворуч */}
       <div className={s.container3}>
         <div className="row align-items-center">
-          <div className="col-md-6">
+          <div className="col-md-6 col-sm-6 col-6 order-2 order-md-1">
             <div className={s.box1Section2}>
               <img className={s.img1} src={img1} alt="my photo" />
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 col-sm-6 col-6 order-1 order-md-2">
             <section className="features-section">
               <div className="features-section__content">
                 <h2 className={s.h2}>
                   We Provide Many <br /> Features You Can Use
                 </h2>
-                <p>
+                <p className={s.p7}>
                   Our features save you time by turning long content into{" "}
                   <br></br> clear, simple summaries:
                 </p>

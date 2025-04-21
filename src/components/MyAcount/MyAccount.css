@@ -67,6 +67,15 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
+  width: 80%;
+  max-width: 250px;
+}
+
+@media screen and (max-width: 1000px) {
+  .logout-button {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 .logout-button:hover {

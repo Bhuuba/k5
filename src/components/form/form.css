@@ -55,6 +55,13 @@ input {
   cursor: pointer;
 }
 
+@media screen and (max-width: 1000px) {
+  .submit-btn {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
 .submit-btn:disabled {
   background-color: #cccccc;
   cursor: not-allowed;

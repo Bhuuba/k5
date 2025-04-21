@@ -20,12 +20,12 @@ const Header = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    document.body.style.overflow = !isMenuOpen ? 'hidden' : 'auto';
+    document.body.style.overflow = !isMenuOpen ? "hidden" : "auto";
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   };
 
   return (
@@ -39,7 +39,10 @@ const Header = () => {
           </NavLink>
         </div>
 
-        <div className={`${s.burgerBtn} ${isMenuOpen ? s.active : ''}`} onClick={toggleMenu}>
+        <div
+          className={`${s.burgerBtn} ${isMenuOpen ? s.active : ""}`}
+          onClick={toggleMenu}
+        >
           <div className={s.burgerLines}>
             <span className={s.line}></span>
             <span className={s.line}></span>
@@ -47,7 +50,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className={`${s.navLinks} ${isMenuOpen ? s.active : ''}`}>
+        <div className={`${s.navLinks} ${isMenuOpen ? s.active : ""}`}>
           {/* Умовне відображення для захищених посилань */}
           {isAuth ? (
             <>
@@ -77,7 +80,11 @@ const Header = () => {
           </NavLink> */}
 
           {isAuth ? (
-            <NavLink to="/account" className={s.profileLink} onClick={closeMenu}>
+            <NavLink
+              to="/account"
+              className={s.profileLink}
+              onClick={closeMenu}
+            >
               <img
                 src={userIcon}
                 alt="My Account"

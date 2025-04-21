@@ -71,10 +71,15 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 80%;
+  max-width: 200px;
 }
 
-.button:hover {
-  background-color: #4a57e4;
+@media screen and (max-width: 1000px) {
+  .button {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 /* Попап */
@@ -158,13 +163,20 @@
   border: none;
   border-radius: 5px;
   width: 100%;
-  margin-top: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.confirmButton:hover {
-  background-color: #4a57e4;
+@media screen and (max-width: 1000px) {
+  .confirmButton {
+    display: block;
+    margin: 15px auto;
+  }
+
+  .closeButton {
+    display: block;
+    margin: 10px auto;
+  }
 }
 
 /* Кнопка закриття */
