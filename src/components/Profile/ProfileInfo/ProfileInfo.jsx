@@ -47,7 +47,7 @@ const ProfileInfo = () => {
                 </svg>
                 <div className={s.svgtext}>
                   <h3 className={s.h3}>90+</h3>
-                  <p className={s.p2}>Active Users</p>
+                  <p className={s.p2}>Active{"\n"}Users</p>
                 </div>
               </div>
             </div>

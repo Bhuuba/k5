@@ -678,36 +678,44 @@ li {
   .slider3 {
     padding-right: 2%;
     margin-right: 0;
-    min-height: 50%;
+    height: 45px; /* фиксированная высота */
+    min-height: unset; /* убираем min-height */
     display: flex;
     align-items: center;
-    /* height: 50px; */
+    border-right: 1px solid rgba(128, 128, 128, 0.3);
+    position: relative; /* для выравнивания бордера */
+  }
+
+  .slider3 {
+    border-right: none;
   }
 
   .svg2 {
-    width: 25%;
-    padding: 7%;
+    width: 25px; /* фиксированный размер иконки */
+    height: 25px;
+    padding: 5px;
+    margin-right: 8px;
   }
 
   .svgtext {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    flex: 1;
+    justify-content: center;
+    height: 100%;
   }
 
   .h3,
   .h3__2,
   .h3__3 {
-    font-size: 90%;
+    font-size: 12px;
     margin: 0;
-    text-align: left;
+    line-height: 1.2;
   }
 
   .p2 {
-    font-size: 58%;
-    margin-top: 2%;
-    text-align: left;
+    font-size: 10px;
+    margin: 2px 0 0 0;
+    line-height: 1.2;
   }
 
   .container3 {
@@ -877,4 +885,88 @@ li {
     display: flex;
     justify-content: center;
   }
+}
+
+@media screen and (max-width: 500px) {
+  .p2 {
+    font-size: 10px;
+    margin: 2px 0 0 0;
+    line-height: 1.2;
+    white-space: pre-line;
+  }
+  /* 
+  .slider1 .p2::before {
+    content: "Active\AUsers";
+    white-space: pre;
+  } */
+
+  .slider1 .p2 {
+    display: none;
+  }
+
+  .slider1 .svgtext {
+    text-align: center;
+  }
+
+  .slider1 .p2 {
+    display: block;
+    white-space: pre-line;
+    content: "Active\AUsers";
+  }
+
+  /* .slider1 .p2:after {
+    content: "Active\AUsers";
+    display: block;
+    white-space: pre-line;
+  } */
+
+  .slider1 .p2 span {
+    display: none;
+  }
+
+  .mobileBreak {
+    display: block;
+  }
+
+  .desktopText {
+    display: none;
+  }
+
+  .activeUsers {
+    display: block;
+    white-space: pre-line;
+  }
+
+  /* .activeUsers::after {
+    content: "Active\AUsers";
+  } */
+
+  .activeUsers span {
+    display: none;
+  }
+
+  .p2 {
+    white-space: pre-line;
+  }
+  .slider1 .p2 {
+    margin: 0;
+    line-height: 1.2;
+    /* text-align: center; */
+  }
+  .slider1 .p2 {
+    white-space: pre;
+    line-height: 1.2;
+  }
+}
+
+.mobileBreak {
+  display: none;
+}
+
+.desktopText {
+  display: block;
+}
+
+.activeUsers {
+  display: inline;
 }
