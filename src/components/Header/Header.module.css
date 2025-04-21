@@ -157,7 +157,7 @@
 
 /* Burger open state */
 .burgerBtn.active .line:nth-child(1) {
-  top: 50%;
+  top: 67%;
   transform: translateY(-50%) rotate(45deg);
 }
 .burgerBtn.active .line:nth-child(2) {
@@ -189,7 +189,7 @@
     width: 40px;
     height: 40px;
     position: absolute;
-    top: 50%;
+    top: 67%;
     right: 1rem;
     transform: translateY(-50%);
   }
