@@ -114,7 +114,7 @@ const ProfileInfo = () => {
                   <br></br> clear, simple summaries:
                 </p>
                 <ul className={s.ul}>
-                  <li>
+                  <li className={s.li}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -127,7 +127,7 @@ const ProfileInfo = () => {
                     </svg>
                     Chat Summarization
                   </li>
-                  <li>
+                  <li className={s.li}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -140,7 +140,7 @@ const ProfileInfo = () => {
                     </svg>
                     YouTube Video Summarization
                   </li>
-                  <li>
+                  <li className={s.li}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"

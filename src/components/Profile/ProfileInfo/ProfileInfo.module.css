@@ -1,38 +1,23 @@
-/* Загальний колір для заголовків (h1) */
+.container {
+  margin-top: 0;
+}
+.boxr {
+  padding-left: 140px;
+}
 .item {
-  /* font-family: Rubik; */
   color: rgb(7, 15, 58);
   font-size: 50px;
   line-height: 70px;
   font-weight: 400;
 }
-
-/* Блок із заголовком/кнопкою */
-@media screen and (max-width: 111111px) {
-  .rightimg {
-    width: 500px;
-    height: 355px;
-    display: block;
-    margin-left: -175px;
-    user-select: none;
-  }
-}
-
-/* Загальний стиль для <p> */
-p {
-  color: rgb(7, 15, 58);
-}
-
-/* Відступи у параграфі під заголовком */
 .p {
   padding-top: 15px;
   padding-bottom: 20px;
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
+  color: rgb(7, 15, 58);
 }
-
-/* Кнопка */
 .btn {
   user-select: none;
   width: 250px;
@@ -47,22 +32,19 @@ p {
   display: inline-block;
   cursor: pointer;
   position: relative;
-  transition: transform 0.1s ease-in, box-shadow 0.25s ease-in;
   box-shadow: 0 2px 25px rgba(73, 69, 69, 0.51);
+  transition: transform 0.1s ease-in, box-shadow 0.25s ease-in;
 }
-
 .btn:hover {
-  user-select: none;
   background-color: rgba(7, 26, 131, 0.9);
 }
-
-/* Сині іконки списку */
+.btn:active {
+  transform: none !important;
+}
 .svg {
   color: blue;
   margin: 10px;
 }
-
-/* Скидаємо стилі списку */
 li {
   list-style-type: none;
 }
@@ -70,8 +52,6 @@ li {
   margin: 0;
   padding: 0;
 }
-
-/* Зображення у третьому блоці */
 .img1 {
   width: 100%;
   max-width: 350px;
@@ -79,8 +59,9 @@ li {
   margin: 0 auto;
   user-select: none;
 }
-
-/* Основний контейнер із тінню та білим фоном */
+.rightimg {
+  display: block;
+}
 .container2 {
   width: 1140px;
   height: 200px;
@@ -90,8 +71,6 @@ li {
   border-radius: 10px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
-
-/* Обгортка кожного «слайдера» */
 .sliderpadd {
   margin-top: 15px;
   display: flex;
@@ -100,27 +79,22 @@ li {
   height: 100%;
   padding: 10px 0;
 }
-
-/* Стилі для контейнерів іконки + текст */
 .slider1,
 .slider2,
 .slider3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px gray solid;
+  border-right: 1px solid gray;
   height: 100px;
   padding-right: 90px;
   margin-right: -70px;
 }
-
 .slider3 {
-  border: none;
-  margin-right: 0;
+  border-right: none;
   padding-right: 0;
+  margin-right: 0;
 }
-
-/* Іконка */
 .svg2 {
   width: 60px;
   height: 60px;
@@ -130,69 +104,46 @@ li {
   color: rgba(68, 68, 215, 0.822);
   margin-right: 20px;
 }
-
-/* Текстовий блок */
 .svgtext {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-/* Стиль для заголовку */
-.h3 {
-  font-size: 1.5rem;
-  margin-left: -35px;
-  color: #07103a;
-  font-weight: 700;
-}
-
-.h3__2 {
-  font-size: 1.5rem;
-  color: #07103a;
-  font-weight: 700;
-  margin-left: -85px;
-}
-
+.h3,
+.h3__2,
 .h3__3 {
   font-size: 1.5rem;
   color: #07103a;
   font-weight: 700;
+}
+.h3__2 {
+  margin-left: -85px;
+}
+.h3__3 {
   margin-left: -110px;
 }
-
-/* Стиль для підпису */
+.h3 {
+  margin-left: -35px;
+}
 .p2 {
   margin: 0;
   color: #555;
   font-size: 1rem;
 }
-
-/* Останній блок */
 .container3 {
   width: 90%;
   margin: 0 auto 130px auto;
 }
-
-/* Стилі для тексту в фічах */
 .features-section__content h2 {
   margin-bottom: 1rem;
 }
-
 .features-section__content p {
   margin-bottom: 1rem;
 }
-
 .h2 {
   font-weight: 500;
   line-height: 50px;
 }
-
-/* Виправлення зміщення при натисканні */
-.btn:active {
-  transform: none !important;
-}
-
-/* Анімація крутіння при завантаженні */
 .loader {
   border: 4px solid rgba(0, 0, 255, 0.2);
   border-top: 4px solid #3878ff;
@@ -205,10 +156,6 @@ li {
   justify-content: center;
   align-items: center;
 }
-.boxr {
-  padding-left: 140px;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -217,28 +164,30 @@ li {
     transform: rotate(360deg);
   }
 }
-@media screen and (max-width: 1200px) {
-  .boxr {
-    padding-left: 6%;
-  }
-  .rightimg {
-    width: 419px;
-    height: 269px;
-    display: block;
-    margin-left: -126px;
-  }
-  .item {
-    font-size: 280%;
-  }
-  .boxr {
-    padding-left: 190px;
-  }
+.box {
+  display: block;
+}
+
+@media screen and (max-width: 14240px) {
   .container2 {
     width: 90%;
     height: auto;
     margin: 40px auto;
-    padding: 20px;
-    padding-bottom: 45px;
+    padding: 20px 20px 45px;
+  }
+  .item {
+    font-size: 280%;
+  }
+  .rightimg {
+    width: 419px;
+    height: 269px;
+    margin-left: -126px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .boxr {
+    padding-left: 12%;
   }
   .slider1,
   .slider2,
@@ -258,261 +207,117 @@ li {
     margin-left: 0;
   }
 }
-@media screen and (max-width: 1000px) {
+
+/* <=1024px */
+@media screen and (max-width: 1024px) {
+  .rightimg {
+    display: block;
+    max-width: 116%;
+    width: auto;
+    height: auto;
+  }
   .container2 {
     width: 95%;
     margin: 3% auto;
     padding: 2%;
   }
-
   .sliderpadd {
-    margin: 0.5% 0;
-    display: flex;
     justify-content: space-between;
   }
-
   .slider1,
   .slider2,
   .slider3 {
-    flex: 1;
     padding-right: 3%;
     margin-right: 0;
+    flex: 1;
     min-height: 70%;
+    height: auto;
     display: flex;
     align-items: center;
+    margin-bottom: 26px;
   }
-
   .svg2 {
     width: 18%;
     height: auto;
     padding: 4%;
     margin-right: 3%;
-    flex-shrink: 0;
   }
-
   .svgtext {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
   }
-
-  .h3,
-  .h3__2,
-  .h3__3 {
-    font-size: 110%;
-    margin: 0;
-  }
-
   .p2 {
     font-size: 90%;
     margin-top: 2%;
   }
-
   .container3 {
     width: 95%;
     margin: 3% auto 8% auto;
   }
-
   .img1 {
-    width: 90%;
+    width: 69%;
   }
-
   .h2 {
     font-size: 160%;
+    line-height: 1.2;
   }
-
   .features-section__content p {
     font-size: 95%;
   }
-
   .btn {
-    /* display: block; */
     margin: 0 auto;
     width: 80%;
     max-width: 250px;
   }
+}
+@media screen and (max-width: 900px) {
   .rightimg {
-    width: 448px;
-    height: 269px;
-    display: block;
-    margin-left: -157px;
+    max-width: 129%;
+    margin-left: -80px;
   }
 }
-@media screen and (max-width: 930px) {
-  .rightimg {
-    display: block;
-    margin: 0 auto;
-    width: auto;
-    height: auto;
-    max-width: 296px;
-    margin-left: -60px;
-  }
-
-  .boxr {
-    padding-left: 70px;
-  }
-
-  .container2 {
-    width: 95%;
-    padding: 2%;
-  }
-
-  .slider1,
-  .slider2,
-  .slider3 {
-    padding-right: 3%;
-    margin-right: -2%;
-  }
-
-  .svg2 {
-    width: 14%;
-    height: auto;
-    padding: 3.8%;
-    margin: 0 7% 0 0;
-  }
-
-  .h3,
-  .h3__2,
-  .h3__3 {
-    font-size: 110%;
-    margin: 0;
-  }
-
-  .p2 {
-    font-size: 90%;
-  }
-
-  .sliderpadd {
-    padding-bottom: 3%;
-  }
-
+@media screen and (max-width: 865px) {
   .item {
-    font-size: 250%;
+    font-size: 251%;
+    line-height: 45px;
+  }
+  .container {
+    margin-top: -5%;
+  }
+  .btn {
+    margin: 0 auto;
+    width: 76%;
+    max-width: 217px;
+    height: 53px;
   }
 }
-
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
+  .container {
+    margin-top: -10%;
+  }
+  .item {
+    font-size: 220%;
+    line-height: 41px;
+    text-align: center;
+    margin: 3% 0;
+  }
+  .boxr {
+    padding: 0 2%;
+  }
+  .p {
+    text-align: center;
+    padding: 4% 3%;
+    margin-bottom: 0px;
+    font-size: 81%;
+    margin-top: -30px;
+  }
+  .btn {
+    display: block;
+  }
   .container2 {
     width: 98%;
     padding: 1.5%;
     margin: 2.5% auto;
   }
-
-  .sliderpadd {
-    margin: 0.8% 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .slider1,
-  .slider2,
-  .slider3 {
-    padding-right: 3%;
-    margin-right: -2%;
-    height: auto;
-    min-height: 65%;
-    display: flex;
-    align-items: center;
-  }
-
-  .svg2 {
-    width: 20%;
-    height: 9%;
-    padding: 3.8%;
-    margin: 0 7% 0% 0;
-  }
-
-  .svgtext {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .h3,
-  .h3__2,
-  .h3__3 {
-    font-size: 100%;
-    margin: 0;
-  }
-
-  .p2 {
-    font-size: 85%;
-    margin: 0;
-  }
-
-  .container3 {
-    width: 98%;
-    margin: 2% auto 6% auto;
-  }
-
-  .img1 {
-    width: 85%;
-  }
-
-  .h2 {
-    font-size: 140%;
-    line-height: 32px;
-  }
-
-  .features-section__content p {
-    font-size: 90%;
-    text-align: center;
-  }
-
-  .svg {
-    margin: 2%;
-    width: 5%;
-    height: 5%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    margin-top: -5%;
-  }
-
-  .item {
-    font-size: 220%;
-    text-align: center;
-    margin: 3% 0;
-  }
-
-  .boxr {
-    padding: 0 2%;
-  }
-  .p {
-    text-align: center;
-    margin: -43px;
-    padding: 6% 10%;
-    margin-bottom: -10px;
-    font-size: 81%;
-  }
-  .rightimg {
-    max-width: 85%;
-    margin-left: -10%;
-    height: auto;
-  }
-
-  .btn {
-    display: block;
-    margin: 0 auto;
-    width: 80%;
-    max-width: 250px;
-  }
-
-  /* Статистика */
-  .container2 {
-    width: 98%;
-    padding: 1.5%;
-  }
-
-  .sliderpadd {
-    margin: 0.5% 0;
-    flex-wrap: nowrap;
-  }
-
   .slider1,
   .slider2,
   .slider3 {
@@ -520,112 +325,89 @@ li {
     padding: 2%;
     margin: 0;
     min-height: 60%;
-    display: flex;
-    align-items: center;
+    margin-bottom: 26px;
   }
-
   .svg2 {
     width: 20%;
   }
-
   .svgtext {
     text-align: left;
     width: 75%;
   }
-
-  .h3,
-  .h3__2,
-  .h3__3 {
-    font-size: 100%;
-    margin: 0;
-  }
-
   .p2 {
     font-size: 85%;
     margin-top: 2%;
   }
-
   .container3 {
     width: 100%;
     padding: 0 2%;
     margin: 4% 0;
   }
-
   .features-section__content {
-    padding: 2%;
     text-align: center;
+    padding: 2%;
   }
-  .item {
-    line-height: 41px;
+  .rightimg {
+    display: block;
+    margin: 0 auto !important;
+    max-width: 85%;
+    width: auto;
+    height: auto;
   }
 }
 
+/* <=600px */
 @media screen and (max-width: 600px) {
-  .container2 {
-    width: 100%;
-    padding: 1.2%;
-  }
-  .rightimg {
-    max-width: 85%;
-    margin-left: -10%;
-    height: auto;
-  }
-  .item {
-    line-height: 41px;
-  }
   .slider1,
   .slider2,
   .slider3 {
-    padding-right: 2%;
-    margin-right: 0;
-    min-height: 60%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    margin-bottom: 22px;
+    font-size: 1rem;
+    margin-left: 0;
+    margin-left: -6px;
   }
-
   .svg2 {
     width: 22%;
     padding: 4.5%;
   }
-
-  .svgtext {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .h3,
-  .h3__2,
-  .h3__3 {
-    font-size: 95%;
-    margin: 0;
-  }
-
-  .p2 {
-    font-size: 80%;
-    margin-top: 2%;
-  }
-
   .img1 {
     width: calc(70% + (100vw - 600px) * 0.1);
     max-width: 100%;
     min-width: 200px;
-    height: auto;
-    margin: 0 auto;
+  }
+  .container {
+    margin-top: -13%;
+  }
+  .h2 {
+    font-size: 121%;
+  }
+  .p7 {
+    font-size: 13px;
+  }
+  .ul {
+    font-size: 10px;
+    margin: -4px -9px;
+  }
+  .li {
+    font-size: 12px;
+    margin: -10px -2px;
+  }
+  .h3,
+  .h3__2,
+  .h3__3 {
+    font-size: 1rem;
+    margin-left: 7px;
+    margin-bottom: 0;
   }
 }
 
+/* <=450px */
 @media screen and (max-width: 450px) {
-  .container {
-    margin-top: -8%;
-  }
   .p {
-    text-align: center;
     font-size: 15px;
     line-height: 20px;
-    margin: 0px;
     padding: 3% 20%;
+    margin: 0;
   }
   .btn {
     width: 100%;
@@ -635,338 +417,96 @@ li {
     height: 44px;
     margin-left: 23%;
   }
-  .a {
-    list-style-type: none;
-    text-decoration: none;
-  }
-  .container2 {
-    padding: 1%;
-  }
-  .p7 {
-    font-size: 9px;
-    line-height: 12px;
-    margin: 0px;
-    /* padding: 3% 20%; */
-    margin-top: -15px;
-    margin-bottom: 20px;
-    display: -webkit-box;
-    /* -webkit-line-clamp: 2; */
-    -webkit-box-orient: vertical;
-    width: 200px;
-  }
-  .container2 {
-    width: 100%;
-    padding: 1%;
-    margin: 2% auto;
-  }
-  .sliderpadd {
-    margin: 0.5% 0;
-    display: flex;
-    justify-content: space-between;
-  }
-  .slider1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 2.4em; /* Задаем минимальную высоту для 2 строк */
-    line-height: 1.2em; /* Высота одной строки */
-    white-space: pre-line; /* Сохраняем переносы строк */
-  }
   .slider1,
   .slider2,
   .slider3 {
-    padding-right: 2%;
-    margin-right: 0;
-    height: 45px; /* фиксированная высота */
-    min-height: unset; /* убираем min-height */
-    display: flex;
-    align-items: center;
-    border-right: 1px solid rgba(128, 128, 128, 0.3);
-    position: relative; /* для выравнивания бордера */
+    min-height: 45px;
+    margin-left: -10px;
   }
-
-  .slider3 {
-    border-right: none;
-  }
-
-  .svg2 {
-    width: 25px; /* фиксированный размер иконки */
-    height: 25px;
-    padding: 5px;
-    margin-right: 8px;
-  }
-
-  .svgtext {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
-
   .h3,
   .h3__2,
   .h3__3 {
     font-size: 12px;
-    margin: 0;
-    line-height: 1.2;
   }
 
-  .p2 {
-    font-size: 10px;
-    margin: 2px 0 0 0;
-    line-height: 1.2;
+  .container {
+    margin-top: -19%;
   }
-
+  .container2 {
+    margin: 2% auto;
+    padding: 1%;
+  }
   .container3 {
-    width: 100%;
-    margin: 1.5% auto;
     margin-top: 30px;
   }
-
   .img1 {
-    width: 75%;
+    min-width: 177px;
     margin-top: 40px;
   }
-
   .h2 {
-    font-size: 125%;
+    font-size: 110%;
     line-height: 24px;
-    margin-right: -190px;
-    /* padding-left: 100px; */
     text-align: center;
-    margin-bottom: 50px;
+    margin-right: -120%;
+    margin-bottom: 36px;
   }
-
-  .features-section__content {
-    padding: 2%;
-  }
-
   .features-section__content p {
     font-size: 80%;
   }
-
-  .ul li {
-    margin-top: 10px;
-    margin-bottom: 4%;
-    font-size: 8px;
-  }
-
-  .svg {
-    width: 1em;
-    height: 1em;
-  }
   .item {
-    font-size: 190%;
-    line-height: 35px;
-  }
-
-  .p {
-    font-size: 76%;
-    line-height: 1.6;
-    padding: 2% 8%;
-    margin-top: -10px;
-  }
-
-  .rightimg {
-    width: 75%;
-    height: auto;
-  }
-  .container {
-    margin-top: -70px;
-  }
-  .container2 {
-    width: 100%;
-    margin: 1.5% auto;
-    padding: 0.8%;
-    margin-top: 30px;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .container2 {
-    width: 100%;
-    margin: 1.5% auto;
-    padding: 0.8%;
-    margin-top: 30px;
-  }
-
-  .slider1,
-  .slider2,
-  .slider3 {
-    padding-right: 2%;
-    margin-right: -1%;
-    min-height: 50%;
-    padding-right: 1.5%;
-  }
-
-  .svg2 {
-    width: 28%;
-    padding: 5.5%;
+    font-size: 203%;
+    margin-bottom: -2px;
   }
   .p7 {
+    font-size: 12px;
+    margin-top: -20px;
+  }
+  .ul {
     font-size: 10px;
+    padding: 3px -9px;
+    margin: -8px -10px;
+    margin-top: -11px;
+  }
+  .li {
+    font-size: 10px;
+    margin: -14px -2px;
+  }
+}
+@media screen and (max-width: 390px) {
+  .p7 {
+    font-size: 11px;
+    margin-top: -22px;
+  }
+  .ul {
+    font-size: 9px;
+    margin-top: -7px;
+  }
+  .img1 {
+    min-width: 157px;
+    margin-top: 40px;
+  }
+  .li {
+    font-size: 10px;
+    margin: -14px -4px;
+  }
+  .svg2 {
+    width: 26%;
+    padding: 4.5%;
+
+    margin-left: -30%;
   }
   .h3,
   .h3__2,
   .h3__3 {
-    font-size: 85%;
+    font-size: 11px;
+    margin-bottom: -0px;
   }
-
   .p2 {
-    font-size: 70%;
+    font-size: 59%;
   }
-  .container {
-    margin-top: -70px;
+  .slider1,
+  .slider2,
+  .slider3 {
+    margin-left: 17px;
   }
-  .container3 {
-    width: 100%;
-    margin: 1% auto;
-  }
-
-  .img1 {
-    width: 70%;
-  }
-
-  .h2 {
-    font-size: 125%;
-    line-height: 24px;
-    margin-right: -350px;
-    padding-left: 120px;
-  }
-
-  .features-section__content p {
-    font-size: 75%;
-  }
-
-  .ul {
-    margin: 6% 0;
-  }
-
-  .svg {
-    margin: 1%;
-    width: 3.5%;
-    height: 3.5%;
-  }
-  .item {
-    font-size: 160%;
-    line-height: 35px;
-  }
-
-  .p {
-    font-size: 80%;
-    padding: 3% 5%;
-  }
-
-  .btn {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 207px;
-    padding: 3.5% 0;
-    font-size: 81%;
-    height: 50px;
-    margin-left: 14%;
-  }
-
-  .rightimg {
-    width: 100%;
-    height: auto;
-  }
-}
-
-@media (max-width: 767px) {
-  .rightimg {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-  }
-  .box {
-    display: flex;
-    justify-content: center;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .p2 {
-    font-size: 10px;
-    margin: 2px 0 0 0;
-    line-height: 1.2;
-    white-space: pre-line;
-  }
-  /* 
-  .slider1 .p2::before {
-    content: "Active\AUsers";
-    white-space: pre;
-  } */
-
-  .slider1 .p2 {
-    display: none;
-  }
-
-  .slider1 .svgtext {
-    text-align: center;
-  }
-
-  .slider1 .p2 {
-    display: block;
-    white-space: pre-line;
-    content: "Active\AUsers";
-  }
-
-  /* .slider1 .p2:after {
-    content: "Active\AUsers";
-    display: block;
-    white-space: pre-line;
-  } */
-
-  .slider1 .p2 span {
-    display: none;
-  }
-
-  .mobileBreak {
-    display: block;
-  }
-
-  .desktopText {
-    display: none;
-  }
-
-  .activeUsers {
-    display: block;
-    white-space: pre-line;
-  }
-
-  /* .activeUsers::after {
-    content: "Active\AUsers";
-  } */
-
-  .activeUsers span {
-    display: none;
-  }
-
-  .p2 {
-    white-space: pre-line;
-  }
-  .slider1 .p2 {
-    margin: 0;
-    line-height: 1.2;
-    /* text-align: center; */
-  }
-  .slider1 .p2 {
-    white-space: pre;
-    line-height: 1.2;
-  }
-}
-
-.mobileBreak {
-  display: none;
-}
-
-.desktopText {
-  display: block;
-}
-
-.activeUsers {
-  display: inline;
 }
