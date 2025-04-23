@@ -83,7 +83,7 @@ const App = () => {
                   <Route path="/music" element={<Music />} />
                   <Route path="/pricing" element={<Prising />} />
                 </Routes>
-                <Footer />
+                {/* <Footer /> */}
               </div>
             </div>
           </div>
