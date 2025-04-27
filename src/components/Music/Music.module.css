@@ -1,4 +1,3 @@
-/* Основний контейнер */
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -8,14 +7,12 @@
   color: #333;
 }
 
-/* Заголовок */
 .title {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
-/* Блок з чат-сесією */
 .chatSection {
   background-color: #f9f9f9;
   padding: 20px;
@@ -23,7 +20,6 @@
   margin-bottom: 30px;
 }
 
-/* Вікно з повідомленнями */
 .chatWindow {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -33,12 +29,10 @@
   margin-bottom: 10px;
 }
 
-/* Повідомлення у чаті */
 .chatMessage {
   margin-bottom: 10px;
 }
 
-/* Лейбли для користувача та AI */
 .userLabel {
   font-weight: bold;
   color: #333;
@@ -49,17 +43,14 @@
   color: #5b67fb;
 }
 
-/* Текст повідомлення */
 .messageText {
   margin-left: 8px;
 }
 
-/* Контейнер для поля вводу та кнопки */
 .inputContainer {
   display: flex;
 }
 
-/* Поле вводу */
 .input {
   flex: 1;
   padding: 10px;
@@ -69,7 +60,6 @@
   outline: none;
 }
 
-/* Кнопка */
 .button {
   padding: 10px 20px;
   background-color: #5b67fb;
@@ -84,7 +74,6 @@
   background-color: #4a57e4;
 }
 
-/* Інформаційний блок */
 .infoSection {
   background-color: #f1f1f1;
   padding: 20px;

@@ -3,10 +3,7 @@ import s from "./Music.module.css";
 const Music = () => {
   return (
     <div className={s.container}>
-      {/* Заголовок */}
       <h2 className={s.title}>Chat with AI</h2>
-
-      {/* Блок чат-вікна */}
       <div className={s.chatSection}>
         <div className={s.chatWindow}>
           <div className={s.chatMessage}>
@@ -29,8 +26,6 @@ const Music = () => {
           <button className={s.button}>Send</button>
         </div>
       </div>
-
-      {/* Інформаційний блок */}
       <div className={s.infoSection}>
         <h3 className={s.infoTitle}>Why use our AI Chatbot?</h3>
         <ul className={s.infoList}>

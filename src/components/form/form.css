@@ -4,17 +4,14 @@
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .form-group {
   margin-bottom: 1.5rem;
 }
-
 label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
-
 input {
   width: 100%;
   padding: 0.8rem;
@@ -22,20 +19,16 @@ input {
   border-radius: 4px;
   margin-bottom: 0.3rem;
 }
-
 .input-error {
   border-color: #ff4444;
 }
-
 .error-message {
   color: #ff4444;
   font-size: 0.85rem;
 }
-
 .password-input {
   position: relative;
 }
-
 .toggle-password {
   position: absolute;
   right: 10px;
@@ -44,7 +37,6 @@ input {
   border: none;
   cursor: pointer;
 }
-
 .submit-btn {
   width: 100%;
   padding: 1rem;
@@ -54,14 +46,12 @@ input {
   border-radius: 4px;
   cursor: pointer;
 }
-
 @media screen and (max-width: 1000px) {
   .submit-btn {
     display: block;
     margin: 0 auto;
   }
 }
-
 .submit-btn:disabled {
   background-color: #cccccc;
   cursor: not-allowed;

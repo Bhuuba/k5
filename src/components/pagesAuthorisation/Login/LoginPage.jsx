@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import Login from "components/Login";
+import Login from "components/Auth/Login";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../../firebase";
 import "./LoginPage.css";

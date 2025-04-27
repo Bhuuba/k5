@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import "./form.css"; // Імпорт стилів для форми
+import "./form.css";
 
 const Form = ({ title, handleClick }) => {
   const [email, setEmail] = useState("");
@@ -8,13 +8,10 @@ const Form = ({ title, handleClick }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  // Валідація email за допомогою регулярного виразу
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
-
-  // Валідація пароля (мінімум 6 символів)
   const validatePassword = (password) => password.length >= 6;
 
   const handleSubmit = () => {
@@ -36,7 +33,6 @@ const Form = ({ title, handleClick }) => {
     setErrors({ email: "", password: "" });
     handleClick(email, pass);
   };
-
   return (
     <div className="form-container">
       <div className="form-group">

@@ -6,7 +6,6 @@ const LIQPAY_PUBLIC_KEY = "sandbox_i47939971818";
 const LIQPAY_PRIVATE_KEY = "sandbox_fkhm08Wt84msGcbYs9zOfZolm1Hitvtg0388mdu0";
 
 export const createLiqPayForm = () => {
-  // Форматируем дату в нужный формат YYYY-MM-DD HH:mm:ss
   const now = new Date();
   const formattedDate =
     now.getFullYear() +

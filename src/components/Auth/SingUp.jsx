@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import Form from "./form/Form";
+import Form from "../form/Form";
 import { setUser } from "store/slices/userSlice";
 
 const SignUp = () => {
@@ -24,17 +24,17 @@ const SignUp = () => {
           })
         );
 
-        navigate("/"); // Перенаправлення на головну сторінку
+        navigate("/");
       })
       .catch((error) => {
         console.error("Registration error:", error);
-        alert(error.message); // Показуємо помилку користувачу
+        alert(error.message);
       });
   };
 
   return (
-    <div>
-      <Form title="Sing Up" handleClick={handleRegister} />
+    <div className="auth-wrapper">
+      <Form title="Sign up" handleClick={handleRegister} />
     </div>
   );
 };

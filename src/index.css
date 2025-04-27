@@ -11,21 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-/* Завжди залишаємо скроллбар, навіть якщо він не потрібен */
+
 html,
 body {
   overflow-y: scroll;
 }
 
-/* Виправляємо зміщення сторінки при натисканні */
 body {
   margin: 0;
-  padding-right: calc(100vw - 100%); /* Компенсуємо зміну ширини */
+  padding-right: calc(100vw - 100%);
   overflow-x: hidden;
   overflow-y: hidden;
 }
 
-/* Глобальні стилі для запобігання стрибків */
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
@@ -46,7 +44,6 @@ body {
   flex-direction: column;
 }
 
-/* Фіксуємо хедер */
 header {
   position: sticky;
   top: 0;
@@ -55,14 +52,12 @@ header {
   width: 100%;
 }
 
-/* Запобігаємо зміщенню контенту */
 main {
   flex: 1;
   width: 100%;
   position: relative;
 }
 
-/* Фіксуємо контейнер */
 .container {
   width: 100%;
   max-width: 1140px;
@@ -71,7 +66,6 @@ main {
   position: relative;
 }
 
-/* Плавний скрол */
 * {
   scroll-margin-top: 80px;
 }

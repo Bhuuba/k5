@@ -20,7 +20,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "components/MyAcount/PublicRoute";
 import Loader from "./components/Loader/Loader";
 import "./App.css";
-import Footer from "components/futer/Futer";
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 
 const App = () => {
@@ -30,7 +29,6 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Проверяем премиум статус при авторизации
         const isPremium = await checkPremiumStatus(user.uid);
 
         dispatch(
@@ -44,12 +42,11 @@ const App = () => {
       } else {
         dispatch(removeUser());
       }
-      setLoading(false); // аутентифікація завершена
+      setLoading(false);
     });
     return () => unsubscribe();
   }, [dispatch]);
 
-  // Показуємо Loader до завершення аутентифікації
   if (loading) {
     return <Loader />;
   }
@@ -90,7 +87,6 @@ const App = () => {
                   <Route path="/pricing" element={<Prising />} />
                   <Route path="/payment-success" element={<PaymentSuccess />} />
                 </Routes>
-                {/* <Footer /> */}
               </div>
             </div>
           </div>

@@ -17,17 +17,36 @@ async function apiUploadPdf(file) {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch("http://35.159.18.171/api/v1/summarize/pdf", {
-    method: "POST",
-    body: formData,
-  });
+  // Создаем контроллер для отмены запроса по таймауту
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 секунд таймаут
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Server returned ${response.status}: ${errorText}`);
+  try {
+    const response = await fetch("http://3.72.111.24/api/v1/summarize/pdf", {
+      method: "POST",
+      body: formData,
+      signal: controller.signal,
+      headers: {
+        Accept: "application/json",
+        Origin: window.location.origin,
+      },
+      mode: "cors",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server returned ${response.status}: ${errorText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("Request timed out. Please try again.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  return await response.json();
 }
 
 // Функція для збереження запису історії у Firestore

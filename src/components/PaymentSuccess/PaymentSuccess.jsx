@@ -19,7 +19,6 @@ const PaymentSuccess = () => {
 
       const success = await activatePremium(userId);
       if (success) {
-        // Сбрасываем счетчики использования при успешной активации премиума
         dispatch(resetUsage());
       } else {
         alert(
@@ -27,7 +26,6 @@ const PaymentSuccess = () => {
         );
       }
 
-      // Через 3 секунды перенаправляем на главную
       const timer = setTimeout(() => {
         navigate("/");
       }, 3000);

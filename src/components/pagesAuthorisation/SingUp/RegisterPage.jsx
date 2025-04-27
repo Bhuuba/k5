@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import SignUp from "components/SingUp";
-import "./RegisterPage.css"; // Додано стилі
+import SignUp from "components/Auth/SingUp";
+import "./RegisterPage.css";
 
 const RegisterPage = () => {
   return (
@@ -11,7 +11,7 @@ const RegisterPage = () => {
           <h1>Створіть обліковий запис</h1>
           <p>Введіть свої дані для реєстрації</p>
         </div>
-        <SignUp /> {/* Компонент форми реєстрації */}
+        <SignUp />
         <div className="login-redirect">
           <span>Вже маєте акаунт? </span>
           <NavLink to="/login" className="login-link">

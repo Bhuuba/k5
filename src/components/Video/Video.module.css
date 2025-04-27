@@ -174,25 +174,6 @@
   height: 100%;
 }
 
-/* Стилі для історії (додатковий клас, якщо потрібно) */
-.historyList {
-  list-style: none;
-  padding: 0;
-}
-
-.historyItem {
-  padding: 8px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.historyItem a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.historyItem a:hover {
-  text-decoration: underline;
-}
 .copyIcon {
   display: flex;
   justify-content: end;

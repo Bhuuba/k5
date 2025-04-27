@@ -57,7 +57,7 @@ const Video = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://35.159.18.171/api/v1/yt/summary", {
+      const response = await fetch("http://3.72.111.24/api/v1/yt/summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: inputUrl, lang: "en" }),
@@ -156,13 +156,13 @@ const Video = () => {
           </div>
 
           <div className={s.card}>
-            <h3 className={s.summaryTitle}>Brief content</h3>
+            <h3 className={s.summaryTitle}>Summery</h3>
             <p className={s.summaryText}>{summaryData.summary}</p>
           </div>
 
           {summaryData.timestamps.length > 0 && (
             <div className={s.card}>
-              <h3 className={s.summaryTitle}>Key points</h3>
+              <h3 className={s.summaryTitle}>Key steps</h3>
               <ul className={s.timestampList}>
                 {summaryData.timestamps.map((item, index) => (
                   <li
