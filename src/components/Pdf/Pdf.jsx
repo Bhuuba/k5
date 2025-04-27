@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import s from "./Pdf.module.css";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { incrementPdfUsage } from "../../store/slices/usageSlice";
+import { Navigate } from "react-router-dom";
 
 // Ініціалізація Firestore та Auth (припускаємо, що Firebase вже ініціалізовано)
 const db = getFirestore();
@@ -68,20 +71,15 @@ function addHistoryEntry(currentHistory, newEntry) {
 // ==================== Головний компонент Pdf ====================
 
 const Pdf = () => {
-  // Placeholder для keywords, якщо API не поверне дані
-  const placeholderKeywords = ["Keyword 1", "Keyword 2", "Keyword 3"];
-
-  // Стан для попапу копіювання
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState("");
   const [copyPopupVisible, setCopyPopupVisible] = useState(false);
-  // Стан для попапу завантаження (успіх/помилка)
   const [uploadPopup, setUploadPopup] = useState({
     visible: false,
     message: "",
-    type: "success", // "success" або "error"
+    type: "success",
   });
-  // Стан для історії запитів
   const [history, setHistory] = useState([]);
-  // Стан для даних, отриманих з API
   const [summaryData, setSummaryData] = useState({
     summary: "Generated summary will appear here...",
     highlights: [
@@ -91,28 +89,26 @@ const Pdf = () => {
     keywords: [],
   });
   const [loadingFile, setLoadingFile] = useState(false);
-  // Стан для відображення модального вікна History
   const [showHistory, setShowHistory] = useState(false);
 
-  // Ref для прихованого input[type="file"]
   const fileInputRef = useRef(null);
+  const dispatch = useDispatch();
+  const { pdfUsage } = useSelector((state) => state.usage);
+  const { isPremium } = useSelector((state) => state.user);
+  const placeholderKeywords = ["Keyword 1", "Keyword 2", "Keyword 3"];
 
-  // Завантаження історії з localStorage при монтуванні компонента
   useEffect(() => {
     const loadedHistory = loadHistory();
     setHistory(loadedHistory);
   }, []);
 
-  // Збереження історії в localStorage при зміні
   useEffect(() => {
     saveHistory(history);
   }, [history]);
 
-  // Функція для копіювання тексту з попапом
   const handleCopy = async (text) => {
     try {
       await copyText(text);
-      console.log("Text copied successfully!");
       setCopyPopupVisible(true);
       setTimeout(() => {
         setCopyPopupVisible(false);
@@ -122,7 +118,6 @@ const Pdf = () => {
     }
   };
 
-  // Обробка подій drag and drop
   const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -138,14 +133,12 @@ const Pdf = () => {
     }
   };
 
-  // Відкриття вікна вибору файлу
   const handleChooseFile = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // Обробка вибору файлу через input
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -153,13 +146,18 @@ const Pdf = () => {
     }
   };
 
-  // Функція завантаження файлу
   const handleFileUpload = async (file) => {
+    if (!isPremium && pdfUsage >= 10) {
+      setError(
+        "You have reached the limit of free requests. Purchase premium to continue."
+      );
+      return;
+    }
+
     setLoadingFile(true);
     try {
       const data = await apiUploadPdf(file);
 
-      // Обробка keyTopics
       const highlightsArr = Array.isArray(data.keyTopics)
         ? data.keyTopics.map((item) => {
             const firstKey = Object.keys(item)[0];
@@ -167,7 +165,6 @@ const Pdf = () => {
           })
         : [];
 
-      // Аналогічно для keywords
       const keywordsArr = Array.isArray(data.keywords)
         ? data.keywords.map((obj) => {
             const firstKey = Object.keys(obj)[0];
@@ -181,24 +178,20 @@ const Pdf = () => {
         keywords: keywordsArr,
       });
 
-      // Отримуємо перше речення з резюме
       const firstSentence =
         data.pdfSummary && data.pdfSummary.length > 0
           ? data.pdfSummary.split(".")[0] + "."
           : "No summary available";
 
-      // Оновлюємо локальну історію
       const newHistoryEntry = {
         filename: file.name,
         summary: firstSentence,
         timestamp: new Date(),
       };
       setHistory((prev) => [newHistoryEntry, ...prev]);
-
-      // Зберігаємо історію у Firestore
       saveHistoryEntry(file.name, firstSentence);
+      dispatch(incrementPdfUsage());
 
-      // Показ сповіщення про успіх
       setUploadPopup({
         visible: true,
         message: "File uploaded successfully!",
@@ -231,15 +224,17 @@ const Pdf = () => {
     }
   };
 
-  // Якщо API не повернув keywords – використаємо placeholder
   const keywordsToShow =
     summaryData.keywords && summaryData.keywords.length > 0
       ? summaryData.keywords
       : placeholderKeywords;
 
+  if (!isPremium && pdfUsage >= 10) {
+    return <Navigate to="/pricing" />;
+  }
+
   return (
     <div className={s.pageContainer}>
-      {/* Попап копіювання */}
       {copyPopupVisible && (
         <div
           style={{
@@ -257,7 +252,6 @@ const Pdf = () => {
         </div>
       )}
 
-      {/* Попап завантаження */}
       {uploadPopup.visible && (
         <div
           style={{
@@ -275,7 +269,6 @@ const Pdf = () => {
         </div>
       )}
 
-      {/* Верхній рядок: Заголовок та History */}
       <div className={s.headerRow}>
         <h2 className={s.title}>Upload Document</h2>
         <button
@@ -286,7 +279,10 @@ const Pdf = () => {
         </button>
       </div>
 
-      {/* Блок для завантаження файлу: додано drag & drop */}
+      <p className={s.usageCount}>
+        Used: {pdfUsage}/10 {isPremium && "(Premium - unlimited)"}
+      </p>
+
       <div
         className={s.uploadCard}
         onDragOver={handleDragOver}
@@ -310,16 +306,17 @@ const Pdf = () => {
             ref={fileInputRef}
             onChange={handleFileChange}
             style={{ display: "none" }}
+            accept=".pdf,.docx,.txt"
           />
         </div>
         {loadingFile && <p>Processing file...</p>}
       </div>
 
-      {/* Рендеримо карточки лише якщо файл вже завантажено */}
+      {error && <div className={s.error}>{error}</div>}
+
       {!loadingFile &&
         summaryData.summary !== "Generated summary will appear here..." && (
           <>
-            {/* Summary (pdfSummary) */}
             <div className={s.infoCard}>
               <div
                 className={s.copyIcon}
@@ -339,7 +336,6 @@ const Pdf = () => {
               <p className={s.infoText}>{summaryData.summary}</p>
             </div>
 
-            {/* Highlights (keyTopics) */}
             <div className={s.infoCard}>
               <div
                 className={s.copyIcon}
@@ -360,14 +356,13 @@ const Pdf = () => {
                 <ul className={s.highlightList}>
                   {summaryData.highlights.map((item, index) => (
                     <li key={index} className={s.highlightItem}>
-                      {/* Використовуємо Bootstrap іконку; переконайтеся, що Bootstrap Icons підключені */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
                         right="15px"
                         fill="currentColor"
-                        class="bi bi-dot"
+                        className="bi bi-dot"
                         viewBox="0 0 16 16"
                       >
                         <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
@@ -381,7 +376,6 @@ const Pdf = () => {
               )}
             </div>
 
-            {/* Keywords (відображення як "чіпи") */}
             <div className={s.infoCard}>
               <div
                 className={s.copyIcon}
@@ -413,7 +407,6 @@ const Pdf = () => {
           </>
         )}
 
-      {/* Модальне вікно History */}
       {showHistory && (
         <div className={s.modalOverlay}>
           <div className={s.modalContent}>

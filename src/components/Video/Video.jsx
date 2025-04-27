@@ -1,47 +1,30 @@
 import React, { useState, useEffect } from "react";
 import s from "./Video.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { incrementVideoUsage } from "../../store/slices/usageSlice";
+import { Navigate } from "react-router-dom";
 
 const Video = () => {
   const [inputUrl, setInputUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  // Стан для попапу копіювання (відображається у правому верхньому куті)
-  const [copyPopup, setCopyPopup] = useState({ visible: false, message: "" });
   const [videoId, setVideoId] = useState(null);
-  const [startTime, setStartTime] = useState(0); // Стан для стартового часу
-  const [autoplay, setAutoplay] = useState(false); // Стан для автозапуску відео
+  const [startTime, setStartTime] = useState(0);
+  const [autoplay, setAutoplay] = useState(false);
   const [summaryData, setSummaryData] = useState({
     summary: "Loading summary...",
-    timestamps: [
-      { timestamp: "0:00", topic: "Loading..." },
-      { timestamp: "2:30", topic: "Loading..." },
-      { timestamp: "5:45", topic: "Loading..." },
-      { timestamp: "8:15", topic: "Loading..." },
-    ],
-  });
-  const [history, setHistory] = useState(() => {
-    const storedHistory = localStorage.getItem("videoHistory");
-    return storedHistory ? JSON.parse(storedHistory) : [];
+    timestamps: [],
   });
 
-  // Збереження історії в localStorage при зміні
-  useEffect(() => {
-    localStorage.setItem("videoHistory", JSON.stringify(history));
-  }, [history]);
+  const dispatch = useDispatch();
+  const { videoUsage } = useSelector((state) => state.usage);
+  const { isPremium } = useSelector((state) => state.user);
 
-  // Функція для показу попапу (завантаження/помилка)
   const showPopup = (message) => {
     setPopupMessage(message);
     setTimeout(() => setPopupMessage(""), 3000);
   };
 
-  // Функція для показу попапу копіювання
-  const showCopyPopup = (message) => {
-    setCopyPopup({ visible: true, message });
-    setTimeout(() => setCopyPopup({ visible: false, message: "" }), 3000);
-  };
-
-  // Функція для витягання ID відео з YouTube URL
   const extractVideoId = (url) => {
     const match = url.match(
       /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
@@ -50,21 +33,29 @@ const Video = () => {
   };
 
   const handleGenerate = async () => {
-    if (!inputUrl) {
-      showPopup("Please enter a valid URL!");
+    if (!isPremium && videoUsage >= 10) {
+      showPopup(
+        "You have reached the limit of free requests. Purchase premium to continue."
+      );
       return;
     }
+
+    if (!inputUrl) {
+      showPopup("Please enter the URL of the video!");
+      return;
+    }
+
     const id = extractVideoId(inputUrl);
     if (!id) {
-      showPopup("Invalid YouTube URL!");
+      showPopup("Invalid YouTube video URL!");
       return;
     }
+
     setVideoId(id);
-    setAutoplay(false); // відео завантажується на паузі
+    setAutoplay(false);
     setStartTime(0);
     setLoading(true);
 
-    let fetchedSummary = "";
     try {
       const response = await fetch("http://35.159.18.171/api/v1/yt/summary", {
         method: "POST",
@@ -72,189 +63,112 @@ const Video = () => {
         body: JSON.stringify({ url: inputUrl, lang: "en" }),
       });
 
-      if (!response.ok)
-        throw new Error(`Request failed with status ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`Request error: ${response.status}`);
+      }
 
       const data = await response.json();
-      fetchedSummary = data.videoSummary || "No summary available.";
       setSummaryData({
-        summary: fetchedSummary,
+        summary: data.videoSummary || "No content available.",
         timestamps: data.keyTopics || [],
       });
-      showPopup("Video summary loaded successfully!");
+      dispatch(incrementVideoUsage());
+      showPopup("Video analysis successfully completed!");
     } catch (error) {
-      console.error("Error fetching summary:", error);
-      fetchedSummary = "Error loading summary.";
-      setSummaryData({ summary: fetchedSummary, timestamps: [] });
-      showPopup("Error loading summary!");
-    }
-    setLoading(false);
-
-    // Формуємо прев'ю для історії (перші 1-3 слова)
-    const words = fetchedSummary.split(" ").filter(Boolean);
-    const preview = words.length > 0 ? words.slice(0, 3).join(" ") : "error";
-    const newHistoryEntry = {
-      url: inputUrl,
-      preview,
-      timestamp: new Date().toISOString(),
-    };
-    setHistory((prev) => [newHistoryEntry, ...prev]);
-  };
-
-  // Функція копіювання тексту в буфер обміну
-  const handleCopy = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      showCopyPopup("Copied!");
-    } catch (err) {
-      console.error("Copy error:", err);
-      showCopyPopup("Copy failed!");
+      console.error("Error retrieving content:", error);
+      setSummaryData({
+        summary: "Error loading content.",
+        timestamps: [],
+      });
+      showPopup("Video analysis error!");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Функція для розбору таймстемпу "mm:ss" або "h:mm:ss" у секунди
-  const parseTimestamp = (timeStr) => {
-    const parts = timeStr.split(":").map(Number);
-    // Формати можуть бути "mm:ss" або "h:mm:ss"
-    if (parts.length === 2) {
-      return parts[0] * 60 + parts[1];
-    } else if (parts.length === 3) {
-      return parts[0] * 3600 + parts[1] * 60 + parts[2];
-    }
-    return 0;
-  };
-
-  // При кліку по таймстемпу встановлюємо новий стартовий час і увімкнюємо автозапуск
   const handleTimestampClick = (timestamp) => {
-    const seconds = parseTimestamp(timestamp);
+    const parts = timestamp.split(":").map(Number);
+    const seconds =
+      parts.length === 2
+        ? parts[0] * 60 + parts[1]
+        : parts[0] * 3600 + parts[1] * 60 + parts[2];
+
     setStartTime(seconds);
     setAutoplay(true);
   };
 
+  if (!isPremium && videoUsage >= 10) {
+    return <Navigate to="/pricing" />;
+  }
+
   return (
     <div className={s.pageWrapper}>
-      {/* Попап завантаження/помилки */}
       {popupMessage && <div className={s.popup}>{popupMessage}</div>}
 
-      {/* Попап копіювання (праворуч вгорі) */}
-      {copyPopup.visible && (
-        <div
-          style={{
-            position: "fixed",
-            top: "20px",
-            right: "20px",
-            background: "rgba(128,128,128,0.8)",
-            color: "white",
-            padding: "10px 20px",
-            borderRadius: "5px",
-            fontSize: "14px",
-            zIndex: 1000,
-          }}
-        >
-          {copyPopup.message}
-        </div>
-      )}
-
-      {/* Ввід URL */}
       <div className={s.card}>
-        <h2 className={s.title}>Get Video Summary</h2>
+        <h2 className={s.title}>Get video summery</h2>
+        <p className={s.usageCount}>
+          Used: {videoUsage}/10 {isPremium && "(Premium - unlimited)"}
+        </p>
         <div className={s.inputContainer}>
           <input
             type="text"
-            placeholder="Paste YouTube URL here"
+            placeholder="Insert a link to a YouTube video"
             className={s.input}
             value={inputUrl}
             onChange={(e) => setInputUrl(e.target.value)}
           />
-          <button className={s.button} onClick={handleGenerate}>
-            Generate
+          <button
+            className={s.button}
+            onClick={handleGenerate}
+            disabled={loading}
+          >
+            {loading ? "Generating..." : "Generate"}
           </button>
         </div>
       </div>
 
-      {/* Лоадер */}
       {loading && (
         <div className={s.card}>
           <div className={s.loader}>
             <div className={s.spinner}></div>
-            <p>Processing your video...</p>
+            <p>We analyze the video...</p>
           </div>
         </div>
       )}
 
-      {/* Відображення відео та інформації після завантаження */}
       {!loading && videoId && summaryData.summary !== "Loading summary..." && (
         <>
-          {/* Вбудоване відео */}
           <div className={s.card}>
-            <h3 className={s.summaryTitle}>Video Preview</h3>
+            <h3 className={s.summaryTitle}>Video preview</h3>
             <div className={s.videoFrame}>
               <iframe
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=${
                   autoplay ? 1 : 0
                 }&start=${startTime}`}
                 frameBorder="0"
-                allow="autoplay; encrypted-media" // додано autoplay
+                allow="autoplay; encrypted-media"
                 allowFullScreen
                 title="Video Preview"
-                key={`${videoId}-${startTime}-${autoplay}`} // змінюється ключ, щоб перезавантажити iframe
+                key={`${videoId}-${startTime}-${autoplay}`}
               ></iframe>
             </div>
           </div>
 
-          {/* Резюме відео */}
           <div className={s.card}>
-            <div
-              className={s.copyIcon}
-              onClick={() => handleCopy(summaryData.summary)}
-              style={{ cursor: "pointer" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path d="M10 1H2a1 1 0 0 0-1 1v11h1V2h8V1zm5 2H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 11H6V5h8v9z" />
-              </svg>
-            </div>
-            <h3 className={s.summaryTitle}>Video Summary</h3>
+            <h3 className={s.summaryTitle}>Brief content</h3>
             <p className={s.summaryText}>{summaryData.summary}</p>
           </div>
 
-          {/* Key Topics & Timestamps */}
           {summaryData.timestamps.length > 0 && (
             <div className={s.card}>
-              <div
-                className={s.copyIcon}
-                onClick={() =>
-                  handleCopy(
-                    summaryData.timestamps
-                      .map((item) => `${item.timestamp} - ${item.topic}`)
-                      .join("\n")
-                  )
-                }
-                style={{ cursor: "pointer" }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M10 1H2a1 1 0 0 0-1 1v11h1V2h8V1zm5 2H5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 11H6V5h8v9z" />
-                </svg>
-              </div>
-              <h3 className={s.summaryTitle}>Key Topics & Timestamps</h3>
+              <h3 className={s.summaryTitle}>Key points</h3>
               <ul className={s.timestampList}>
                 {summaryData.timestamps.map((item, index) => (
                   <li
                     key={index}
                     className={s.timestampItem}
                     onClick={() => handleTimestampClick(item.timestamp)}
-                    style={{ cursor: "pointer" }}
                   >
                     <strong>{item.timestamp}</strong> - {item.topic}
                   </li>

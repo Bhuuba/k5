@@ -2,18 +2,21 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+import usageReducer from "./slices/usageSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "usage"],
 };
 
-const persistedReducer = persistReducer(persistConfig, userReducer);
+const persistedUserReducer = persistReducer(persistConfig, userReducer);
+const persistedUsageReducer = persistReducer(persistConfig, usageReducer);
 
 export const store = configureStore({
   reducer: {
-    user: persistedReducer,
+    user: persistedUserReducer,
+    usage: persistedUsageReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

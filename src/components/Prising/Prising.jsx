@@ -1,98 +1,79 @@
-import React, { useState } from "react";
+import React from "react";
 import s from "./Prising.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { createLiqPayForm } from "../../utils/liqpay";
+import { useNavigate } from "react-router-dom";
 
 const Prising = () => {
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
+  const { isPremium, isAuth } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-  const handleBuyNow = (plan) => {
-    setSelectedPlan(plan);
-    setShowPopup(true);
+  const initiateLiqPayPayment = () => {
+    if (!isAuth) {
+      navigate("/login");
+      return;
+    }
+
+    const { data, signature } = createLiqPayForm();
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://www.liqpay.ua/api/3/checkout";
+    form.target = "_blank";
+
+    const dataInput = document.createElement("input");
+    dataInput.type = "hidden";
+    dataInput.name = "data";
+    dataInput.value = data;
+
+    const signatureInput = document.createElement("input");
+    signatureInput.type = "hidden";
+    signatureInput.name = "signature";
+    signatureInput.value = signature;
+
+    form.appendChild(dataInput);
+    form.appendChild(signatureInput);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   };
 
   return (
     <div className={s.container}>
-      <h2 className={s.title}>Pricing Plans</h2>
+      <h2 className={s.title}>Tariff plans</h2>
       <div className={s.pricingGrid}>
-        {["Basic", "Pro", "Enterprise"].map((plan, index) => (
-          <div key={index} className={s.pricingCard}>
-            <h3 className={s.planTitle}>{plan}</h3>
-            <p className={s.price}>
-              {plan === "Basic"
-                ? "$9/month"
-                : plan === "Pro"
-                ? "$19/month"
-                : "Contact Us"}
-            </p>
-            <ul className={s.features}>
-              {plan === "Basic" && (
-                <>
-                  <li>Access to basic features</li>
-                  <li>Email support</li>
-                  <li>Single user</li>
-                </>
-              )}
-              {plan === "Pro" && (
-                <>
-                  <li>All Basic features</li>
-                  <li>Priority support</li>
-                  <li>Multi-user access</li>
-                  <li>Advanced analytics</li>
-                </>
-              )}
-              {plan === "Enterprise" && (
-                <>
-                  <li>All Pro features</li>
-                  <li>Dedicated support</li>
-                  <li>Custom solutions</li>
-                  <li>Unlimited users</li>
-                  <li>Advanced integrations</li>
-                </>
-              )}
-            </ul>
-            <button className={s.button} onClick={() => handleBuyNow(plan)}>
-              {plan === "Enterprise" ? "Contact Sales" : "Buy Now"}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {showPopup && (
-        <div className={s.popupOverlay}>
-          <div className={s.popup}>
-            <h2 className={s.popupTitle}>Purchase {selectedPlan} Plan</h2>
-            <form className={s.form}>
-              <input
-                type="text"
-                placeholder="Cardholder Name"
-                className={s.input}
-              />
-              <input
-                type="text"
-                placeholder="Card Number"
-                className={s.input}
-              />
-              <div className={s.row}>
-                <input
-                  type="text"
-                  placeholder="Expiry Date (MM/YY)"
-                  className={s.smallInput}
-                />
-                <input type="text" placeholder="CVV" className={s.smallInput} />
-              </div>
-              <button type="submit" className={s.confirmButton}>
-                Confirm Payment
-              </button>
-            </form>
-            <button
-              className={s.closeButton}
-              onClick={() => setShowPopup(false)}
-            >
-              Close
-            </button>
-          </div>
+        <div className={s.pricingCard}>
+          <h3 className={s.planTitle}>Free</h3>
+          <p className={s.price}>0 ₴</p>
+          <ul className={s.features}>
+            <li>10 PDF parsings</li>
+            <li>10 video analysis</li>
+            <li>Basic support</li>
+          </ul>
+          <button className={s.button} disabled={isPremium}>
+            {isPremium ? "Current plan" : "Free of charge"}
+          </button>
         </div>
-      )}
+
+        <div className={`${s.pricingCard} ${isPremium ? s.activePlan : ""}`}>
+          <h3 className={s.planTitle}>Premium</h3>
+          <p className={s.price}>100 ₴</p>
+          <ul className={s.features}>
+            <li>Unlimited PDF parsing</li>
+            <li>Unlimited video analysis</li>
+            <li>Priority support</li>
+            <li>Access to all functions</li>
+          </ul>
+          <button
+            className={s.button}
+            onClick={initiateLiqPayPayment}
+            disabled={isPremium}
+          >
+            {isPremium ? "Active" : "Buy now"}
+          </button>
+          {isPremium && <div className={s.activeBadge}>Current plan</div>}
+        </div>
+      </div>
     </div>
   );
 };

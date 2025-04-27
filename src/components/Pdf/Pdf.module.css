@@ -242,3 +242,13 @@ ul {
 
 /* Решта стилів (infoCard, etc.) залишається без змін,
    якщо у вас вже були визначені */
+
+.usageCount {
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}

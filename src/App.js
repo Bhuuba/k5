@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider, useDispatch } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser, removeUser } from "./store/slices/userSlice";
+import { checkPremiumStatus } from "./utils/premiumService";
 import Header from "./components/Header/Header";
 import Profile from "./components/Profile/Profile";
 import Videoai from "./components/Video/Video";
@@ -20,19 +21,24 @@ import PublicRoute from "components/MyAcount/PublicRoute";
 import Loader from "./components/Loader/Loader";
 import "./App.css";
 import Footer from "components/futer/Futer";
+import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 
 const App = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // Проверяем премиум статус при авторизации
+        const isPremium = await checkPremiumStatus(user.uid);
+
         dispatch(
           setUser({
             email: user.email,
             token: user.accessToken,
             id: user.uid,
+            isPremium,
           })
         );
       } else {
@@ -51,7 +57,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={<Loader />} persistor={persistor}>
-        <BrowserRouter>
+        <Router>
           <div className="container-fluide">
             <div className="col-xxl-12 col-xl-12 col-lg-12 col-sm-12 col-5">
               <div className="row">
@@ -82,12 +88,13 @@ const App = () => {
                   />
                   <Route path="/music" element={<Music />} />
                   <Route path="/pricing" element={<Prising />} />
+                  <Route path="/payment-success" element={<PaymentSuccess />} />
                 </Routes>
                 {/* <Footer /> */}
               </div>
             </div>
           </div>
-        </BrowserRouter>
+        </Router>
       </PersistGate>
     </Provider>
   );
