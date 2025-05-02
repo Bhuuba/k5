@@ -10,7 +10,7 @@ import { checkPremiumStatus } from "./utils/premiumService";
 import Header from "./components/Header/Header";
 import Profile from "./components/Profile/Profile";
 import Videoai from "./components/Video/Video";
-import Music from "./components/Music/Music";
+import Chat from "./components/Chat/Chat";
 import Prising from "./components/Prising/Prising";
 import Pdf from "./components/Pdf/Pdf";
 import RegisterPage from "./components/pagesAuthorisation/SingUp/RegisterPage";
@@ -83,7 +83,7 @@ const App = () => {
                       </PublicRoute>
                     }
                   />
-                  <Route path="/music" element={<Music />} />
+                  <Route path="/chat" element={<Chat />} />
                   <Route path="/pricing" element={<Prising />} />
                   <Route path="/payment-success" element={<PaymentSuccess />} />
                 </Routes>

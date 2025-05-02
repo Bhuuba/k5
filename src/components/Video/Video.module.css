@@ -188,3 +188,61 @@
   color: #6c757d;
   font-size: 0.9rem;
 }
+/* Контейнер – тепер розтягується на всю ширину батьківського блоку */
+.lengthSelector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-family: sans-serif;
+  width: 100%;
+  max-width: 350px; /* можна змінити під ваш дизайн */
+}
+
+/* Мітка займає мінімум місця */
+.lengthSelector label {
+  font-size: 0.875rem;
+  color: #444;
+  flex-shrink: 0;
+}
+
+/* Селект – розтягується на доступний простір */
+.select {
+  flex-grow: 1;
+  width: 0; /* у поєднанні з flex-grow робить його адаптивним */
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
+  background-color: #fff;
+  font-size: 0.9rem;
+  appearance: none;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+/* Власна стрілка */
+.select::after {
+  content: "▾";
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* При наведенні трохи підсвічуємо */
+.select:hover {
+  border-color: #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* При фокусі – чіткіша рамка */
+.select:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 0 3px rgba(136, 136, 136, 0.2);
+}

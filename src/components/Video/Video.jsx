@@ -1,8 +1,17 @@
+/* eslint-disable no-useless-escape */
+
 import React, { useState, useEffect } from "react";
 import s from "./Video.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { incrementVideoUsage } from "../../store/slices/usageSlice";
+import {
+  incrementVideoUsage,
+  setVideoUsage,
+} from "../../store/slices/usageSlice";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Navigate } from "react-router-dom";
+
+const auth = getAuth();
+const STORAGE_KEY = (uid) => `videoUsage_${uid}`;
 
 const Video = () => {
   const [inputUrl, setInputUrl] = useState("");
@@ -15,10 +24,34 @@ const Video = () => {
     summary: "Loading summary...",
     timestamps: [],
   });
+  const [lengthOption, setLengthOption] = useState("medium"); // short, medium, long
 
   const dispatch = useDispatch();
   const { videoUsage } = useSelector((state) => state.usage);
   const { isPremium } = useSelector((state) => state.user);
+  const [uid, setUid] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUid(user ? user.uid : null);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (uid && !isPremium) {
+      const stored = localStorage.getItem(STORAGE_KEY(uid));
+      if (stored !== null) {
+        dispatch(setVideoUsage(Number(stored)));
+      }
+    }
+  }, [uid, isPremium, dispatch]);
+
+  useEffect(() => {
+    if (uid && !isPremium) {
+      localStorage.setItem(STORAGE_KEY(uid), videoUsage);
+    }
+  }, [uid, videoUsage, isPremium]);
 
   const showPopup = (message) => {
     setPopupMessage(message);
@@ -27,7 +60,7 @@ const Video = () => {
 
   const extractVideoId = (url) => {
     const match = url.match(
-      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+      /(?:youtube\.com\/(?:[^\/]+\/.+\/(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
     );
     return match ? match[1] : null;
   };
@@ -39,12 +72,10 @@ const Video = () => {
       );
       return;
     }
-
     if (!inputUrl) {
       showPopup("Please enter the URL of the video!");
       return;
     }
-
     const id = extractVideoId(inputUrl);
     if (!id) {
       showPopup("Invalid YouTube video URL!");
@@ -55,19 +86,29 @@ const Video = () => {
     setAutoplay(false);
     setStartTime(0);
     setLoading(true);
-
     try {
-      const response = await fetch("http://3.72.111.24/api/v1/yt/summary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: inputUrl, lang: "en" }),
+      // Debug: log payload
+      console.log("Request payload:", {
+        url: inputUrl,
+        lang: "en",
+        summ_length: lengthOption,
       });
 
-      if (!response.ok) {
-        throw new Error(`Request error: ${response.status}`);
-      }
+      const response = await fetch("http://18.184.60.63/api/v1/yt/summary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: inputUrl,
+          lang: "en",
+          summ_length: lengthOption, // renamed field
+        }),
+      });
 
+      console.log("Response status:", response.status, response.statusText);
       const data = await response.json();
+      console.log("Response JSON:", data);
+
+      if (!response.ok) throw new Error(`Request error: ${response.status}`);
       setSummaryData({
         summary: data.videoSummary || "No content available.",
         timestamps: data.keyTopics || [],
@@ -76,10 +117,7 @@ const Video = () => {
       showPopup("Video analysis successfully completed!");
     } catch (error) {
       console.error("Error retrieving content:", error);
-      setSummaryData({
-        summary: "Error loading content.",
-        timestamps: [],
-      });
+      setSummaryData({ summary: "Error loading content.", timestamps: [] });
       showPopup("Video analysis error!");
     } finally {
       setLoading(false);
@@ -92,7 +130,6 @@ const Video = () => {
       parts.length === 2
         ? parts[0] * 60 + parts[1]
         : parts[0] * 3600 + parts[1] * 60 + parts[2];
-
     setStartTime(seconds);
     setAutoplay(true);
   };
@@ -106,10 +143,12 @@ const Video = () => {
       {popupMessage && <div className={s.popup}>{popupMessage}</div>}
 
       <div className={s.card}>
-        <h2 className={s.title}>Get video summery</h2>
-        <p className={s.usageCount}>
-          Used: {videoUsage}/10 {isPremium && "(Premium - unlimited)"}
-        </p>
+        <h2 className={s.title}>Get video summary</h2>
+        {!isPremium ? (
+          <p className={s.usageCount}>Used: {videoUsage}/10</p>
+        ) : (
+          <p></p>
+        )}
         <div className={s.inputContainer}>
           <input
             type="text"
@@ -125,6 +164,20 @@ const Video = () => {
           >
             {loading ? "Generating..." : "Generate"}
           </button>
+        </div>
+        {/* Length selector */}
+        <div className={s.lengthSelector}>
+          <label htmlFor="length-select">Summary length:</label>
+          <select
+            id="length-select"
+            value={lengthOption}
+            onChange={(e) => setLengthOption(e.target.value)}
+            className={s.select}
+          >
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="long">Long</option>
+          </select>
         </div>
       </div>
 
@@ -155,8 +208,18 @@ const Video = () => {
             </div>
           </div>
 
-          <div className={s.card}>
-            <h3 className={s.summaryTitle}>Summery</h3>
+          <div className={`${s.card} position-relative`}>
+            <h3 className={s.summaryTitle}>Summary</h3>
+            <button
+              type="button"
+              className="btn btn-sm position-absolute top-0 end-0 m-2"
+              onClick={() => {
+                navigator.clipboard.writeText(summaryData.summary);
+                showPopup("Summary copied!");
+              }}
+            >
+              <i className="bi bi-clipboard"></i>
+            </button>
             <p className={s.summaryText}>{summaryData.summary}</p>
           </div>
 
