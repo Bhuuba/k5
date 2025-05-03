@@ -5,33 +5,26 @@ import Utf8 from "crypto-js/enc-utf8";
 const LIQPAY_PUBLIC_KEY = "sandbox_i47939971818";
 const LIQPAY_PRIVATE_KEY = "sandbox_fkhm08Wt84msGcbYs9zOfZolm1Hitvtg0388mdu0";
 
-export const createLiqPayForm = () => {
+export const createLiqPayForm = (userId, paymentId) => {
+  if (!userId || !paymentId) {
+    throw new Error("Both userId and paymentId are required");
+  }
+
   const now = new Date();
-  const formattedDate =
-    now.getFullYear() +
-    "-" +
-    String(now.getMonth() + 1).padStart(2, "0") +
-    "-" +
-    String(now.getDate()).padStart(2, "0") +
-    " " +
-    String(now.getHours()).padStart(2, "0") +
-    ":" +
-    String(now.getMinutes()).padStart(2, "0") +
-    ":" +
-    String(now.getSeconds()).padStart(2, "0");
+  const formattedDate = now.toISOString().replace("T", " ").split(".")[0];
 
   const subscriptionData = {
     version: 3,
     public_key: LIQPAY_PUBLIC_KEY,
-    action: "subscribe",
+    action: "pay", // Изменено с 'subscribe' на 'pay' для тестового режима
     amount: "100",
     currency: "UAH",
     description: "Monthly Premium subscription",
-    order_id: Date.now().toString(),
-    subscribe: 1,
-    subscribe_date_start: formattedDate,
-    subscribe_periodicity: "month",
-    result_url: window.location.origin + "/payment-success",
+    order_id: paymentId,
+    sandbox: "1", // Включаем тестовый режим
+    result_url: `${window.location.origin}/payment-success`,
+    server_url: `${window.location.origin}/api/payment-webhook`,
+    info: JSON.stringify({ userId }),
   };
 
   const jsonString = btoa(JSON.stringify(subscriptionData));

@@ -8,28 +8,46 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleRegister = (email, password) => {
+  const handleRegister = async (email, password) => {
     const auth = getAuth();
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("User registered:", user);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
 
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.uid,
-            token: user.accessToken,
-          })
-        );
+      dispatch(
+        setUser({
+          email: user.email,
+          id: user.uid,
+          token: user.accessToken,
+        })
+      );
 
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Registration error:", error);
-        alert(error.message);
-      });
+      navigate("/");
+    } catch (error) {
+      let errorMessage = "";
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage = "Этот email уже зарегистрирован";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "Неверный формат email";
+          break;
+        case "auth/operation-not-allowed":
+          errorMessage = "Регистрация через email временно недоступна";
+          break;
+        case "auth/weak-password":
+          errorMessage = "Слишком слабый пароль";
+          break;
+        default:
+          errorMessage = "Ошибка при регистрации. Попробуйте позже";
+      }
+      throw new Error(errorMessage);
+    }
   };
 
   return (

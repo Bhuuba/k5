@@ -80,6 +80,10 @@
   cursor: not-allowed;
 }
 
+.button[disabled]:hover {
+  transform: none;
+}
+
 @media screen and (max-width: 1000px) {
   .button {
     display: block;
@@ -213,4 +217,13 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.8rem;
+}
+
+.error {
+  color: #ff3333;
+  background-color: #fff2f2;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
 }

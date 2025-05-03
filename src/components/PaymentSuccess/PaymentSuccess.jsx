@@ -1,51 +1,121 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { activatePremium } from "../../utils/premiumService";
-import { resetUsage } from "../../store/slices/usageSlice";
-import s from "./PaymentSuccess.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, setPremium } from "../../store/slices/userSlice";
+import { updateSubscriptionStatus } from "../../utils/premiumService";
+import styles from "./PaymentSuccess.module.css";
+import { useTranslation } from "react-i18next";
 
 const PaymentSuccess = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id: userId, isAuth } = useSelector((state) => state.user);
+  const user = useSelector(selectUser);
+  const [status, setStatus] = useState("processing");
 
   useEffect(() => {
-    const handleSuccess = async () => {
-      if (!isAuth || !userId) {
+    const handlePaymentResult = async () => {
+      if (!user || !user.id) {
         navigate("/login");
         return;
       }
 
-      const success = await activatePremium(userId);
-      if (success) {
-        dispatch(resetUsage());
-      } else {
-        alert(
-          "Произошла ошибка при активации премиум статуса. Пожалуйста, обратитесь в поддержку."
-        );
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentData = {
+          order_id: urlParams.get("order_id") || `test_${Date.now()}`,
+          payment_id: urlParams.get("payment_id") || `test_${Date.now()}`,
+          status: urlParams.get("status") || "success",
+          time: new Date().toISOString(),
+        };
+
+        // Проверяем различные статусы ответа от LiqPay
+        if (paymentData.status === "success") {
+          setStatus("activating");
+          const result = await updateSubscriptionStatus(
+            user.id,
+            "success",
+            paymentData
+          );
+
+          if (result) {
+            setStatus("success");
+            dispatch(setPremium(true));
+          } else {
+            setStatus("error");
+          }
+        } else if (paymentData.status === "failure") {
+          setStatus("failed");
+        } else if (paymentData.status === "error") {
+          setStatus("error");
+        } else if (["canceled", "cancelled"].includes(paymentData.status)) {
+          setStatus("cancelled");
+        } else {
+          setStatus("failed");
+        }
+
+        // Перенаправляем на страницу тарифов через 3 секунды
+        setTimeout(() => {
+          navigate("/pricing");
+        }, 3000);
+      } catch (error) {
+        console.error("Error processing payment:", error);
+        setStatus("error");
       }
-
-      const timer = setTimeout(() => {
-        navigate("/");
-      }, 3000);
-
-      return () => clearTimeout(timer);
     };
 
-    handleSuccess();
-  }, [navigate, userId, isAuth, dispatch]);
+    handlePaymentResult();
+  }, [user, navigate, dispatch]);
+
+  const renderMessage = () => {
+    switch (status) {
+      case "processing":
+        return t("Processing payment...");
+      case "activating":
+        return t("Activating premium status...");
+      case "success":
+        return t(
+          "Thank you for your purchase. Premium status has been activated."
+        );
+      case "cancelled":
+        return t("Payment was cancelled. You can try again at any time.");
+      case "failed":
+        return t("Payment failed. Please try again.");
+      case "error":
+        return t("Error processing payment. Please contact support.");
+      default:
+        return t("Processing...");
+    }
+  };
+
+  const getTitle = () => {
+    switch (status) {
+      case "success":
+        return t("Payment successful!");
+      case "cancelled":
+        return t("Payment cancelled");
+      case "failed":
+        return t("Payment failed");
+      case "error":
+        return t("Payment error");
+      default:
+        return t("Payment processing");
+    }
+  };
 
   return (
-    <div className={s.container}>
-      <div className={s.card}>
-        <h1 className={s.title}>Оплата успешна!</h1>
-        <p className={s.message}>
-          Спасибо за покупку. Премиум статус активирован.
-        </p>
-        <p className={s.redirect}>
-          Вы будете перенаправлены на главную страницу через несколько секунд...
-        </p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>{getTitle()}</h1>
+        <p className={styles.message}>{renderMessage()}</p>
+        {["error", "failed", "cancelled"].includes(status) && (
+          <button
+            className={styles.button}
+            onClick={() => navigate("/pricing")}
+          >
+            {t("Return to Pricing")}
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,81 +1,106 @@
-import React from "react";
-import s from "./Prising.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { createLiqPayForm } from "../../utils/liqpay";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import styles from "./Prising.module.css";
+import { initiatePremiumPurchase } from "../../utils/premiumService";
 
-const Prising = () => {
-  const { isPremium, isAuth } = useSelector((state) => state.user);
+const Pricing = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const initiateLiqPayPayment = () => {
-    if (!isAuth) {
+  const handleSubscribe = async () => {
+    if (!user || !user.id) {
       navigate("/login");
       return;
     }
 
-    const { data, signature } = createLiqPayForm();
+    try {
+      setIsLoading(true);
+      setError(null);
 
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "https://www.liqpay.ua/api/3/checkout";
-    form.target = "_blank";
+      const { data, signature } = await initiatePremiumPurchase(user.id);
 
-    const dataInput = document.createElement("input");
-    dataInput.type = "hidden";
-    dataInput.name = "data";
-    dataInput.value = data;
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "https://www.liqpay.ua/api/3/checkout";
+      form.acceptCharset = "utf-8";
 
-    const signatureInput = document.createElement("input");
-    signatureInput.type = "hidden";
-    signatureInput.name = "signature";
-    signatureInput.value = signature;
+      const dataInput = document.createElement("input");
+      dataInput.type = "hidden";
+      dataInput.name = "data";
+      dataInput.value = data;
 
-    form.appendChild(dataInput);
-    form.appendChild(signatureInput);
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+      const signatureInput = document.createElement("input");
+      signatureInput.type = "hidden";
+      signatureInput.name = "signature";
+      signatureInput.value = signature;
+
+      form.appendChild(dataInput);
+      form.appendChild(signatureInput);
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+      setError(t("Payment initialization failed. Please try again."));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className={s.container}>
-      <h2 className={s.title}>Tariff plans</h2>
-      <div className={s.pricingGrid}>
-        <div className={s.pricingCard}>
-          <h3 className={s.planTitle}>Free</h3>
-          <p className={s.price}>0 ₴</p>
-          <ul className={s.features}>
-            <li>10 PDF parsings</li>
-            <li>10 video analysis</li>
-            <li>Basic support</li>
+    <div className={styles.container}>
+      <h2 className={styles.title}>{t("Tariff plans")}</h2>
+      {error && <div className={styles.error}>{error}</div>}
+      <div className={styles.pricingGrid}>
+        <div className={styles.pricingCard}>
+          <h3 className={styles.planTitle}>{t("Free")}</h3>
+          <p className={styles.price}>0 ₴</p>
+          <ul className={styles.features}>
+            <li>10 {t("PDF parsings")}</li>
+            <li>10 {t("video analysis")}</li>
+            <li>{t("Basic support")}</li>
           </ul>
-          <button className={s.button} disabled={isPremium}>
-            {isPremium ? "Current plan" : "Free of charge"}
+          <button className={styles.button} disabled={user?.isPremium}>
+            {user?.isPremium ? t("Current plan") : t("Free of charge")}
           </button>
         </div>
 
-        <div className={`${s.pricingCard} ${isPremium ? s.activePlan : ""}`}>
-          <h3 className={s.planTitle}>Premium</h3>
-          <p className={s.price}>100 ₴</p>
-          <ul className={s.features}>
-            <li>Unlimited PDF parsing</li>
-            <li>Unlimited video analysis</li>
-            <li>Priority support</li>
-            <li>Access to all functions</li>
+        <div
+          className={`${styles.pricingCard} ${
+            user?.isPremium ? styles.activePlan : ""
+          }`}
+        >
+          <h3 className={styles.planTitle}>{t("Premium")}</h3>
+          <p className={styles.price}>100 ₴</p>
+          <ul className={styles.features}>
+            <li>{t("Unlimited PDF parsing")}</li>
+            <li>{t("Unlimited video analysis")}</li>
+            <li>{t("Priority support")}</li>
+            <li>{t("Access to all functions")}</li>
           </ul>
           <button
-            className={s.button}
-            onClick={initiateLiqPayPayment}
-            disabled={isPremium}
+            className={styles.button}
+            onClick={handleSubscribe}
+            disabled={user?.isPremium || isLoading}
           >
-            {isPremium ? "Active" : "Buy now"}
+            {isLoading
+              ? t("Processing...")
+              : user?.isPremium
+              ? t("Active")
+              : t("Buy now")}
           </button>
-          {isPremium && <div className={s.activeBadge}>Current plan</div>}
+          {user?.isPremium && (
+            <div className={styles.activeBadge}>{t("Current plan")}</div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Prising;
+export default Pricing;

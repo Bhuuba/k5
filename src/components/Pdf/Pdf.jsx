@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import s from "./Pdf.module.css";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -48,6 +49,7 @@ async function copyText(text) {
 }
 
 const Pdf = () => {
+  const { t } = useTranslation();
   const [copyPopupVisible, setCopyPopupVisible] = useState(false);
   const [uploadPopup, setUploadPopup] = useState({
     visible: false,
@@ -168,15 +170,19 @@ const Pdf = () => {
       )}
 
       <div className={s.headerRow}>
-        <h2 className={s.title}>Upload Document</h2>
+        <h2 className={s.title}>{t("Upload Document")}</h2>
         <button
           className={`${s.historyBtn} ${s.animatedButton}`}
           onClick={() => setShowHistory(!showHistory)}
         >
-          History
+          {t("History")}
         </button>
       </div>
-      {!isPremium && <p className={s.usageCount}>Used: {pdfUsage}/10</p>}
+      {!isPremium && (
+        <p className={s.usageCount}>
+          {t("Used")}: {pdfUsage}/10
+        </p>
+      )}
 
       <div
         className={s.uploadCard}
@@ -188,8 +194,8 @@ const Pdf = () => {
         onClick={() => fileInputRef.current?.click()}
       >
         <div className={s.dropArea}>
-          <p>Drag & drop file or</p>
-          <button className={s.chooseFileBtn}>Choose File</button>
+          <p>{t("Drag & drop file or")}</p>
+          <button className={s.chooseFileBtn}>{t("Choose File")}</button>
           <p className={s.formatsText}>PDF, DOCX, TXT</p>
           <input
             type="file"
@@ -201,7 +207,7 @@ const Pdf = () => {
             style={{ display: "none" }}
           />
         </div>
-        {loadingFile && <p>Processing...</p>}
+        {loadingFile && <p>{t("Processing...")}</p>}
       </div>
 
       {summaryData.summary !== "Generated summary will appear here..." &&
@@ -214,7 +220,7 @@ const Pdf = () => {
               >
                 📋
               </div>
-              <h3>Summary</h3>
+              <h3>{t("Summary")}</h3>
               <p>{summaryData.summary}</p>
             </div>
             <div className={s.infoCard}>
@@ -224,7 +230,7 @@ const Pdf = () => {
               >
                 📋
               </div>
-              <h3>Highlights</h3>
+              <h3>{t("Highlights")}</h3>
               {summaryData.highlights.length ? (
                 <ul>
                   {summaryData.highlights.map((h, i) => (
@@ -244,7 +250,7 @@ const Pdf = () => {
                   ))}
                 </ul>
               ) : (
-                <p>No highlights</p>
+                <p>{t("No highlights")}</p>
               )}
             </div>
             <div className={s.infoCard}>
@@ -261,7 +267,7 @@ const Pdf = () => {
               >
                 📋
               </div>
-              <h3>Keywords</h3>
+              <h3>{t("Keywords")}</h3>
               <div className={s.keywordsContainer}>
                 {(summaryData.keywords.length
                   ? summaryData.keywords
@@ -285,7 +291,7 @@ const Pdf = () => {
             >
               ✕
             </button>
-            <h3>History</h3>
+            <h3>{t("History")}</h3>
             {history.length ? (
               <ul>
                 {history.map((e, i) => (
@@ -295,7 +301,7 @@ const Pdf = () => {
                 ))}
               </ul>
             ) : (
-              <p>No history</p>
+              <p>{t("No history")}</p>
             )}
           </div>
         </div>

@@ -1,0 +1,144 @@
+.method-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.method-popup-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease;
+}
+
+.method-popup-content h3 {
+  text-align: center;
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.method-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.method-button {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.method-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.method-button.google {
+  border-color: #4285f4;
+}
+
+.method-button.google:hover {
+  background: rgba(66, 133, 244, 0.05);
+}
+
+.method-button.google .method-icon {
+  color: #4285f4;
+}
+
+.method-button.email {
+  border-color: #34a853;
+}
+
+.method-button.email:hover {
+  background: rgba(52, 168, 83, 0.05);
+}
+
+.method-button.email .method-icon {
+  color: #34a853;
+}
+
+.method-icon {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.method-content {
+  flex: 1;
+}
+
+.method-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.method-description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .method-popup-content {
+    padding: 2rem;
+    margin: 1rem;
+  }
+
+  .method-button {
+    padding: 1rem;
+  }
+
+  .method-icon {
+    width: 40px;
+    height: 40px;
+  }
+}

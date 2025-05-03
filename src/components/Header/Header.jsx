@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import s from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import logo from "./logo.jpg";
@@ -7,6 +8,7 @@ import userIcon from "./user-icon.svg";
 import AuthPopup from "components/AuthPopup/AuthPopup";
 
 const Header = () => {
+  const { t } = useTranslation();
   const { isAuth, email } = useAuth();
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,32 +53,31 @@ const Header = () => {
         </div>
 
         <div className={`${s.navLinks} ${isMenuOpen ? s.active : ""}`}>
-          {/* Умовне відображення для захищених посилань */}
           {isAuth ? (
             <>
               <NavLink to="/videoai" className={s.a} onClick={closeMenu}>
-                YTVideo AI
+                {t("YTVideo AI")}
               </NavLink>
               <NavLink to="/pdfai" className={s.a} onClick={closeMenu}>
-                PDF AI
+                {t("PDF AI")}
               </NavLink>
             </>
           ) : (
             <>
               <span className={s.disabledLink} onClick={handleProtectedClick}>
-                YTVideo AI
+                {t("YTVideo AI")}
               </span>
               <span className={s.disabledLink} onClick={handleProtectedClick}>
-                PDF AI
+                {t("PDF AI")}
               </span>
             </>
           )}
 
           <NavLink to="/chat" className={s.a} onClick={closeMenu}>
-            AI CHATBOTS
+            {t("AI CHATBOTS")}
           </NavLink>
           <NavLink to="/pricing" className={s.a}>
-            Pricing
+            {t("Pricing")}
           </NavLink>
 
           {isAuth ? (
@@ -87,14 +88,14 @@ const Header = () => {
             >
               <img
                 src={userIcon}
-                alt="My Account"
+                alt={t("Profile Settings")}
                 className={s.userIcon}
                 title={email}
               />
             </NavLink>
           ) : (
             <NavLink to="/login" className={s.a} onClick={closeMenu}>
-              <button className={s.btn}>Sign Up</button>
+              <button className={s.btn}>{t("Sign Up")}</button>
             </NavLink>
           )}
         </div>

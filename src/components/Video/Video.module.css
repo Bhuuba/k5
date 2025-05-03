@@ -192,34 +192,37 @@
 .lengthSelector {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  font-family: sans-serif;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
   width: 100%;
-  max-width: 350px; /* можна змінити під ваш дизайн */
 }
 
 /* Мітка займає мінімум місця */
 .lengthSelector label {
-  font-size: 0.875rem;
-  color: #444;
-  flex-shrink: 0;
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+  min-width: 140px;
 }
 
 /* Селект – розтягується на доступний простір */
 .select {
-  flex-grow: 1;
-  width: 0; /* у поєднанні з flex-grow робить його адаптивним */
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 0.375rem;
-  background-color: #fff;
-  font-size: 0.9rem;
-  appearance: none;
-  position: relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 0.95rem;
+  color: #333;
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Власна стрілка */
@@ -236,13 +239,17 @@
 
 /* При наведенні трохи підсвічуємо */
 .select:hover {
-  border-color: #ccc;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-color: #999;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* При фокусі – чіткіша рамка */
 .select:focus {
   outline: none;
-  border-color: #888;
-  box-shadow: 0 0 0 3px rgba(136, 136, 136, 0.2);
+  border-color: #666;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.languageLabel {
+  margin-left: 0;
 }

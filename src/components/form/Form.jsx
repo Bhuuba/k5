@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import "./form.css";
 
 const Form = ({ title, handleClick }) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [serverError, setServerError] = useState("");
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -14,15 +17,16 @@ const Form = ({ title, handleClick }) => {
   };
   const validatePassword = (password) => password.length >= 6;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setServerError("");
     let newErrors = { email: "", password: "" };
 
     if (!validateEmail(email)) {
-      newErrors.email = "Невірний формат email";
+      newErrors.email = t("Невірний формат email");
     }
 
     if (!validatePassword(pass)) {
-      newErrors.password = "Пароль повинен містити мінімум 6 символів";
+      newErrors.password = t("Пароль повинен містити мінімум 6 символів");
     }
 
     if (newErrors.email || newErrors.password) {
@@ -31,10 +35,18 @@ const Form = ({ title, handleClick }) => {
     }
 
     setErrors({ email: "", password: "" });
-    handleClick(email, pass);
+
+    try {
+      await handleClick(email, pass);
+    } catch (error) {
+      setServerError(error.message);
+    }
   };
+
   return (
     <div className="form-container">
+      {serverError && <div className="server-error">{serverError}</div>}
+
       <div className="form-group">
         <label htmlFor="email">Email:</label>
         <input
@@ -42,14 +54,14 @@ const Form = ({ title, handleClick }) => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="example@mail.com"
+          placeholder={t("example@mail.com")}
           className={errors.email ? "input-error" : ""}
         />
         {errors.email && <span className="error-message">{errors.email}</span>}
       </div>
 
       <div className="form-group">
-        <label htmlFor="password">Пароль:</label>
+        <label htmlFor="password">{t("Пароль")}:</label>
         <div className="password-input">
           <input
             id="password"
@@ -77,7 +89,7 @@ const Form = ({ title, handleClick }) => {
         className="submit-btn"
         disabled={!email || !pass}
       >
-        {title}
+        {t(title)}
       </button>
     </div>
   );
