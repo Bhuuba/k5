@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementPdfUsage, setPdfUsage } from "../../store/slices/usageSlice";
 import { Navigate } from "react-router-dom";
+import config from "../../config";
 
 const db = getFirestore();
 const auth = getAuth();
@@ -17,11 +18,14 @@ async function apiUploadPdf(file) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30000);
   try {
-    const response = await fetch("http://18.184.60.63/api/v1/summarize/pdf", {
-      method: "POST",
-      body: formData,
-      signal: controller.signal,
-    });
+    const response = await fetch(
+      `${config.API_URL}${config.endpoints.PDF_SUMMARY}`,
+      {
+        method: "POST",
+        body: formData,
+        signal: controller.signal,
+      }
+    );
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Server returned ${response.status}: ${errorText}`);

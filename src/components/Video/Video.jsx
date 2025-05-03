@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import s from "./Video.module.css";
 import { useSelector, useDispatch } from "react-redux";
+import config from "../../config";
 import {
   incrementVideoUsage,
   setVideoUsage,
@@ -92,15 +93,18 @@ const Video = () => {
     setStartTime(0);
     setLoading(true);
     try {
-      const response = await fetch("http://18.184.60.63/api/v1/yt/summary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: inputUrl,
-          lang: languageOption,
-          summ_length: lengthOption,
-        }),
-      });
+      const response = await fetch(
+        `${config.API_URL}${config.endpoints.VIDEO_SUMMARY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url: inputUrl,
+            lang: languageOption,
+            summ_length: lengthOption,
+          }),
+        }
+      );
 
       const data = await response.json();
 
