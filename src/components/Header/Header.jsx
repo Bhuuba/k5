@@ -18,6 +18,7 @@ const Header = () => {
       e.preventDefault();
       setShowAuthPopup(true);
     }
+    closeMenu();
   };
 
   const toggleMenu = () => {
@@ -76,7 +77,7 @@ const Header = () => {
           <NavLink to="/chat" className={s.a} onClick={closeMenu}>
             {t("AI CHATBOTS")}
           </NavLink>
-          <NavLink to="/pricing" className={s.a}>
+          <NavLink to="/pricing" className={s.a} onClick={closeMenu}>
             {t("Pricing")}
           </NavLink>
 

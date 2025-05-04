@@ -227,6 +227,32 @@ const resources = {
         "Email successfully changed to Google account",
       "Error linking Google account. It may already be linked.":
         "Error linking Google account. It may already be linked.",
+      "Welcome Back": "Welcome Back",
+      "Sign in to your account": "Sign in to your account",
+      "Don't have an account?": "Don't have an account?",
+      or: "or",
+      "Continue with Google": "Continue with Google",
+      "Error Google authorization:": "Error Google authorization:",
+      "Create an account": "Create an account",
+      "Enter your details to register": "Enter your details to register",
+      "Already have an account?": "Already have an account?",
+      "Sign in": "Sign in",
+      Register: "Register",
+      // Auth errors
+      "User with this email not found": "User with this email not found",
+      "Wrong password": "Wrong password",
+      "Invalid email format": "Invalid email format",
+      "Account is blocked": "Account is blocked",
+      "Too many login attempts. Try again later":
+        "Too many login attempts. Try again later",
+      "Login error. Please try again later":
+        "Login error. Please try again later",
+      "This email is already registered": "This email is already registered",
+      "Email registration is temporarily unavailable":
+        "Email registration is temporarily unavailable",
+      "Password is too weak": "Password is too weak",
+      "Registration error. Please try again later":
+        "Registration error. Please try again later",
     },
   },
   uk: {
@@ -453,6 +479,32 @@ const resources = {
         "Пошту успішно змінено на Google акаунт",
       "Error linking Google account. It may already be linked.":
         "Помилка прив'язки Google акаунту. Можливо, він вже прив'язаний.",
+      "Welcome Back": "Ласкаво просимо",
+      "Sign in to your account": "Увійдіть у свій акаунт",
+      "Don't have an account?": "Ще не маєте акаунту?",
+      or: "або",
+      "Continue with Google": "Продовжити з Google",
+      "Error Google authorization:": "Помилка Google авторизації:",
+      "Create an account": "Створіть обліковий запис",
+      "Enter your details to register": "Введіть свої дані для реєстрації",
+      "Already have an account?": "Вже маєте акаунт?",
+      "Sign in": "Увійти",
+      Register: "Зареєструватися",
+      // Auth errors
+      "User with this email not found":
+        "Користувача з такою поштою не знайдено",
+      "Wrong password": "Невірний пароль",
+      "Invalid email format": "Невірний формат пошти",
+      "Account is blocked": "Акаунт заблоковано",
+      "Too many login attempts. Try again later":
+        "Забагато спроб входу. Спробуйте пізніше",
+      "Login error. Please try again later": "Помилка входу. Спробуйте пізніше",
+      "This email is already registered": "Ця пошта вже зареєстрована",
+      "Email registration is temporarily unavailable":
+        "Реєстрація через пошту тимчасово недоступна",
+      "Password is too weak": "Надто слабкий пароль",
+      "Registration error. Please try again later":
+        "Помилка реєстрації. Спробуйте пізніше",
     },
   },
 };

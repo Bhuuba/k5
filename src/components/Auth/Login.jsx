@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Form from "../form/Form";
 import { setUser } from "store/slices/userSlice";
@@ -7,6 +8,7 @@ import { setUser } from "store/slices/userSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogin = async (email, password) => {
     const auth = getAuth();
@@ -32,22 +34,22 @@ const Login = () => {
       let errorMessage = "";
       switch (error.code) {
         case "auth/user-not-found":
-          errorMessage = "Пользователь с таким email не найден";
+          errorMessage = t("User with this email not found");
           break;
         case "auth/wrong-password":
-          errorMessage = "Неверный пароль";
+          errorMessage = t("Wrong password");
           break;
         case "auth/invalid-email":
-          errorMessage = "Неверный формат email";
+          errorMessage = t("Invalid email format");
           break;
         case "auth/user-disabled":
-          errorMessage = "Аккаунт заблокирован";
+          errorMessage = t("Account is blocked");
           break;
         case "auth/too-many-requests":
-          errorMessage = "Слишком много попыток входа. Попробуйте позже";
+          errorMessage = t("Too many login attempts. Try again later");
           break;
         default:
-          errorMessage = "Ошибка при входе. Попробуйте позже";
+          errorMessage = t("Login error. Please try again later");
       }
       throw new Error(errorMessage);
     }
@@ -55,7 +57,7 @@ const Login = () => {
 
   return (
     <div className="auth-wrapper">
-      <Form title="Sign in" handleClick={handleLogin} />
+      <Form title={t("Sign in")} handleClick={handleLogin} />
     </div>
   );
 };
