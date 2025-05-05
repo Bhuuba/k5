@@ -119,8 +119,7 @@ const ProfileInfo = () => {
                   {t("We Provide Many")} <br /> {t("Features You Can Use")}
                 </h2>
                 <p className={s.p7}>
-                  {t("Our features save you time by turning long content into")}{" "}
-                  <br /> {t("clear, simple summaries:")}
+                  {t("Our features save you time by turning long content into")}
                 </p>
                 <ul className={s.ul}>
                   <li className={s.li}>

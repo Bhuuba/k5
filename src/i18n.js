@@ -66,6 +66,8 @@ const resources = {
       "Unlimited PDF parsing": "Unlimited PDF parsing",
       "Unlimited video analysis": "Unlimited video analysis",
       "Access to all functions": "Access to all functions",
+      "Our features save you time by turning long content into":
+        "Our features save you time by turning long content into clear, simple summaries:",
       // AuthPopup translations
       "Для доступу необхідно авторизуватися":
         "Authorization required for access",
@@ -165,8 +167,7 @@ const resources = {
       "We Provide Many": "We Provide Many",
       "Features You Can Use": "Features You Can Use",
       "Our features save you time by turning long content into":
-        "Our features save you time by turning long content into",
-      "clear, simple summaries:": "clear, simple summaries:",
+        "Our features save you time by turning long content into clear, simple summaries:",
       "Chat Summarization": "Chat Summarization",
       "YouTube Video Summarization": "YouTube Video Summarization",
       "Text Document Summarization": "Text Document Summarization",
@@ -253,6 +254,13 @@ const resources = {
       "Password is too weak": "Password is too weak",
       "Registration error. Please try again later":
         "Registration error. Please try again later",
+      "Summary Length": "Summary Length",
+      Language: "Language",
+      Short: "Short",
+      Medium: "Medium",
+      Long: "Long",
+      English: "English",
+      Ukrainian: "Ukrainian",
     },
   },
   uk: {
@@ -318,6 +326,8 @@ const resources = {
       "Unlimited PDF parsing": "Необмежений аналіз PDF",
       "Unlimited video analysis": "Необмежений аналіз відео",
       "Access to all functions": "Доступ до всіх функцій",
+      "Our features save you time by turning long content into":
+        "Наші функції економлять ваш час, перетворюючи довгий контент на чіткі, прості конспекти:",
       // AuthPopup translations
       "Для доступу необхідно авторизуватися":
         "Для доступу необхідно авторизуватися",
@@ -416,9 +426,8 @@ const resources = {
       "Features illustration": "Ілюстрація функцій",
       "We Provide Many": "Ми надаємо багато",
       "Features You Can Use": "функцій, які ви можете використовувати",
-      "Our features save you time, by turning long content into":
-        "Наші функції економлять ваш час, перетворюючи довгий контент на",
-      "clear, simple summaries:": "чіткі, прості конспекти:",
+      "Our features save you time by turning long content into":
+        "Наші функції економлять ваш час, перетворюючи довгий контент на чіткі, прості конспекти:",
       "Chat Summarization": "Конспектування чатів",
       "YouTube Video Summarization": "Конспектування YouTube відео",
       "Text Document Summarization": "Конспектування текстових документів",
@@ -505,6 +514,13 @@ const resources = {
       "Password is too weak": "Надто слабкий пароль",
       "Registration error. Please try again later":
         "Помилка реєстрації. Спробуйте пізніше",
+      "Summary Length": "Довжина резюме",
+      Language: "Мова",
+      Short: "Коротко",
+      Medium: "Середньо",
+      Long: "Довго",
+      English: "Англійська",
+      Ukrainian: "Українська",
     },
   },
 };

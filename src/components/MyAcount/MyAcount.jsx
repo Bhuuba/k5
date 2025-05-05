@@ -75,9 +75,12 @@ const MyAccount = () => {
     if (!subscriptionInfo?.endDate) return 0;
     const now = new Date();
     const endDate = new Date(subscriptionInfo.endDate);
-    const diffTime = Math.abs(endDate - now);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+    // Устанавливаем время в полночь для обоих дат для точного сравнения дней
+    now.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+    const diffTime = endDate - now;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays); // Не позволяем показывать отрицательные дни
   };
 
   const handlePasswordChange = async (formData) => {

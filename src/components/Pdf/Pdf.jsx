@@ -12,30 +12,6 @@ const db = getFirestore();
 const auth = getAuth();
 const STORAGE_KEY = (uid) => `pdfUsage_${uid}`;
 
-async function apiUploadPdf(file) {
-  const formData = new FormData();
-  formData.append("file", file);
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000);
-  try {
-    const response = await fetch(
-      `${config.API_URL}${config.endpoints.PDF_SUMMARY}`,
-      {
-        method: "POST",
-        body: formData,
-        signal: controller.signal,
-      }
-    );
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Server returned ${response.status}: ${errorText}`);
-    }
-    return await response.json();
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
 async function saveHistoryEntry(filename, summarySnippet) {
   const user = auth.currentUser;
   if (user) {
@@ -69,11 +45,40 @@ const Pdf = () => {
   const [loadingFile, setLoadingFile] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [uid, setUid] = useState(null);
+  const [lengthOption, setLengthOption] = useState("medium"); // short, medium, long
+  const [languageOption, setLanguageOption] = useState("en"); // en, uk
 
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const { pdfUsage } = useSelector((state) => state.usage);
   const { isPremium } = useSelector((state) => state.user);
+
+  async function apiUploadPdf(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("lang", languageOption);
+    formData.append("summ_length", lengthOption);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    try {
+      const response = await fetch(
+        `${config.API_URL}${config.endpoints.PDF_SUMMARY}`,
+        {
+          method: "POST",
+          body: formData,
+          signal: controller.signal,
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server returned ${response.status}: ${errorText}`);
+      }
+      return await response.json();
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -125,26 +130,26 @@ const Pdf = () => {
       dispatch(incrementPdfUsage());
       setUploadPopup({
         visible: true,
-        message: "Uploaded successfully!",
+        message: t("Uploaded successfully!"),
         type: "success",
       });
-    } catch {
+    } catch (error) {
       setSummaryData({
-        summary: "Error loading summary.",
-        highlights: ["Error loading highlights."],
-        keywords: ["Error loading keywords."],
+        summary: t("Error loading summary."),
+        highlights: [t("Error loading highlights.")],
+        keywords: [t("Error loading keywords.")],
       });
       setHistory((h) => [
         {
           filename: file.name,
-          summary: "Error loading summary.",
+          summary: t("Error loading summary."),
           timestamp: new Date(),
         },
         ...h,
       ]);
       setUploadPopup({
         visible: true,
-        message: "Error uploading!",
+        message: t("Error uploading!"),
         type: "error",
       });
     } finally {
@@ -161,7 +166,7 @@ const Pdf = () => {
   return (
     <div className={s.pageContainer}>
       {copyPopupVisible && (
-        <div className={`${s.toast} ${s.success}`}>Copied!</div>
+        <div className={`${s.toast} ${s.success}`}>{t("Copied!")}</div>
       )}
       {uploadPopup.visible && (
         <div
@@ -187,6 +192,30 @@ const Pdf = () => {
           {t("Used")}: {pdfUsage}/10
         </p>
       )}
+
+      <div className={s.optionsRow}>
+        <label>
+          {t("Summary Length")}:
+          <select
+            value={lengthOption}
+            onChange={(e) => setLengthOption(e.target.value)}
+          >
+            <option value="short">{t("Short")}</option>
+            <option value="medium">{t("Medium")}</option>
+            <option value="long">{t("Long")}</option>
+          </select>
+        </label>
+        <label>
+          {t("Language")}:
+          <select
+            value={languageOption}
+            onChange={(e) => setLanguageOption(e.target.value)}
+          >
+            <option value="en">{t("English")}</option>
+            <option value="uk">{t("Ukrainian")}</option>
+          </select>
+        </label>
+      </div>
 
       <div
         className={s.uploadCard}
@@ -244,7 +273,7 @@ const Pdf = () => {
                         width="26"
                         height="26"
                         fill="currentColor"
-                        class="bi bi-dot"
+                        className="bi bi-dot"
                         viewBox="0 0 16 16"
                       >
                         <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
@@ -260,23 +289,13 @@ const Pdf = () => {
             <div className={s.infoCard}>
               <div
                 className={s.copyIcon}
-                onClick={() =>
-                  handleCopy(
-                    (summaryData.keywords.length
-                      ? summaryData.keywords
-                      : ["Keyword 1", "Keyword 2"]
-                    ).join(", ")
-                  )
-                }
+                onClick={() => handleCopy(summaryData.keywords.join(", "))}
               >
                 📋
               </div>
               <h3>{t("Keywords")}</h3>
               <div className={s.keywordsContainer}>
-                {(summaryData.keywords.length
-                  ? summaryData.keywords
-                  : ["Keyword 1", "Keyword 2"]
-                ).map((k, i) => (
+                {summaryData.keywords.map((k, i) => (
                   <span key={i} className={s.keyword}>
                     {k}
                   </span>

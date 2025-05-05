@@ -81,7 +81,7 @@ export const checkPremiumStatus = async (userId) => {
     const now = new Date();
     const endDate = userData.subscriptionEndDate?.toDate();
 
-    // Check if subscription is active and not expired
+    // Проверяем статус подписки с учетом точного времени
     const isPremium =
       userData.isPremium &&
       userData.subscriptionStatus === "active" &&
@@ -89,11 +89,16 @@ export const checkPremiumStatus = async (userId) => {
 
     store.dispatch(setPremium(isPremium));
 
-    // If subscription has expired but auto-renewal is on, trigger renewal
+    // Если подписка истекла, но включено автопродление
     if (userData.isAutoRenewal && endDate <= now) {
-      // Here you would typically trigger LiqPay payment
-      // For now, we'll just update the dates
-      const newEndDate = new Date(endDate);
+      const newEndDate = new Date();
+      // Устанавливаем время окончания в то же время дня, что и в предыдущей подписке
+      newEndDate.setHours(
+        endDate.getHours(),
+        endDate.getMinutes(),
+        endDate.getSeconds(),
+        endDate.getMilliseconds()
+      );
       newEndDate.setMonth(newEndDate.getMonth() + 1);
 
       await setDoc(
