@@ -49,8 +49,10 @@ const Chat = () => {
                 </li>
               </ul>
               <a
-                href="https://discord.com/"
+                href="https://discord.com/oauth2/authorize?client_id=1310542652701409290"
                 className="btn btn-dark w-100 rounded-3"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {t("Add to Discord")}
               </a>
@@ -93,8 +95,10 @@ const Chat = () => {
                 </li>
               </ul>
               <a
-                href="https://slack.com/"
+                href="https://app.slack.com/client/T081EFGHR38/D08P2RUMVDJ"
                 className="btn btn-dark w-100 rounded-3"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {t("Add to Slack")}
               </a>
@@ -136,7 +140,12 @@ const Chat = () => {
                   {t("Scheduled updates")}
                 </li>
               </ul>
-              <a href="https://t.me/" className="btn btn-dark w-100 rounded-3">
+              <a
+                href="https://t.me/briefly_summary_bot"
+                className="btn btn-dark w-100 rounded-3"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {t("Add to Telegram")}
               </a>
             </div>
