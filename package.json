@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
+    "ajv": "^6.12.6",
+    "ajv-keywords": "^3.5.2",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "crypto-js": "^4.2.0",
@@ -17,6 +19,7 @@
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
+    "typescript": "4.9.5",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
