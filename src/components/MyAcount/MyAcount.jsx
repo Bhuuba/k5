@@ -177,6 +177,8 @@ const MyAccount = () => {
   return (
     <div className="account-container">
       <div className="account-card">
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
         <div className="account-header">
           <button
             className="settings-button"

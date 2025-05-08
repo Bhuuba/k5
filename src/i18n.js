@@ -93,7 +93,6 @@ const resources = {
       "Payment error": "Payment error",
       "Payment processing": "Payment processing",
       // PDF component additional translations
-      Summary: "Summary",
       "Drag & drop file or": "Drag & drop file or",
       "Choose File": "Choose File",
       "Copied!": "Copied!",
@@ -104,6 +103,8 @@ const resources = {
       "Error loading summary.": "Error loading summary.",
       "Error loading highlights.": "Error loading highlights.",
       "Error loading keywords.": "Error loading keywords.",
+      Summary: "Summary",
+      Summary_alt: "Summary", // Изменяем дублирующийся ключ
       // Video component translations
       "Get video summary": "Get video summary",
       "Insert a link to a YouTube video": "Insert a link to a YouTube video",
@@ -111,6 +112,9 @@ const resources = {
       Generate: "Generate",
       "Summary length": "Summary length",
       "Summary language": "Summary language",
+      Short_video: "Short", // Добавляем уточнение для разных контекстов
+      Medium_video: "Medium",
+      Long_video: "Long",
       "We analyze the video...": "We analyze the video...",
       "Video preview": "Video preview",
       "Key steps": "Key steps",
@@ -247,11 +251,9 @@ const resources = {
         "Registration error. Please try again later",
       "Summary Length": "Summary Length",
       Language: "Language",
-      "Length Options": {
-        Short: "Short",
-        Medium: "Medium",
-        Long: "Long",
-      },
+      Short_sum: "Short", // Добавляем уточнение для разных контекстов
+      Medium_sum: "Medium",
+      Long_sum: "Long",
       English: "English",
       Ukrainian: "Ukrainian",
     },
@@ -346,7 +348,6 @@ const resources = {
       "Payment error": "Помилка платежу",
       "Payment processing": "Обробка платежу",
       // PDF component additional translations
-      Summary: "Короткий зміст",
       "Drag & drop file or": "Перетягніть файл або",
       "Choose File": "Виберіть файл",
       "Copied!": "Скопійовано!",
@@ -357,6 +358,8 @@ const resources = {
       "Error loading summary.": "Помилка завантаження змісту.",
       "Error loading highlights.": "Помилка завантаження основних моментів.",
       "Error loading keywords.": "Помилка завантаження ключових слів.",
+      Summary: "Короткий зміст",
+      Summary_alt: "Короткий зміст", // Изменяем дублирующийся ключ
       // Video component translations
       "Get video summary": "Отримати короткий зміст відео",
       "Insert a link to a YouTube video":
@@ -365,12 +368,11 @@ const resources = {
       Generate: "Згенерувати",
       "Summary length": "Довжина змісту",
       "Summary language": "Мова змісту",
-      Short: "Короткий",
-      Medium: "Середній",
-      Long: "Довгий",
+      Short_video: "Короткий", // Добавляем уточнение для разных контекстов
+      Medium_video: "Середній",
+      Long_video: "Довгий",
       "We analyze the video...": "Ми аналізуємо відео...",
       "Video preview": "Перегляд відео",
-      Summary: "Короткий зміст",
       "Key steps": "Ключові моменти",
       "Loading summary...": "Завантаження змісту...",
       "No content available.": "Контент недоступний.",
@@ -504,9 +506,9 @@ const resources = {
         "Помилка реєстрації. Спробуйте пізніше",
       "Summary Length": "Довжина резюме",
       Language: "Мова",
-      Short: "Коротко",
-      Medium: "Середньо",
-      Long: "Довго",
+      Short_sum: "Коротко", // Добавляем уточнение для разных контекстов
+      Medium_sum: "Середньо",
+      Long_sum: "Довго",
       English: "Англійська",
       Ukrainian: "Українська",
     },
