@@ -1,3 +1,32 @@
+# Проект на React
+
+## Начало работы
+
+1. Установите зависимости:
+
+```bash
+npm install
+```
+
+2. Настройка переменных окружения:
+
+   - Скопируйте файл `.env.example` в новый файл `.env`:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   - Откройте файл `.env` и замените все значения на ваши:
+     - Получите конфигурацию Firebase из вашей [Firebase Console](https://console.firebase.google.com)
+     - Получите ключи LiqPay у администратора проекта
+     - Установите правильный URL API
+
+3. Запуск проекта:
+
+```bash
+npm start
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
