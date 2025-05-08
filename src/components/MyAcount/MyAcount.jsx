@@ -29,7 +29,6 @@ const MyAccount = () => {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
-  const [authMethods] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [subscriptionInfo, setSubscriptionInfo] = useState(null);
