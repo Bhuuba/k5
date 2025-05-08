@@ -1,6 +1,5 @@
 import sha1 from "crypto-js/sha1";
 import Base64 from "crypto-js/enc-base64";
-import Utf8 from "crypto-js/enc-utf8";
 
 const LIQPAY_PUBLIC_KEY = process.env.REACT_APP_LIQPAY_PUBLIC_KEY;
 const LIQPAY_PRIVATE_KEY = process.env.REACT_APP_LIQPAY_PRIVATE_KEY;
@@ -15,9 +14,6 @@ export const createLiqPayForm = (userId, paymentId) => {
       "LiqPay configuration is missing. Please check your environment variables."
     );
   }
-
-  const now = new Date();
-  const formattedDate = now.toISOString().replace("T", " ").split(".")[0];
 
   const subscriptionData = {
     version: 3,

@@ -29,12 +29,9 @@ const MyAccount = () => {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
-  const [authMethods, setAuthMethods] = useState([]);
-  const [formState, setFormState] = useState({
-    error: "",
-    success: "",
-  });
-
+  const [authMethods] = useState([]);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [subscriptionInfo, setSubscriptionInfo] = useState(null);
   const [isEmailProvider, setIsEmailProvider] = useState(false);
 
@@ -44,12 +41,11 @@ const MyAccount = () => {
         const providers = auth.currentUser.providerData.map(
           (p) => p.providerId
         );
-        setAuthMethods(providers);
         setIsEmailProvider(providers.includes("password"));
       }
     };
     checkAuthMethods();
-  }, []);
+  }, [auth.currentUser]);
 
   useEffect(() => {
     const fetchSubscriptionInfo = async () => {
@@ -134,10 +130,7 @@ const MyAccount = () => {
       dispatch(removeUser());
       navigate("/login");
     } catch (error) {
-      setFormState((prev) => ({
-        ...prev,
-        error: t("Error signing out. Please try again."),
-      }));
+      setError(t("Error signing out. Please try again."));
     }
   };
 
@@ -149,22 +142,16 @@ const MyAccount = () => {
     try {
       const success = await cancelSubscription(userId);
       if (success) {
-        setFormState((prev) => ({
-          ...prev,
-          success: t(
-            "Subscription auto-renewal has been cancelled successfully"
-          ),
-        }));
+        setSuccess(
+          t("Subscription auto-renewal has been cancelled successfully")
+        );
         setSubscriptionInfo((prev) => ({
           ...prev,
           isAutoRenewal: false,
         }));
       }
     } catch (error) {
-      setFormState((prev) => ({
-        ...prev,
-        error: t("Error canceling subscription. Please try again."),
-      }));
+      setError(t("Error canceling subscription. Please try again."));
     } finally {
       setShowCancelPopup(false);
     }
@@ -174,22 +161,16 @@ const MyAccount = () => {
     try {
       const success = await restoreSubscription(userId);
       if (success) {
-        setFormState((prev) => ({
-          ...prev,
-          success: t(
-            "Subscription auto-renewal has been restored successfully"
-          ),
-        }));
+        setSuccess(
+          t("Subscription auto-renewal has been restored successfully")
+        );
         setSubscriptionInfo((prev) => ({
           ...prev,
           isAutoRenewal: true,
         }));
       }
     } catch (error) {
-      setFormState((prev) => ({
-        ...prev,
-        error: t("Error restoring subscription. Please try again."),
-      }));
+      setError(t("Error restoring subscription. Please try again."));
     }
   };
 

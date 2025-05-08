@@ -66,7 +66,7 @@ const resources = {
       "Unlimited PDF parsing": "Unlimited PDF parsing",
       "Unlimited video analysis": "Unlimited video analysis",
       "Access to all functions": "Access to all functions",
-      "Our features save you time by turning long content into":
+      "Features save you time":
         "Our features save you time by turning long content into clear, simple summaries:",
       // AuthPopup translations
       "Для доступу необхідно авторизуватися":
@@ -96,7 +96,6 @@ const resources = {
       Summary: "Summary",
       "Drag & drop file or": "Drag & drop file or",
       "Choose File": "Choose File",
-      "Processing...": "Processing...",
       "Copied!": "Copied!",
       "Uploaded successfully!": "Uploaded successfully!",
       "Error uploading!": "Error uploading!",
@@ -112,12 +111,8 @@ const resources = {
       Generate: "Generate",
       "Summary length": "Summary length",
       "Summary language": "Summary language",
-      Short: "Short",
-      Medium: "Medium",
-      Long: "Long",
       "We analyze the video...": "We analyze the video...",
       "Video preview": "Video preview",
-      Summary: "Summary",
       "Key steps": "Key steps",
       "Loading summary...": "Loading summary...",
       "No content available.": "No content available.",
@@ -146,8 +141,6 @@ const resources = {
       "Невірний формат email": "Invalid email format",
       "Пароль повинен містити мінімум 6 символів":
         "Password must be at least 6 characters long",
-      Увійти: "Sign In",
-      Зареєструватися: "Register",
       // Footer translations
       "YT Summary AI": "YT Summary AI",
       "Всі права захищені.": "All rights reserved.",
@@ -166,8 +159,6 @@ const resources = {
       "Features illustration": "Features illustration",
       "We Provide Many": "We Provide Many",
       "Features You Can Use": "Features You Can Use",
-      "Our features save you time by turning long content into":
-        "Our features save you time by turning long content into clear, simple summaries:",
       "Chat Summarization": "Chat Summarization",
       "YouTube Video Summarization": "YouTube Video Summarization",
       "Text Document Summarization": "Text Document Summarization",
@@ -256,9 +247,11 @@ const resources = {
         "Registration error. Please try again later",
       "Summary Length": "Summary Length",
       Language: "Language",
-      Short: "Short",
-      Medium: "Medium",
-      Long: "Long",
+      "Length Options": {
+        Short: "Short",
+        Medium: "Medium",
+        Long: "Long",
+      },
       English: "English",
       Ukrainian: "Ukrainian",
     },
@@ -356,7 +349,6 @@ const resources = {
       Summary: "Короткий зміст",
       "Drag & drop file or": "Перетягніть файл або",
       "Choose File": "Виберіть файл",
-      "Processing...": "Обробка...",
       "Copied!": "Скопійовано!",
       "Uploaded successfully!": "Успішно завантажено!",
       "Error uploading!": "Помилка завантаження!",
@@ -406,8 +398,6 @@ const resources = {
       "Невірний формат email": "Невірний формат email",
       "Пароль повинен містити мінімум 6 символів":
         "Пароль повинен містити мінімум 6 символів",
-      Увійти: "Увійти",
-      Зареєструватися: "Зареєструватися",
       // Footer translations
       "YT Summary AI": "YT Summary AI",
       "Всі права захищені.": "Всі права захищені.",
@@ -426,8 +416,6 @@ const resources = {
       "Features illustration": "Ілюстрація функцій",
       "We Provide Many": "Ми надаємо багато",
       "Features You Can Use": "функцій, які ви можете використовувати",
-      "Our features save you time by turning long content into":
-        "Наші функції економлять ваш час, перетворюючи довгий контент на чіткі, прості конспекти:",
       "Chat Summarization": "Конспектування чатів",
       "YouTube Video Summarization": "Конспектування YouTube відео",
       "Text Document Summarization": "Конспектування текстових документів",

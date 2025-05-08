@@ -9,7 +9,6 @@ import {
 } from "firebase/firestore";
 import { store } from "../store";
 import { setPremium } from "../store/slices/userSlice";
-import i18n from "../i18n";
 import { createLiqPayForm } from "./liqpay";
 
 const db = getFirestore();
