@@ -68,9 +68,8 @@ const Video = () => {
     );
     return match ? match[1] : null;
   };
-
   const handleGenerate = async () => {
-    if (!isPremium && videoUsage >= 10) {
+    if (!isPremium && videoUsage >= config.subscription.freeLimits.video) {
       showPopup(
         t(
           "You have reached the limit of free requests. Purchase premium to continue."
@@ -138,8 +137,7 @@ const Video = () => {
     navigator.clipboard.writeText(text);
     showPopup(t("Copied!"));
   };
-
-  if (!isPremium && videoUsage >= 10) {
+  if (!isPremium && videoUsage >= config.subscription.freeLimits.video) {
     return <Navigate to="/pricing" />;
   }
 
@@ -148,10 +146,10 @@ const Video = () => {
       {popupMessage && <div className={s.popup}>{popupMessage}</div>}
 
       <div className={s.card}>
-        <h2 className={s.title}>{t("Get video summary")}</h2>
+        <h2 className={s.title}>{t("Get video summary")}</h2>{" "}
         {!isPremium ? (
           <p className={s.usageCount}>
-            {t("Used")}: {videoUsage}/10
+            {t("Used")}: {videoUsage}/{config.subscription.freeLimits.video}
           </p>
         ) : (
           <p></p>

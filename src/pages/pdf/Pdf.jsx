@@ -103,9 +103,8 @@ const Pdf = () => {
     setCopyPopupVisible(true);
     setTimeout(() => setCopyPopupVisible(false), 3000);
   };
-
   const handleFileUpload = async (file) => {
-    if (!isPremium && pdfUsage >= 10) return;
+    if (!isPremium && pdfUsage >= config.subscription.freeLimits.pdf) return;
     setLoadingFile(true);
     try {
       const data = await apiUploadPdf(file);
@@ -160,8 +159,8 @@ const Pdf = () => {
       );
     }
   };
-
-  if (!isPremium && pdfUsage >= 10) return <Navigate to="/pricing" />;
+  if (!isPremium && pdfUsage >= config.subscription.freeLimits.pdf)
+    return <Navigate to="/pricing" />;
 
   return (
     <div className={s.pageContainer}>
@@ -177,7 +176,6 @@ const Pdf = () => {
           {uploadPopup.message}
         </div>
       )}
-
       <div className={s.headerRow}>
         <h2 className={s.title}>{t("Upload Document")}</h2>
         <button
@@ -186,13 +184,12 @@ const Pdf = () => {
         >
           {t("History")}
         </button>
-      </div>
+      </div>{" "}
       {!isPremium && (
         <p className={s.usageCount}>
-          {t("Used")}: {pdfUsage}/10
+          {t("Used")}: {pdfUsage}/{config.subscription.freeLimits.pdf}
         </p>
       )}
-
       <div className={s.optionsRow}>
         <label>
           {t("Summary Length")}:
@@ -216,7 +213,6 @@ const Pdf = () => {
           </select>
         </label>
       </div>
-
       <div
         className={s.uploadCard}
         onDragOver={(e) => e.preventDefault()}
@@ -242,7 +238,6 @@ const Pdf = () => {
         </div>
         {loadingFile && <p>{t("Processing...")}</p>}
       </div>
-
       {summaryData.summary !== "Generated summary will appear here..." &&
         !loadingFile && (
           <>
@@ -304,7 +299,6 @@ const Pdf = () => {
             </div>
           </>
         )}
-
       {showHistory && (
         <div className={s.modalOverlay} onClick={() => setShowHistory(false)}>
           <div className={s.modalContent} onClick={(e) => e.stopPropagation()}>

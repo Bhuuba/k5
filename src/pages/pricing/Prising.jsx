@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./Prising.module.css";
 import { initiatePremiumPurchase } from "../../components/Premium/services/premiumService";
+import config from "../../config/config";
 
 const Pricing = () => {
   const { t } = useTranslation();
@@ -11,6 +12,8 @@ const Pricing = () => {
   const user = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { subscription } = config;
 
   const handleSubscribe = async () => {
     if (!user || !user.id) {
@@ -59,11 +62,11 @@ const Pricing = () => {
       <div className={styles.pricingGrid}>
         <div className={styles.pricingCard}>
           <h3 className={styles.planTitle}>{t("Free")}</h3>
-          <p className={styles.price}>0 ₴</p>
+          <p className={styles.price}>0 ₴</p>{" "}
           <ul className={styles.features}>
-            <li>10 {t("PDF parsings")}</li>
-            <li>10 {t("video analysis")}</li>
-            <li>{t("Basic support")}</li>
+            {subscription.features.free.map((feature, index) => (
+              <li key={index}>{t(feature)}</li>
+            ))}
           </ul>
           <button className={styles.button} disabled={user?.isPremium}>
             {user?.isPremium ? t("Current plan") : t("Free of charge")}
@@ -76,12 +79,13 @@ const Pricing = () => {
           }`}
         >
           <h3 className={styles.planTitle}>{t("Premium")}</h3>
-          <p className={styles.price}>100 ₴</p>
+          <p className={styles.price}>
+            {subscription.price.amount} {subscription.price.currency}
+          </p>
           <ul className={styles.features}>
-            <li>{t("Unlimited PDF parsing")}</li>
-            <li>{t("Unlimited video analysis")}</li>
-            <li>{t("Priority support")}</li>
-            <li>{t("Access to all functions")}</li>
+            {subscription.features.premium.map((feature, index) => (
+              <li key={index}>{t(feature)}</li>
+            ))}
           </ul>
           <button
             className={styles.button}

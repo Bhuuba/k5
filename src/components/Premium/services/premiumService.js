@@ -8,6 +8,7 @@ import {
   collection,
 } from "firebase/firestore";
 import { createLiqPayForm } from "../utils/liqpay";
+import config from "../../../config/config";
 
 const db = getFirestore();
 
@@ -24,8 +25,8 @@ export const initiatePremiumPurchase = async (userId) => {
       userId: userId,
       status: "pending",
       createdAt: serverTimestamp(),
-      amount: 100,
-      currency: "UAH",
+      amount: config.subscription.price.amount,
+      currency: config.subscription.price.currency,
     });
 
     // Создаем форму LiqPay после успешного создания записи в Firebase
