@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { setUser, removeUser } from "./store/slices/userSlice";
 import { checkPremiumStatus } from "./components/Premium/utils/premiumUtils";
 
-import Header from "./components/Header/Header";
+import Header from "./pages/Header/Header";
 import AppRoutes from "./routes/AppRoutes";
 import Loader from "./components/Loader/Loader";
 import "./App.css";
