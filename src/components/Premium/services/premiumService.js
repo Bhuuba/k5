@@ -7,7 +7,7 @@ import {
   serverTimestamp,
   collection,
 } from "firebase/firestore";
-import { createLiqPayForm } from "../utils/liqpay";
+import { createLiqPayForm } from "./liqpay";
 import config from "../../../config/config";
 
 const db = getFirestore();

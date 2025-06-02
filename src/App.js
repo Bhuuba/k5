@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "./config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser, removeUser } from "./store/slices/userSlice";
-import { checkPremiumStatus } from "./components/Premium/utils/premiumUtils";
+import { checkPremiumStatus } from "./components/Premium/services/premiumUtils";
 
 import Header from "./pages/Header/Header";
 import AppRoutes from "./routes/AppRoutes";
