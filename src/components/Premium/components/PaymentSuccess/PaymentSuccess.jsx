@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, setPremium } from "../../store/slices/userSlice";
-import { updateSubscriptionStatus } from "../../utils/premiumService";
+import { selectUser, setPremium } from "../../../../store/slices/userSlice";
+import { updateSubscriptionStatus } from "../../services/premiumService";
 import styles from "./PaymentSuccess.module.css";
 import { useTranslation } from "react-i18next";
 
@@ -35,7 +35,9 @@ const PaymentSuccess = () => {
           const result = await updateSubscriptionStatus(
             user.id,
             "success",
-            paymentData
+            paymentData,
+            dispatch,
+            setPremium
           );
 
           if (result) {

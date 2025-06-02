@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import i18n from "../../../../config/i18n";
 import {
   signOut,
   updatePassword,
@@ -10,15 +11,15 @@ import {
   getAuth,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { removeUser } from "../../store/slices/userSlice";
+import { removeUser, setPremium } from "../../../../store/slices/userSlice";
 import {
   cancelSubscription,
   restoreSubscription,
-} from "../../utils/premiumService";
-import i18n from "i18next";
-import CancelSubscriptionPopup from "./CancelSubscriptionPopup";
-import PasswordChangePopup from "./PasswordChangePopup";
-import "./MyAccount.css";
+} from "../../../Premium/services/premiumService";
+import CancelSubscriptionPopup from "./popups/CancelSubscriptionPopup";
+import EmailChangePopup from "./popups/EmailChangePopup";
+import PasswordChangePopup from "./popups/PasswordChangePopup";
+import "./AccountPage.css";
 
 const MyAccount = () => {
   const { t } = useTranslation();
@@ -136,10 +137,9 @@ const MyAccount = () => {
   const handleLanguageChange = (lang) => {
     i18n.changeLanguage(lang);
   };
-
   const handleCancelSubscription = async () => {
     try {
-      const success = await cancelSubscription(userId);
+      const success = await cancelSubscription(userId, dispatch, setPremium);
       if (success) {
         setSuccess(
           t("Subscription auto-renewal has been cancelled successfully")
@@ -155,10 +155,9 @@ const MyAccount = () => {
       setShowCancelPopup(false);
     }
   };
-
   const handleRestoreSubscription = async () => {
     try {
-      const success = await restoreSubscription(userId);
+      const success = await restoreSubscription(userId, dispatch, setPremium);
       if (success) {
         setSuccess(
           t("Subscription auto-renewal has been restored successfully")

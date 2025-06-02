@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import Form from "../form/Form";
+import Form from "./form/Form";
 import { setUser } from "store/slices/userSlice";
 
 const Login = () => {

@@ -7,9 +7,7 @@ import {
   serverTimestamp,
   collection,
 } from "firebase/firestore";
-import { store } from "../store";
-import { setPremium } from "../store/slices/userSlice";
-import { createLiqPayForm } from "./liqpay";
+import { createLiqPayForm } from "../utils/liqpay";
 
 const db = getFirestore();
 
@@ -39,7 +37,12 @@ export const initiatePremiumPurchase = async (userId) => {
   }
 };
 
-export const activatePremium = async (userId, paymentData) => {
+export const activatePremium = async (
+  userId,
+  paymentData,
+  dispatch,
+  setPremium
+) => {
   try {
     const subscriptionEndDate = new Date();
     subscriptionEndDate.setMonth(subscriptionEndDate.getMonth() + 1);
@@ -58,7 +61,7 @@ export const activatePremium = async (userId, paymentData) => {
       { merge: true }
     );
 
-    store.dispatch(setPremium(true));
+    dispatch(setPremium(true));
     return true;
   } catch (error) {
     console.error("Error activating premium:", error);
@@ -66,13 +69,11 @@ export const activatePremium = async (userId, paymentData) => {
   }
 };
 
-export const checkPremiumStatus = async (userId) => {
+export const refreshPremiumStatus = async (userId) => {
   try {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
-
     if (!userDoc.exists()) {
-      store.dispatch(setPremium(false));
       return false;
     }
 
@@ -80,18 +81,13 @@ export const checkPremiumStatus = async (userId) => {
     const now = new Date();
     const endDate = userData.subscriptionEndDate?.toDate();
 
-    // Проверяем статус подписки с учетом точного времени
     const isPremium =
       userData.isPremium &&
       userData.subscriptionStatus === "active" &&
       endDate > now;
 
-    store.dispatch(setPremium(isPremium));
-
-    // Если подписка истекла, но включено автопродление
     if (userData.isAutoRenewal && endDate <= now) {
       const newEndDate = new Date();
-      // Устанавливаем время окончания в то же время дня, что и в предыдущей подписке
       newEndDate.setHours(
         endDate.getHours(),
         endDate.getMinutes(),
@@ -116,23 +112,17 @@ export const checkPremiumStatus = async (userId) => {
   }
 };
 
-export const cancelSubscription = async (userId) => {
+export const cancelSubscription = async (userId, dispatch, setPremium) => {
   try {
     const db = getFirestore();
     const userRef = doc(db, "users", userId);
 
     await updateDoc(userRef, {
       isAutoRenewal: false,
-    });
-
-    // Получаем текущие данные пользователя
+    }); // Получаем текущие данные пользователя
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
-
-    // Обновляем состояние в Redux без перезагрузки страницы
-    store.dispatch(setPremium(userData.isPremium));
-
-    return true;
+    return userData.isPremium;
   } catch (error) {
     console.error("Error canceling subscription:", error);
     throw error;
@@ -167,7 +157,7 @@ export const handleSubscriptionCancel = async (userId) => {
   }
 };
 
-export const restoreSubscription = async (userId) => {
+export const restoreSubscription = async (userId, dispatch, setPremium) => {
   try {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
@@ -202,7 +192,9 @@ export const restoreSubscription = async (userId) => {
 export const updateSubscriptionStatus = async (
   userId,
   paymentStatus,
-  paymentData
+  paymentData,
+  dispatch,
+  setPremium
 ) => {
   try {
     const userRef = doc(db, "users", userId);
@@ -247,7 +239,7 @@ export const updateSubscriptionStatus = async (
         { merge: true }
       );
 
-      store.dispatch(setPremium(true));
+      dispatch(setPremium(true));
       return true;
     }
 

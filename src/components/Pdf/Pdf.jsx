@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementPdfUsage, setPdfUsage } from "../../store/slices/usageSlice";
 import { Navigate } from "react-router-dom";
-import config from "../../config";
+import config from "../../config/config";
 
 const db = getFirestore();
 const auth = getAuth();

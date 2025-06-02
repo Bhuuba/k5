@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import s from "./Video.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import config from "../../config";
+import config from "../../config/config";
 import {
   incrementVideoUsage,
   setVideoUsage,
