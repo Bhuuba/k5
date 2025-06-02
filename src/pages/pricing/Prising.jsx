@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./Prising.module.css";
-import { initiatePremiumPurchase } from "../Premium/services/premiumService";
+import { initiatePremiumPurchase } from "../../components/Premium/services/premiumService";
 
 const Pricing = () => {
   const { t } = useTranslation();
