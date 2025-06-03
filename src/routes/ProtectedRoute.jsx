@@ -5,8 +5,9 @@ import { useAuth } from "../components/Authentication/hooks/use-auth";
 import AuthPopup from "../components/Authentication/components/AuthPopup";
 
 const ProtectedRoute = () => {
-  const { isAuth } = useAuth();
-  return isAuth ? <Outlet /> : <AuthPopup />;
+  const auth = useAuth();
+  console.log("ProtectedRoute - Auth state:", auth);
+  return auth.isAuth ? <Outlet /> : <AuthPopup />;
 };
 
 export default ProtectedRoute;

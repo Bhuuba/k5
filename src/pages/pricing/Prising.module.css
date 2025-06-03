@@ -1,94 +1,132 @@
 /* Основний контейнер сторінки */
 .container {
-  margin: 0 auto;
+  min-height: 100vh;
   padding: 40px 20px;
-  font-family: Arial, sans-serif;
-  background-color: #fff;
-  color: #333;
-  text-align: center;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Заголовок */
 .title {
   font-size: 2rem;
-  margin-bottom: 40px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0f2851;
+  text-align: center;
 }
 
 /* Контейнер карток */
 .pricingGrid {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }
 
 /* Оформлення тарифної картки */
 .pricingCard {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  width: 300px;
-  text-align: center;
-  transition: transform 0.3s ease, border 0.3s ease;
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .pricingCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  border-color: #0f2851;
+  box-shadow: 0 8px 24px rgba(15, 40, 81, 0.1);
+}
+
+.activePlan {
+  border: 1px solid #0f2851;
+  box-shadow: 0 0 20px rgba(15, 40, 81, 0.15);
 }
 
 /* Заголовок плану */
 .planTitle {
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0f2851;
+  position: relative;
+  display: inline-block;
+}
+
+.planTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: #0f2851;
+  border-radius: 1px;
 }
 
 /* Ціна */
 .price {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 20px 0;
-  color: #5b67fb;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 1.5rem 0;
+  color: #0f2851;
 }
 
 /* Список можливостей */
 .features {
   list-style: none;
   padding: 0;
-  margin-bottom: 20px;
+  margin: 1.5rem 0;
 }
 
 .features li {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.features li::before {
+  content: "✓";
+  margin-right: 10px;
+  color: #0f2851;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 /* Кнопка */
 .button {
-  padding: 10px 20px;
-  background-color: #5b67fb;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
   color: #fff;
+  background: #0f2851;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 80%;
-  max-width: 200px;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background: #1a365d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 40, 81, 0.2);
 }
 
 .button:disabled {
-  background-color: #cccccc;
+  opacity: 0.7;
   cursor: not-allowed;
-}
-
-.button[disabled]:hover {
+  background: #94a3b8;
   transform: none;
-}
-
-@media screen and (max-width: 1000px) {
-  .button {
-    display: block;
-    margin: 0 auto;
-  }
+  box-shadow: none;
 }
 
 /* Попап */
@@ -204,26 +242,106 @@
 }
 
 .activePlan {
-  border: 2px solid #5b67fb;
-  transform: scale(1.02);
+  animation: glow 2s infinite;
 }
 
-.activeBadge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #5b67fb;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8rem;
+/* Анимация для активного плана */
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(15, 40, 81, 0.2);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(15, 40, 81, 0.3);
+  }
 }
 
 .error {
-  color: #ff3333;
-  background-color: #fff2f2;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
   padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  margin-bottom: 2rem;
   text-align: center;
+}
+
+.ribbon {
+  position: absolute;
+  top: 12px;
+  right: -25px;
+  background: #0f2851;
+  color: white;
+  padding: 4px 20px;
+  transform: rotate(45deg);
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  background: rgba(15, 40, 81, 0.1);
+  border-radius: 50%;
+  color: #0f2851;
+}
+
+.period {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-left: 4px;
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.activeButton {
+  background: #ffffff;
+  border: 1px solid #0f2851;
+  color: #0f2851;
+}
+
+.activeButton:hover {
+  background: rgba(15, 40, 81, 0.05);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 30px 16px;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+
+  .planTitle {
+    font-size: 1.35rem;
+  }
+
+  .price {
+    font-size: 2.25rem;
+  }
 }

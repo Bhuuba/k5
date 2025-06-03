@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import Form from "./form/Form";
+import SignUpForm from "./form/SignUpForm";
 import { setUser } from "store/slices/userSlice";
 
 const SignUp = () => {
@@ -12,6 +12,7 @@ const SignUp = () => {
 
   const handleRegister = async (email, password) => {
     const auth = getAuth();
+    console.log("Starting registration process...");
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -19,6 +20,7 @@ const SignUp = () => {
         email,
         password
       );
+      console.log("Registration successful");
       const user = userCredential.user;
 
       dispatch(
@@ -28,25 +30,27 @@ const SignUp = () => {
           token: user.accessToken,
         })
       );
+      console.log("User state updated");
 
       navigate("/");
     } catch (error) {
+      console.error("Registration error:", error.code, error.message);
       let errorMessage = "";
       switch (error.code) {
         case "auth/email-already-in-use":
-          errorMessage = t("This email is already registered");
+          errorMessage = t("Ця електронна пошта вже зареєстрована");
           break;
         case "auth/invalid-email":
-          errorMessage = t("Invalid email format");
+          errorMessage = t("Невірний формат електронної пошти");
           break;
         case "auth/operation-not-allowed":
-          errorMessage = t("Email registration is temporarily unavailable");
+          errorMessage = t("Реєстрація через email тимчасово недоступна");
           break;
         case "auth/weak-password":
-          errorMessage = t("Password is too weak");
+          errorMessage = t("Пароль занадто слабкий");
           break;
         default:
-          errorMessage = t("Registration error. Please try again later");
+          errorMessage = t("Помилка реєстрації. Будь ласка, спробуйте пізніше");
       }
       throw new Error(errorMessage);
     }
@@ -54,7 +58,7 @@ const SignUp = () => {
 
   return (
     <div className="auth-wrapper">
-      <Form title={t("Sign up")} handleClick={handleRegister} />
+      <SignUpForm title={t("Зареєструватися")} handleClick={handleRegister} />
     </div>
   );
 };

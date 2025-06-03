@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Login from "../components/Login";
@@ -7,13 +8,48 @@ import "./LoginPage.css";
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const [error, setError] = useState("");
 
   const handleGoogleLogin = async () => {
+    setError(""); // Сбрасываем ошибку при новой попытке
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      console.log("Starting Google sign in...");
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google sign in successful:", result.user);
     } catch (error) {
-      console.error(t("Error Google authorization:"), error);
+      console.error("Google auth error:", {
+        code: error.code,
+        message: error.message,
+      });
+
+      // Определяем тип ошибки и показываем соответствующее сообщение
+      switch (error.code) {
+        case "auth/popup-closed-by-user":
+          setError(t("Вхід через Google було скасовано. Спробуйте ще раз."));
+          break;
+        case "auth/popup-blocked":
+          setError(
+            t(
+              "Спливаюче вікно було заблоковано браузером. Будь ласка, дозвольте спливаючі вікна та спробуйте знову."
+            )
+          );
+          break;
+        case "auth/account-exists-with-different-credential":
+          setError(
+            t(
+              "Обліковий запис з цією електронною поштою вже існує з іншим способом входу."
+            )
+          );
+          break;
+        case "auth/network-request-failed":
+          setError(
+            t("Помилка мережі. Перевірте ваше з'єднання та спробуйте знову.")
+          );
+          break;
+        default:
+          setError(t("Помилка при вході через Google. Спробуйте пізніше."));
+      }
     }
   };
 
@@ -24,6 +60,8 @@ const LoginPage = () => {
           <h1>{t("Welcome Back")}</h1>
           <p>{t("Sign in to your account")}</p>
         </div>
+
+        {error && <div className="auth-error-message">{error}</div>}
 
         <Login />
 

@@ -24,7 +24,6 @@ const Pricing = () => {
     try {
       setIsLoading(true);
       setError(null);
-
       const { data, signature } = await initiatePremiumPurchase(user.id);
 
       const form = document.createElement("form");
@@ -57,50 +56,66 @@ const Pricing = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>{t("Tariff plans")}</h2>
+      <h1 className={styles.title}>{t("Обрати свій план")}</h1>
       {error && <div className={styles.error}>{error}</div>}
+
       <div className={styles.pricingGrid}>
+        {/* Free Plan Card */}
         <div className={styles.pricingCard}>
-          <h3 className={styles.planTitle}>{t("Free")}</h3>
-          <p className={styles.price}>0 ₴</p>{" "}
+          <div className={styles.ribbon}>{t("Базовий")}</div>
+          <h2 className={styles.planTitle}>{t("Free")}</h2>
+          <p className={styles.price}>0 ₴</p>
           <ul className={styles.features}>
             {subscription.features.free.map((feature, index) => (
-              <li key={index}>{t(feature)}</li>
+              <li key={index}>
+                <span className={styles.featureIcon}>✓</span>
+                {t(feature)}
+              </li>
             ))}
           </ul>
           <button className={styles.button} disabled={user?.isPremium}>
-            {user?.isPremium ? t("Current plan") : t("Free of charge")}
+            {user?.isPremium ? t("Поточний план") : t("Розпочати безкоштовно")}
           </button>
         </div>
 
+        {/* Premium Plan Card */}
         <div
           className={`${styles.pricingCard} ${
             user?.isPremium ? styles.activePlan : ""
           }`}
         >
-          <h3 className={styles.planTitle}>{t("Premium")}</h3>
+          <div className={styles.ribbon}>{t("Premium")}</div>
+          <h2 className={styles.planTitle}>{t("Premium")}</h2>
           <p className={styles.price}>
             {subscription.price.amount} {subscription.price.currency}
+            <span className={styles.period}>{t("/місяць")}</span>
           </p>
           <ul className={styles.features}>
             {subscription.features.premium.map((feature, index) => (
-              <li key={index}>{t(feature)}</li>
+              <li key={index}>
+                <span className={styles.featureIcon}>✓</span>
+                {t(feature)}
+              </li>
             ))}
           </ul>
           <button
-            className={styles.button}
+            className={`${styles.button} ${
+              user?.isPremium ? styles.activeButton : ""
+            }`}
             onClick={handleSubscribe}
             disabled={user?.isPremium || isLoading}
           >
-            {isLoading
-              ? t("Processing...")
-              : user?.isPremium
-              ? t("Active")
-              : t("Buy now")}
+            {isLoading ? (
+              <>
+                <span className={styles.loadingSpinner}></span>
+                {t("Обробка...")}
+              </>
+            ) : user?.isPremium ? (
+              t("Активний")
+            ) : (
+              t("Оформити Premium")
+            )}
           </button>
-          {user?.isPremium && (
-            <div className={styles.activeBadge}>{t("Current plan")}</div>
-          )}
         </div>
       </div>
     </div>
