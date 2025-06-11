@@ -9,8 +9,8 @@ import reportWebVitals from "./reportWebVitals";
 
 // Инициализируем Firebase Auth
 const auth = getAuth();
-auth.onAuthStateChanged((user) => {
-  console.log("Initial auth state:", user ? "User is signed in" : "No user");
+auth.onAuthStateChanged(() => {
+  // Auth state initialized
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import styles from "./Prising.module.css";
+import styles from "./Pricing.module.css";
 import { initiatePremiumPurchase } from "../../components/Premium/services/premiumService";
 import config from "../../config/config";
 

@@ -12,16 +12,13 @@ const Login = () => {
 
   const handleLogin = async (email, password) => {
     const auth = getAuth();
-    console.log("Attempting to log in with email:", email);
 
     try {
-      console.log("Calling signInWithEmailAndPassword...");
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log("Login successful, user:", userCredential.user);
       const user = userCredential.user;
 
       dispatch(
@@ -31,7 +28,6 @@ const Login = () => {
           token: user.accessToken,
         })
       );
-      console.log("User state updated in Redux");
 
       navigate("/");
     } catch (error) {

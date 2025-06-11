@@ -16,30 +16,17 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
-console.log("Initializing Firebase with config:", {
-  authDomain: firebaseConfig.authDomain,
-  projectId: firebaseConfig.projectId,
-});
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-console.log("Firebase app initialized");
+
 
 setPersistence(auth, browserLocalPersistence)
   .then(() => {
-    console.log("Firebase persistence enabled successfully");
-    const currentUser = auth.currentUser;
-    console.log(
-      "Current user after persistence setup:",
-      currentUser
-        ? {
-            email: currentUser.email,
-            uid: currentUser.uid,
-          }
-        : "No user"
-    );
+    // Persistence enabled
   })
   .catch((error) => {
     console.error("Firebase persistence error:", {
