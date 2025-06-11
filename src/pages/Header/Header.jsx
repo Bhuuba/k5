@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import s from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import logo from "./logo.jpg";
-import { useAuth } from "../Authentication/hooks/use-auth";
+import { useAuth } from "../../components/Authentication/hooks/use-auth";
 import userIcon from "./user-icon.svg";
-import AuthPopup from "../Authentication/components/AuthPopup";
+import AuthPopup from "../../components/Authentication/components/AuthPopup";
 
 const Header = () => {
   const { t } = useTranslation();
