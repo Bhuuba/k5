@@ -9,7 +9,7 @@ import MyAccountPage from "../components/Authentication/components/account/Accou
 import Login from "../components/Authentication/pages/LoginPage";
 import RegisterPage from "../components/Authentication/pages/RegisterPage";
 import Chat from "../pages/chat/Chat";
-import Prising from "../pages/pricing/Prising";
+import Pricing from "../pages/pricing/Pricing";
 import PaymentSuccess from "../components/Premium/components/PaymentSuccess/PaymentSuccess";
 
 const AppRoutes = () => (
@@ -37,7 +37,7 @@ const AppRoutes = () => (
       }
     />
     <Route path="/chat" element={<Chat />} />
-    <Route path="/pricing" element={<Prising />} />
+    <Route path="/pricing" element={<Pricing />} />
     <Route path="/payment-success" element={<PaymentSuccess />} />
   </Routes>
 );
