@@ -5,10 +5,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { setUser, removeUser } from "./store/slices/userSlice";
 import { checkPremiumStatus } from "./components/Premium/services/premiumUtils";
 
-import Header from "./pages/Header/Header";
-import Footer from "./components/Footer/Footer";
+import Header from "./pages/Header";
+import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
-import Loader from "./components/Loader/Loader";
+import Loader from "./components/Loader";
 import "./App.css";
 
 const App = () => {

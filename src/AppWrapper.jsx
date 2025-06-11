@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { store, persistor } from "./store/index.js";
 import { setUser, removeUser } from "./store/slices/userSlice.js";
-import Loader from "./components/Loader/Loader";
+import Loader from "./components/Loader";
 import App from "./App";
 
 // Компонент для отслеживания состояния аутентификации

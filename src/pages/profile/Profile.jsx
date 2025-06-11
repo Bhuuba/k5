@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileInfo from "../../components/Profile/ProfileInfo/ProfileInfo";
+import ProfileInfo from "../../components/Profile/ProfileInfo";
 
 const Profile = () => {
   return (
