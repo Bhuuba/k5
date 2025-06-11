@@ -1,66 +1,72 @@
-# Проект на React
+# YT Summary AI
 
-## Начало работы
+Интеллектуальная платформа для анализа и обработки контента с расширенными возможностями работы с видео и PDF-документами.
 
-1. Установите зависимости:
+## Основные функции
+
+- 🎥 **YouTube Video AI** - создание умных конспектов из YouTube видео
+- 📄 **PDF AI** - извлечение ключевой информации из PDF документов
+- 💬 **AI Chatbots** - интеграция с популярными мессенджерами (Discord, Telegram, Slack)
+- 🌍 **Мультиязычность** - поддержка английского и украинского языков
+- 👤 **Система аккаунтов** - регистрация, авторизация, управление подпиской
+
+## Технологический стек
+
+### Frontend
+
+- React.js
+- React Router для маршрутизации
+- Redux Toolkit для управления состоянием
+- Redux Persist для сохранения состояния
+- i18next для интернационализации
+- Axios для HTTP-запросов
+
+### Backend & Services
+
+- Firebase Authentication для аутентификации
+- Firebase Firestore для базы данных
+- Firebase Storage для хранения файлов
+- LiqPay для обработки платежей
+
+### Инфраструктура
+
+- Create React App в качестве основы проекта
+- Netlify для хостинга и CI/CD
+
+## Установка и запуск
+
+1. Клонируйте репозиторий
+2. Установите зависимости:
 
 ```bash
 npm install
 ```
 
-2. Настройка переменных окружения:
+3. Создайте файл .env на основе .env.example и заполните необходимые переменные окружения:
 
-   - Скопируйте файл `.env.example` в новый файл `.env`:
+```
+REACT_APP_FIREBASE_API_KEY=your_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+REACT_APP_FIREBASE_MEASUREMENT_ID=your_measurement_id
+REACT_APP_LIQPAY_PUBLIC_KEY=your_liqpay_key
+REACT_APP_LIQPAY_PRIVATE_KEY=your_liqpay_private_key
+REACT_APP_API_URL=your_api_url
+```
 
-   ```bash
-   cp .env.example .env
-   ```
-
-   - Откройте файл `.env` и замените все значения на ваши:
-     - Получите конфигурацию Firebase из вашей [Firebase Console](https://console.firebase.google.com)
-     - Получите ключи LiqPay у администратора проекта
-     - Установите правильный URL API
-
-3. Запуск проекта:
+4. Запустите проект:
 
 ```bash
 npm start
 ```
 
-# Getting Started with Create React App
+## Особенности реализации
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Защищенные маршруты с авторизацией
+- Интеграция платежной системы LiqPay
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 

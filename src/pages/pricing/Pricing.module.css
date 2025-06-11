@@ -1,0 +1,347 @@
+/* Основний контейнер сторінки */
+.container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Заголовок */
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0f2851;
+  text-align: center;
+}
+
+/* Контейнер карток */
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Оформлення тарифної картки */
+.pricingCard {
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.pricingCard:hover {
+  transform: translateY(-8px);
+  border-color: #0f2851;
+  box-shadow: 0 8px 24px rgba(15, 40, 81, 0.1);
+}
+
+.activePlan {
+  border: 1px solid #0f2851;
+  box-shadow: 0 0 20px rgba(15, 40, 81, 0.15);
+}
+
+/* Заголовок плану */
+.planTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0f2851;
+  position: relative;
+  display: inline-block;
+}
+
+.planTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: #0f2851;
+  border-radius: 1px;
+}
+
+/* Ціна */
+.price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 1.5rem 0;
+  color: #0f2851;
+}
+
+/* Список можливостей */
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.features li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.features li::before {
+  content: "✓";
+  margin-right: 10px;
+  color: #0f2851;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Кнопка */
+.button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  background: #0f2851;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background: #1a365d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 40, 81, 0.2);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: #94a3b8;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Попап */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Основний блок попапу */
+.popup {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Заголовок попапу */
+.popupTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(7, 15, 58);
+  margin-bottom: 20px;
+}
+
+/* Форма */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.smallInput {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Кнопка підтвердження */
+.confirmButton {
+  padding: 12px;
+  background-color: #5b67fb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+@media screen and (max-width: 1000px) {
+  .confirmButton {
+    display: block;
+    margin: 15px auto;
+  }
+
+  .closeButton {
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+/* Кнопка закриття */
+.closeButton {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ccc;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: #bbb;
+}
+
+.activePlan {
+  animation: glow 2s infinite;
+}
+
+/* Анимация для активного плана */
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(15, 40, 81, 0.2);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(15, 40, 81, 0.3);
+  }
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.ribbon {
+  position: absolute;
+  top: 12px;
+  right: -25px;
+  background: #0f2851;
+  color: white;
+  padding: 4px 20px;
+  transform: rotate(45deg);
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  background: rgba(15, 40, 81, 0.1);
+  border-radius: 50%;
+  color: #0f2851;
+}
+
+.period {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-left: 4px;
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.activeButton {
+  background: #ffffff;
+  border: 1px solid #0f2851;
+  color: #0f2851;
+}
+
+.activeButton:hover {
+  background: rgba(15, 40, 81, 0.05);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 30px 16px;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+
+  .planTitle {
+    font-size: 1.35rem;
+  }
+
+  .price {
+    font-size: 2.25rem;
+  }
+}
