@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import s from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import logo from "./logo.jpg";
-import { useAuth } from "../Authentication/hooks/use-auth";
+import { useAuth } from "../Authentication/hooks/useAuth";
 import userIcon from "./user-icon.svg";
 import AuthPopup from "../Authentication/components/AuthPopup";
 
