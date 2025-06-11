@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../../config/firebase";
-import SignUp from "../components/SingUp";
+import SignUp from "../components/SignUp";
 import "./RegisterPage.css";
 
 const RegisterPage = () => {
