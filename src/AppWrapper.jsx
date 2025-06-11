@@ -15,15 +15,8 @@ const AuthStateListener = ({ children }) => {
   const auth = getAuth();
 
   useEffect(() => {
-    console.log("Setting up auth state listener...");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("Auth state changed:", user ? "User logged in" : "No user");
       if (user) {
-        console.log("User details:", {
-          email: user.email,
-          uid: user.uid,
-          accessToken: user.accessToken ? "Present" : "Missing",
-        });
         dispatch(
           setUser({
             email: user.email,
@@ -32,15 +25,11 @@ const AuthStateListener = ({ children }) => {
           })
         );
       } else {
-        console.log("Removing user from store");
         dispatch(removeUser());
       }
     });
 
-    return () => {
-      console.log("Cleaning up auth state listener");
-      unsubscribe();
-    };
+    return unsubscribe;
   }, [dispatch]);
 
   return children;

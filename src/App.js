@@ -6,6 +6,7 @@ import { setUser, removeUser } from "./store/slices/userSlice";
 import { checkPremiumStatus } from "./components/Premium/services/premiumUtils";
 
 import Header from "./pages/Header/Header";
+import Footer from "./components/Footer/Footer";
 import AppRoutes from "./routes/AppRoutes";
 import Loader from "./components/Loader/Loader";
 import "./App.css";
@@ -41,11 +42,12 @@ const App = () => {
 
   return (
     <div className="container-fluid p-0">
-      <div className="w-100">
+      <div className="w-100 d-flex flex-column min-vh-100">
         <Header />
-        <div className="container-custom">
+        <div className="container-custom flex-grow-1">
           <AppRoutes />
         </div>
+        <Footer />
       </div>
     </div>
   );

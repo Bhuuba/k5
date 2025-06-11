@@ -14,9 +14,7 @@ const LoginPage = () => {
     setError(""); // Сбрасываем ошибку при новой попытке
     try {
       const provider = new GoogleAuthProvider();
-      console.log("Starting Google sign in...");
-      const result = await signInWithPopup(auth, provider);
-      console.log("Google sign in successful:", result.user);
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Google auth error:", {
         code: error.code,

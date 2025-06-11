@@ -12,7 +12,6 @@ const SignUp = () => {
 
   const handleRegister = async (email, password) => {
     const auth = getAuth();
-    console.log("Starting registration process...");
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -20,7 +19,6 @@ const SignUp = () => {
         email,
         password
       );
-      console.log("Registration successful");
       const user = userCredential.user;
 
       dispatch(
@@ -30,7 +28,6 @@ const SignUp = () => {
           token: user.accessToken,
         })
       );
-      console.log("User state updated");
 
       navigate("/");
     } catch (error) {
